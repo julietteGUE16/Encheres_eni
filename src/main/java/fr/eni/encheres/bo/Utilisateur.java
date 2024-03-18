@@ -1,6 +1,12 @@
 package fr.eni.encheres.bo;
 
+/*
+ * class objet de l'utilisateur
+ * Un user peut être ou non un admin.
+ * 
+ * */
 public class Utilisateur {
+	
 	private int idUtilisateur;
 	private String pseudo;
 	private String nom;
@@ -13,7 +19,6 @@ public class Utilisateur {
 	private String motDePasse;
 	private int credit;
 	private boolean administrateur;
-	
 	
 	
 	public Utilisateur(int idUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
