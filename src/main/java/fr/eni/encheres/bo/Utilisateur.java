@@ -20,6 +20,10 @@ public class Utilisateur {
 	private int credit;
 	private boolean administrateur;
 	
+	public Utilisateur() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	
 	public Utilisateur(int idUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {

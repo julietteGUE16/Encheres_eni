@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="design.css">
+<title>Mofication Profil</title>
+</head>
+<body>
+<div class="title-container">
+	<h2>ENI - NOM DU SITE </h2>
+</div>
+<br>
+	<h3>MODIFIER VOS INFORMATIONS :</h3>
+<div class="container">
+	<div class="container-titre">
+	<p>Pseudo :</p>
+	<p>Nom :</p>
+	<p>Prenom :</p>
+	<p>Email :</p>
+	<p>Telephone :</p>
+	<p>Rue :</p>
+	<p>Code Postal :</p>
+	<p>Ville :</p>
+	
+	</div>
+	<div class="container-value">
+		<p th:text="${user.getPseudo()}"> </p>
+		<p th:text="${user.getNom()}"> </p>
+		<p th:text="${user.getPrenom()}"> </p>
+		<p th:text="${user.getEmail()}"> </p>
+		<p th:text="${user.getTelephone()}"> </p>
+		<p th:text="${user.getRue()}"> </p>
+		<p th:text="${user.getCodePostal()}"> </p>
+		<p th:text="${user.getVille()}"> </p>
+						
+	</div>
+	 
+</div>
+<div class="bouton" sec:authorize="hasRole('ROLE_USER')">
+	 <!-- todo : role user et user.getId == sessionUser.getId -->
+	 <a href="/validerModifProfil">
+	<button>VALIDER</button>
+	</a>
+	</div>
+<br>	
+<div class="bouton" sec:authorize="hasRole('ROLE_USER')">
+	 <!-- todo : role user et user.getId == sessionUser.getId -->
+	 <a href="/profil">
+	<button>RETOUR</button>
+	</a>
+	</div>
+
+
+
+
+</body>
+</html>
