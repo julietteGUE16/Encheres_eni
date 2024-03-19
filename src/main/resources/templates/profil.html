@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <link rel="stylesheet" href="design.css">
 <title>Profil</title>
 </head>
@@ -14,12 +14,14 @@
 	<div class="container-titre">
 	<p>Pseudo :</p>
 	<p>Nom :</p>
-	<p>Prenom :</p>
+	<p>Prénom :</p>
 	<p>Email :</p>
-	<p>Telephone :</p>
+	<p>Téléphone :</p>
 	<p>Rue :</p>
 	<p>Code Postal :</p>
 	<p>Ville :</p>
+	<br>
+	<p th:text="${'Crédit : '+user.getCredit()}"> </p>
 	
 	</div>
 	<div class="container-value">

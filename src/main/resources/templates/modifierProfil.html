@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <link rel="stylesheet" href="design.css">
-<title>Mofication Profil</title>
+<title>Modification Profil</title>
 </head>
 <body>
 <div class="title-container">
@@ -11,40 +11,67 @@
 </div>
 <br>
 	<h3>MODIFIER VOS INFORMATIONS :</h3>
+		<form action="/validerModifProfil" method="post" th:object="${user}">
 <div class="container">
+
 	<div class="container-titre">
-	<p>Pseudo :</p>
-	<p>Nom :</p>
-	<p>Prenom :</p>
-	<p>Email :</p>
-	<p>Telephone :</p>
-	<p>Rue :</p>
-	<p>Code Postal :</p>
-	<p>Ville :</p>
+	<p>Pseudo* :</p>
+	<p>Prénom* :</p>
+	<p>Téléphone* :</p>
+	<p>Code Postal* :</p>
+	<p>Ancien mot de passe :</p>
+	<p>Nouveau mot de passe :</p>
+	<br>
+	<p th:text="${'Crédit : '+user.getCredit()}"> </p>
+		<br>
+	<p>* (champs obligatoires)</p>
 	
 	</div>
-	<div class="container-value">
-		<p th:text="${user.getPseudo()}"> </p>
-		<p th:text="${user.getNom()}"> </p>
-		<p th:text="${user.getPrenom()}"> </p>
-		<p th:text="${user.getEmail()}"> </p>
-		<p th:text="${user.getTelephone()}"> </p>
-		<p th:text="${user.getRue()}"> </p>
-		<p th:text="${user.getCodePostal()}"> </p>
-		<p th:text="${user.getVille()}"> </p>
-						
+	<div class="container-value">		
+		<input class="element" type="text" th:field="*{pseudo}" id="pseudo">
+		<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+		<input class="element" type="text" th:field="*{prenom}" id="prenom">
+<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+		<input class="element" type="text" th:field="*{telephone}" id="telephone">
+<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+		<input class="element" type="text" th:field="*{CodePostal}" id="codePostal">
+<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+		<input class="element" type="hidden" th:field="*{credit}" id="credit">
+		<input class="element" type="text" id="ancienMdp">
+<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+		<input class="element" type="text" id="nouveauMdp">
+		<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
 	</div>
-	 
+	
+	<div class="container-titre-2">
+	<p>Nom* :</p>
+	<p>Email* :</p>
+	<p>Rue* :</p>
+	<p>Ville* :</p>
+	<br>
+	<p>Confirmation :</p>		
+	</div>
+	<div class="container-value">		
+		<input class="element" type="text" th:field="*{nom}" id="nom">
+		<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+		<input class="element" type="text" th:field="*{email}" id="email">
+		<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+		<input class="element" type="text" th:field="*{rue}" id="rue">
+		<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+		<input class="element" type="text" th:field="*{ville}" id="ville">
+		<input class="elementConfirm" type="text" id="confirmation">
+		<div class="error-message"><p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="erreur">Erreur de validation</p></div>
+	</div>
+	
+
 </div>
-<div class="bouton" sec:authorize="hasRole('ROLE_USER')">
+	<div class="bouton" sec:authorize="hasRole('ROLE_USER')">
 	 <!-- todo : role user et user.getId == sessionUser.getId -->
-	 <a href="/validerModifProfil">
 	<button>VALIDER</button>
-	</a>
 	</div>
+</form>
 <br>	
-<div class="bouton" sec:authorize="hasRole('ROLE_USER')">
-	 <!-- todo : role user et user.getId == sessionUser.getId -->
+<div class="bouton">
 	 <a href="/profil">
 	<button>RETOUR</button>
 	</a>

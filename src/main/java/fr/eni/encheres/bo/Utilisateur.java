@@ -1,5 +1,9 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 /*
  * class objet de l'utilisateur
  * Un user peut être ou non un admin.
@@ -8,13 +12,23 @@ package fr.eni.encheres.bo;
 public class Utilisateur {
 	
 	private int idUtilisateur;
+	@NotBlank(message = "Le pseudo ne peut pas être vide")
 	private String pseudo;
+	@NotBlank(message = "Le nom ne peut pas être vide")
 	private String nom;
+	@NotBlank(message = "Le prenom ne peut pas être vide")
 	private String prenom;
+	@NotBlank(message = "L'email ne peut pas être vide")
+	@Pattern(regexp = ".+@.+\\..+", message = "L'email doit contenir le symbole '@'")
 	private String email;
+	@NotBlank(message = "Le telephone ne peut pas être vide")
+    @Size(min = 10, max = 10, message = "Le téléphone doit contenir exactement 10 numéros")
 	private String telephone;
+	@NotBlank(message = "La rue ne peut pas être vide")
 	private String rue;
+	@NotBlank(message = "Le codePostal ne peut pas être vide")
 	private String codePostal;
+	@NotBlank(message = "La ville ne peut pas être vide")
 	private String ville;
 	private String motDePasse;
 	private int credit;

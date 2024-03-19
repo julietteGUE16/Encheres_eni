@@ -24,8 +24,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 	public Optional<Utilisateur> getUserById(int id) {
 		Utilisateur user = null;
 		Optional<Utilisateur> optUser = null;
-		String sql = "SELECT * FROM utilisateurs where no_utilisateur = ?";
-		
+		String sql = "SELECT * FROM utilisateurs where no_utilisateur = ?";	
 		try {
 			user  = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Utilisateur.class), id);
 			optUser = Optional.of(user);
