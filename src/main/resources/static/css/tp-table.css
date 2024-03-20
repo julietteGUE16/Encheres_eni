@@ -1,24 +1,92 @@
 @charset "UTF-8";
+
 main {
-    width: 80%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.cards {
+	width: 80%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
 }
 
 .card {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1 0 300px; /* Définit une largeur de carte flexible */
-    max-width: 300px; /* Largeur maximale de la carte */
+	background-color: rgba(255,255,255,0.90);
+	border-radius: 8px;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgb(201, 201, 201);
+	flex: 1 0 300px; /* Définit une largeur de carte flexible */
+	max-width: 300px; /* Largeur maximale de la carte */
+	transition: all 0.3s ease 0s;
+}
+
+.card:hover {
+	box-shadow: none;
 }
 
 .card h2 {
-    margin-top: 0;
+	margin-top: 0;
 }
 
 .card p {
-    margin: 5px 0;
+	margin: 5px 0;
+}
+
+strong {
+	color: #F28705;
+}
+
+h2 {
+	color: #F2226E;
+}
+
+form{
+	width: 80%;
+	margin-bottom: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+/* Définition des couleurs */
+:root {
+    --primary-color: #F2226E;
+    --secondary-color: #D91480;
+    --accent-color: #3BACD9;
+    --background-color: #EEF2E9;
+    --text-color: #F28705;
+}
+
+/* Style des libellés */
+label {
+    color: var(--primary-color);
+    font-size: 20px;
+}
+
+/* Style des champs de texte */
+input[type="text"] {
+    border: 1px solid var(--secondary-color);
+}
+
+/* Style des menus déroulants */
+select {
+    border: 1px solid var(--background-color);
+    border-radius: 15px;
+}
+
+/* Style des boutons */
+button {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 6px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+/* Style au survol des boutons */
+button:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
 }

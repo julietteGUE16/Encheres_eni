@@ -1,6 +1,6 @@
 <header xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-entete">
 	<h1 id="nav-title">
-		<a href="/"><img src="https://zupimages.net/up/24/12/g8p6.png" alt="Logo Enchères" style="width: 150px; height: auto;"></a>
+		<a href="/"><img src="https://zupimages.net/up/24/12/mys5.png" alt="Logo Enchères" style="width: 140px; height: auto;"></a>
 		<th:block data-th-if="${membreEnSession != null && membreEnSession.id > 0}">
 			<span data-th-text="'['+ ${membreEnSession.prenom}+']'"></span>
 		</th:block>
@@ -8,16 +8,16 @@
 	</h1>
 	<nav>
 		<ul>
-			<li><a href="/encheres">Enchères</a></li>
+			<li><a href="/encheres">ENCHERES</a></li>
 			<!-- Le lien n'est visible que si un membre est présent -->
 			<!-- ET que le membre est un administrateur -->
 			<th:block data-th-if="${membreEnSession != null 
 							&& membreEnSession.id > 0 && membreEnSession.admin}">
-				<li><a href="/films/creer">Créer une enchère</a></li>
+				<li><a href="/films/creer">CREER UNE ENCHERE</a></li>
 			</th:block>
-			<li><a href="/enchères/creer">vendre un article</a></li>
-			<li><a href="/profil">Mon profil</a></li>
-			<li><a href="/connexion">Connexion</a></li>
+			<li><a href="/enchères/creer">VENDRE UN ARTICLE</a></li>
+			<li><a href="/profil">MON PROFIL</a></li>
+			<li><a href="/connexion">CONNEXION</a></li>
 		</ul>
 	</nav>
 </header>

@@ -6,9 +6,7 @@
 					ressourcesSupp=~{:: #ressources-css})}">
 
 <head>
-<!-- Films comme titre de page -->
-<title>Films</title>
-<!-- Ajout de CSS tp-table.css -->
+<title>Articles</title>
 <th:block id="ressources-css">
 	<link rel="stylesheet" data-th-href="@{/css/tp-table.css}">
 </th:block>
@@ -16,14 +14,67 @@
 </head>
 <body>
 	<main>
-		<div th:each="item : ${articles}" class="card">
-            <h2 th:text="${item.nom}">Nom Article</h2>
-            <p><strong>Description:</strong> <span th:text="${item.description}">Description</span></p>
-            <p><strong>Prix:</strong> <span th:text="${item.miseAprix}">Prix</span></p>
-            <p><strong>Fin de l'enchère:</strong> <span th:text="${item.fin}">Fin</span></p>
-            <p><strong>Vendeur:</strong> <span th:text="${item.vendeur.pseudo}">Vendeur</span></p>
-            <img data-th-src="@{/images/logoEncheres.png}">
-        </div>
+		<form action="/encheresParCategorie" method="post">
+			<div>
+				<label for="searchInput">Recherche :</label> <input type="text"
+					id="searchInput" th:placeholder="'Rechercher...'">
+			</div>
+			<div>
+				<label for="categorySelect">Catégorie :</label> <select
+					id="categorySelect" name="categorySelect">
+					<option value="">Toutes les catégories</option>
+					<option data-th-each="category : ${categories}"
+						data-th-value="${category.noCategorie}"
+						data-th-text="${category.libelle}"></option>
+				</select>
+			</div>
+			<div>
+				<button type="submit">Enregistrer</button>
+			</div>
+		</form>
+		<div class="cards">
+			<div th:each="item : ${articles}" class="card">
+				<h2 th:text="${item.nom}">Nom Article</h2>
+				<p>
+					<strong>Description:</strong> <span th:text="${item.description}">Description</span>
+				</p>
+				<p>
+					<strong>Prix:</strong> <span th:text="${item.miseAprix}">Prix</span>
+				</p>
+				<p>
+					<strong>Fin de l'enchère:</strong> <span th:text="${item.fin}">Fin</span>
+				</p>
+				<p>
+					<strong>Vendeur:</strong> <span th:text="${item.vendeur.pseudo}">Vendeur</span>
+				</p>
+				<p>
+					<strong>Categorie:</strong> <span th:text="${item.categorie.libelle}">Categorie</span>
+				</p>
+			</div>
+		</div>
 	</main>
 </body>
 </html>
+
+
+<!-- <div> -->
+<!-- 	<div> -->
+<!-- 		<label for="searchInput">Recherche :</label> <input type="text" -->
+<!-- 			id="searchInput" th:placeholder="'Rechercher...'"> -->
+<!-- 	</div> -->
+<!-- 	<div> -->
+<!-- 		<label for="categorySelect">Catégorie :</label> <select -->
+<!-- 			id="categorySelect"> -->
+<!-- 			<option value="">Toutes les catégories</option> -->
+<!-- 			<option data-th-each="category : ${categories}" -->
+<!-- 				data-th-value="${category.idCategorie}" -->
+<!-- 				data-th-text="${category.libelle}"></option> -->
+<!-- 		</select> -->
+<!-- 	</div> -->
+<!-- 	<div> -->
+<!-- 		<button type="submit">Enregistrer</button> -->
+<!-- 	</div> -->
+<!-- 	</li> -->
+<!-- </div> -->
+
+

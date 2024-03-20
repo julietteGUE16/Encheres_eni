@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.ArticlesService;
+import fr.eni.encheres.bll.CategorieService;
 import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.bo.Categorie;
 
 @Controller
 // Injection de la liste des attributs en session
@@ -25,17 +27,31 @@ public class EncheresController {
 
 	@Autowired
 	private ArticlesService articlesService;
+	@Autowired
+	private  CategorieService categorieService;
 
-	public EncheresController(ArticlesService articlesService) {
+	public EncheresController(ArticlesService articlesService, CategorieService categorieService) {
 		this.articlesService = articlesService;
+		this.categorieService = categorieService;
 	}
 
 	@GetMapping("/encheres")
 	public String afficherArticles(Model model) {
 //		System.out.println("\nTous les articles : ");
 		List<Article> articles = articlesService.consulterArticles();
-		System.out.println(articles);
+		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("articles", articles);
+		System.out.println(articles);
+		model.addAttribute("categories", categories);
+		return "view-encheres";
+	}
+	
+	@PostMapping("/encheresParCategorie")
+	public String afficherArticlesParCategorie(@RequestParam(name = "categorySelect", required = true) int id, Model model) {
+		List<Article> articles = articlesService.consulterArticlesByCategorie(id);
+		List<Categorie> categories = categorieService.consulterCategories();
+		model.addAttribute("articles", articles);
+		model.addAttribute("categories", categories);
 		return "view-encheres";
 	}
 
