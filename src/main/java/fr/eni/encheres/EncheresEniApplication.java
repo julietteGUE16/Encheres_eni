@@ -29,4 +29,5 @@ public class EncheresEniApplication {
 	System.out.println("user nom :  "+user.getNom());
 	}
 
+	
 }
