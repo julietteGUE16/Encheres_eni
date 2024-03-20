@@ -1,0 +1,24 @@
+@charset "UTF-8";
+main {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1 0 300px; /* Définit une largeur de carte flexible */
+    max-width: 300px; /* Largeur maximale de la carte */
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+.card p {
+    margin: 5px 0;
+}

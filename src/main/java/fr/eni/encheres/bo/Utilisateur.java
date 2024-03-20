@@ -54,6 +54,24 @@ public class Utilisateur {
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
+	@Override
+	public String toString() {
+		return "Utilisateur [idUtilisateur=" + idUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
+				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal="
+				+ codePostal + ", ville=" + ville + ", motDePasse=" + motDePasse + ", credit=" + credit
+				+ ", administrateur=" + administrateur + "]";
+	}
+
+
+	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone) {
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+	}
+
+
 	public int getIdUtilisateur() {
 		return idUtilisateur;
 	}
