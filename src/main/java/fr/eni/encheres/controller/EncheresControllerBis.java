@@ -2,9 +2,12 @@ package fr.eni.encheres.controller;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
@@ -18,6 +21,11 @@ public class EncheresControllerBis {
 	public String ajoutEnchere() {
 		return "ajoutEnchere";
 	}
+	
+	/*@RequestMapping(value="/encheres", method = RequestMethod.GET)
+	public String redirectListeEncheres() {
+		return "redirect:encheres";
+	}*/
 	
    /* @PostMapping(path="/encheres") //Ajout d'une vente/enchère
 	 public @ResponseBody String ajouterVente (@RequestParam String nom

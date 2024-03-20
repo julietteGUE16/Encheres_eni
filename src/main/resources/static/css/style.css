@@ -19,7 +19,7 @@
 	text-align: center;
 	margin-bottom: 2%;
 	margin-right: auto;
-	margin-left: 17%;
+	margin-left: 15%;
 	margin-top: auto;
 	display: inline-block;
 }
@@ -47,14 +47,11 @@ div.button {
 }
 
 div.canvas {
-	height: 280px;
-	width: 450px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: black;
 	margin-left: 10%;
-	margin-bottom: 5%;
+	margin-bottom: 10%;
 	display: inline-block;
-	
 	
   }
