@@ -5,20 +5,33 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.UtilisateurRepository;
 import fr.eni.encheres.dal.UtilisateurRepositoryImpl;
+import jakarta.validation.Valid;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
 	
-	private UtilisateurRepositoryImpl utilisateurRepositoryImpl;
+	private UtilisateurRepository utilisateurRepository;
 	
-	public UtilisateurServiceImpl(UtilisateurRepositoryImpl utilisateurRepositoryImpl) {
-		this.utilisateurRepositoryImpl = utilisateurRepositoryImpl;
+	public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository) {
+		this.utilisateurRepository = utilisateurRepository;
 	}
 	
 	@Override
 	public Optional<Utilisateur> getUserById(int id) {
-		return utilisateurRepositoryImpl.getUserById(id);
+		return utilisateurRepository.getUserById(id);
+	}
+
+	@Override
+	public void updateUser(Utilisateur user) {
+		utilisateurRepository.updateUser(user);
+		
+	}
+
+	@Override
+	public String getUserPasswordById(int id) {
+		return	utilisateurRepository.getUserPasswordById(id);
 	}
 	
 

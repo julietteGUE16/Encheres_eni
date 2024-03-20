@@ -7,6 +7,10 @@ import fr.eni.encheres.bo.Utilisateur;
 public interface UtilisateurRepository {
 	
 	public abstract Optional<Utilisateur> getUserById(int id);
+
+	public abstract void updateUser(Utilisateur user);
+
+	public abstract String getUserPasswordById(int id);
 	
 
 }
