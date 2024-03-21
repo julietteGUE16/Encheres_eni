@@ -31,7 +31,6 @@ public class ArticlesServiceImpl implements ArticlesService{
 	
 	@Override
 	public void creerArticle(Article article){
-		boolean isValid = true;
 		String nom_article = article.getNom();
 		String description = article.getDescription();
 		Date debut = article.getDebut();
@@ -41,10 +40,7 @@ public class ArticlesServiceImpl implements ArticlesService{
 		Utilisateur vendeur = article.getVendeur();
 	    Categorie categorie = article.getCategorie();
 	    
-
-		if(isValid) {
-			articleDAO.ajoutArticle(nom_article, description, debut, fin, prix_intial, prix_vente, vendeur, categorie);
-		}
+		articleDAO.ajoutArticle(nom_article, description, debut, fin, prix_intial, prix_vente, vendeur, categorie);
 		
 		
 	}
