@@ -31,10 +31,7 @@ public class ArticlesServiceImpl implements ArticlesService{
 	
 	@Override
 	public void creerArticle(Article article){
-		//Vérification des informations saisies
-		BusinessException be = new BusinessException();
 		boolean isValid = true;
-		int id_article = article.getIdArticle();
 		String nom_article = article.getNom();
 		String description = article.getDescription();
 		Date debut = article.getDebut();
@@ -43,10 +40,11 @@ public class ArticlesServiceImpl implements ArticlesService{
 		int prix_vente = article.getPrixVente();
 		Utilisateur vendeur = article.getVendeur();
 	    Categorie categorie = article.getCategorie();
-		
-	/*	if(isValid) {
-			articleDAO.ajoutArticle(null, null, null, null, 0, 0, null, null)
-		}*/
+	    
+
+		if(isValid) {
+			articleDAO.ajoutArticle(nom_article, description, debut, fin, prix_intial, prix_vente, vendeur, categorie);
+		}
 		
 		
 	}
