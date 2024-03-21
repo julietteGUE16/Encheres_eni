@@ -52,7 +52,7 @@ public class profilController {
 	@GetMapping("/profilOther")
 	public String afficherProfilOther( Model modele) throws UserNotFound {
 		Optional<Utilisateur> user = Optional.empty();
-		user = utilisateurService.getUserById(2); //todo : other profil
+		user = utilisateurService.getUserById(2); //TODO : other profil
 		modele.addAttribute("user",user.get());
 		return "profil";
 	}
@@ -86,12 +86,7 @@ public class profilController {
 			if (ancienMdp.isEmpty() || nouveauMdp.isEmpty() || confirmationMdp.isEmpty()) {
 				modele.addAttribute("pswBlank", true);
 				pswBlank = true;
-			}
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			// TODO : requete enlever la version mock    !!
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			//mdp = "" ;
-		
+			}		
 			if (!mdp.equals(ancienMdp)) {
 				modele.addAttribute("oldPswWrong", true);
 				oldPswWrong = true;
