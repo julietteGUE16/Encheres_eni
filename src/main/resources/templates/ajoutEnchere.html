@@ -1,34 +1,35 @@
 
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>ENIEnchères - Nouvelle vente</title>
-
-<link th:href="@{/styles/style.css}" rel="stylesheet" />
+<style>
+</style>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
 <script>
 	function upload() {
 		var uploadImage = document.getElementById('imageArticle');
 		var display = document.getElementById('display');
-		var image = new SimpleImage(uploadImage);
-		image.drawTo(display);
-	}
+		display.src=URL.createObjectURL(event.target.files[0]);
+	};
 </script>
 </head>
 <body>
 	<div class="title">Nouvelle vente</div>
 	
 	<div class="canvas">
-		<canvas id="display"></canvas>
+		<p>
+		<img id="display" width="400" height="250"></img>
+		</p>
 	</div>
-	
+	<form method="GET" action="/encheres">
 	<div class="infos">
-	<form action="" class="form" method="post">
-					<label for="nomArticle">Article : </label> <input type="text" id="nomArticle" name="nomArticle" maxlength="200">
+			<label for="nomArticle">Article : </label> <input type="text" id="nomArticle" name="nomArticle" maxlength="200">
 			<br/><br/>
 			<label for="description">Description : </label><textarea id="description" name="description" maxlength="800"></textarea>
 			<br/><br/>
 			<label for="categories">Catégories : </label><select name="categories" id="categories"></select>
 			<br/><br/> 
-			<label for="imageArticle">Photo de l'article : </label><input type="file" id="imageArticle" name="imageArticle" th:onchange="upload()">
+			<label for="imageArticle">Photo de l'article : </label><input type="file" id="imageArticle" name="imageArticle" accept="image/*" th:onchange="upload()">
 			<br/><br/>
 			<label for="prix">Mise à prix : </label><input type="number" id="prix" name="prix">
 			<br/><br/>
@@ -48,11 +49,10 @@
 	
 		<br/><br/><br/>
 		<div class="button">
-			<button class="enregistrer" type="submit">Enregistrer</button>
-			<button class="annuler">Annuler</button>
+			<button class="enregistrer" type="submit" th:href="@{/encheres}">Enregistrer</button>
+			<button class="annuler" th:href="@{/encheres}">Annuler</button>
 		</div>
 	</form>
-
 	
 </body>
 </html>
