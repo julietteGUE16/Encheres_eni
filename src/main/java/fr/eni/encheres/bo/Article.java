@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * 
  * */
 public class Article {
-	private int idArticle;
+	private int noArticle;
 	private String nom;
 	private String description;
 	private Date debut;
@@ -27,16 +27,16 @@ public class Article {
 	
 	@Override
 	public String toString() {
-		return "Article [idArticle=" + idArticle + ", nom=" + nom + ", description=" + description + ", debut=" + debut
+		return "Article [noArticle=" + noArticle + ", nom=" + nom + ", description=" + description + ", debut=" + debut
 				+ ", fin=" + fin + ", miseAprix=" + miseAprix + ", prixVente=" + prixVente + ", vendeur=" + vendeur
 				+ ", categorie=" + categorie + "]";
 	}
 
 
-	public Article(int idArticle, String nom, String description, Date debut, Date fin, int miseAprix, int prixVente,
+	public Article(int noArticle, String nom, String description, Date debut, Date fin, int miseAprix, int prixVente,
 		Utilisateur vendeur, Categorie categorie) {
 	super();
-	this.idArticle = idArticle;
+	this.noArticle = noArticle;
 	this.nom = nom;
 	this.description = description;
 	this.debut = debut;
@@ -46,11 +46,11 @@ public class Article {
 	this.vendeur = vendeur;
 	this.categorie = categorie;
 }
-	public int getIdArticle() {
-		return idArticle;
+	public int getNoArticle() {
+		return noArticle;
 	}
-	public void setIdArticle(int idArticle) {
-		this.idArticle = idArticle;
+	public void setNoArticle(int noArticle) {
+		this.noArticle = noArticle;
 	}
 	public String getNom() {
 		return nom;
