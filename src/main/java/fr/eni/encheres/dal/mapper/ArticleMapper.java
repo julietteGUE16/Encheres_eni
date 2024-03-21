@@ -1,6 +1,7 @@
 package fr.eni.encheres.dal.mapper;
 
 import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -21,6 +22,8 @@ public class ArticleMapper implements RowMapper<Article> {
         a.setDebut(rs.getDate("date_debut_encheres"));
         a.setFin(rs.getDate("date_fin_encheres"));
         a.setMiseAprix(rs.getInt("prix_initial"));
+        Categorie categorie = new Categorie(rs.getString("categorie"));
+        a.setCategorie(categorie);
         Utilisateur vendeur = new Utilisateur(rs.getString("vendeur_pseudo"),rs.getString("vendeur_nom"), rs.getString("vendeur_prenom"), rs.getString("vendeur_email"), rs.getString("vendeur_telephone"));
         System.out.println(vendeur);
         a.setVendeur(vendeur);
