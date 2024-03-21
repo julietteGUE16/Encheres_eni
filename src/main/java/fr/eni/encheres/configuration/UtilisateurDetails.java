@@ -42,6 +42,22 @@ public class UtilisateurDetails implements UserDetails{
 	public String getUsername() {
 		return user.getPseudo();
 	}
+	
+
+	public String getNom() {
+		return user.getNom();
+	}
+	
+	public String getPrenom() {
+		return user.getPrenom();
+	}
+	
+	public String isAdmin() {
+		if(user.isAdministrateur()) {
+		return "administrateur";
+		}
+		return "membre";
+	}
 
 	@Override
 	public boolean isAccountNonExpired() {

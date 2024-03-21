@@ -1,18 +1,18 @@
 <header xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-entete">
 	<h1 id="nav-title">
 		<a href="/"><img src="https://zupimages.net/up/24/12/mys5.png" alt="Logo Enchères" style="width: 140px; height: auto;"></a>
-		<th:block data-th-if="${membreEnSession != null && membreEnSession.id > 0}">
-			<span data-th-text="'['+ ${membreEnSession.prenom}+']'"></span>
-		</th:block>
+		<th:block sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
+		<label><span th:text="${#authentication.getPrincipal().getNom()+' '+#authentication.getPrincipal().getPrenom()+' ('+#authentication.getPrincipal().getUsername()+') role : '+#authentication.getPrincipal().isAdmin()}"></span></label>
+			</th:block>
+			
 		
 	</h1>
 	<nav>
 		<ul>
 			<li><a href="/encheres">ENCHERES</a></li>
-			<th:block data-th-if="${membreEnSession != null 
-							&& membreEnSession.id > 0 && membreEnSession.admin}">
+		
 				<li><a href="/films/creer">CREER UNE ENCHERE</a></li>
-			</th:block>
+		
 			<th:block sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
 			<li><a href="/ajout-vente">VENDRE UN ARTICLE</a></li>
 			<li><a href="/profil">MON PROFIL</a></li>
