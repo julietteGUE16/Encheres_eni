@@ -49,7 +49,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-		.csrf(csrf ->csrf.ignoringRequestMatchers("**")) // Disable CSRF protection for /user/save endpoint )
+		.csrf(csrf ->csrf.ignoringRequestMatchers("**"))
 			.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/css/**","/images/**","/", "/encheres", "/").permitAll()
 				.requestMatchers("/profil","/modifierProfil").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
@@ -59,10 +59,14 @@ public class WebConfiguration implements WebMvcConfigurer {
 				    .loginPage("/login")
 				    .permitAll()
 				)
-				.logout((logout) -> logout
-				    .logoutSuccessUrl("/encheres")
-				    .permitAll()
-				);
+			 .logout((logout) -> logout
+					 	.logoutUrl("/logout")
+		                .logoutSuccessUrl("/encheres")
+		                .invalidateHttpSession(true)
+		                .deleteCookies("JSESSIONID")
+		                .clearAuthentication(true)
+		                .permitAll()
+		            );
 
 		return http.build();
 	}
