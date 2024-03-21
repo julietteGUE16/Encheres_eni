@@ -113,13 +113,31 @@ public class profilController {
 	}
 	
 	@GetMapping("/login")
-	public String afficherLogin() { 
+	public String afficherLogin(HttpServletRequest request) { 
+		String rememberMe = request.getParameter("remember-me");
 		return "login";
 	}
 	
 	@GetMapping("/register")
     public String registerForm() {
         return "register";
+    }
+	
+	@GetMapping("/resetPassword")
+    public String resetPassword() {
+        return "resetPassword";
+    }
+	
+	@PostMapping("/resetPasswordValid")
+    public String resetPasswordForm(Model modele, @RequestParam String email) {
+		if(!email.isBlank() && email.contains("@")) {
+			modele.addAttribute("message", true);
+			modele.addAttribute("messageAlert",false);
+		} else {
+			modele.addAttribute("message", false);
+			modele.addAttribute("messageAlert",true);
+		}
+        return "resetPassword";
     }
 	
 

@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,12 +12,15 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices.RememberMeTokenAlgorithm;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -27,6 +31,11 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 @EnableWebSecurity
 public class WebConfiguration implements WebMvcConfigurer {
+	
+	@Autowired
+    private UserDetailsService userDetailsService;
+	
+	
 	@Bean
 	LocaleResolver localeResolver() {
 		SessionLocaleResolver slr = new SessionLocaleResolver();
@@ -52,7 +61,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 		http
 		.csrf(csrf ->csrf.ignoringRequestMatchers("**"))
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","register" ,"/").permitAll()
+				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","register" ,"/","/resetPasswordValid","/resetPassword").permitAll()
 				.requestMatchers("/profil","/modifierProfil").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
 				.anyRequest().authenticated()
 			)
@@ -60,11 +69,14 @@ public class WebConfiguration implements WebMvcConfigurer {
 				    .loginPage("/login")
 				    .permitAll()
 				)
+			 .rememberMe((rememberMe) -> rememberMe
+		                .key("yourSecretKey")
+		                .tokenValiditySeconds(2) // Durée de validité du cookie de rappel en secondes (ici, 24 heures)
+		                .userDetailsService(userDetailsService))
 			 .logout((logout) -> logout
 					 	.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) 
-		                .logoutSuccessUrl("/encheres")
+		                .logoutSuccessUrl("/login")
 		                .invalidateHttpSession(true)
-		                .deleteCookies("JSESSIONID")
 		                .clearAuthentication(true)
 		                .permitAll()
 		            );
@@ -72,7 +84,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 		return http.build();
 	}
 
-
+	
 	
 	@Bean
 	public PasswordEncoder encoder() {
