@@ -64,9 +64,6 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 		}catch(EmptyResultDataAccessException exc) {
 			optUser = Optional.empty();
 		}
-		
-		
-		
 		return optUser;
 	}
 

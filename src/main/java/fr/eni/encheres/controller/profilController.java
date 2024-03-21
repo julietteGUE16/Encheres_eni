@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exceptions.UserNotFound;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
@@ -119,10 +121,9 @@ public class profilController {
     public String registerForm() {
         return "register";
     }
-	@GetMapping("/logout")
-	public String afficherLogout() { 
-		return "redirect:/encheres";
-	}
+	
+
+	
 
 
 }

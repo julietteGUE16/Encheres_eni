@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -51,7 +52,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 		http
 		.csrf(csrf ->csrf.ignoringRequestMatchers("**"))
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/css/**","/images/**","/", "/encheres", "/").permitAll()
+				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","register" ,"/").permitAll()
 				.requestMatchers("/profil","/modifierProfil").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
 				.anyRequest().authenticated()
 			)
@@ -60,7 +61,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 				    .permitAll()
 				)
 			 .logout((logout) -> logout
-					 	.logoutUrl("/logout")
+					 	.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) 
 		                .logoutSuccessUrl("/encheres")
 		                .invalidateHttpSession(true)
 		                .deleteCookies("JSESSIONID")
