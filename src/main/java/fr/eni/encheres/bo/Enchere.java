@@ -22,6 +22,9 @@ public class Enchere {
 		this.utilisateur = utilisateur;
 		this.idEnchere = idEnchere;
 	}
+	public Enchere() {
+		// TODO Auto-generated constructor stub
+	}
 	public LocalDateTime getDate() {
 		return date;
 	}
