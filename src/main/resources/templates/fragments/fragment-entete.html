@@ -10,9 +10,7 @@
 	<nav>
 		<ul>
 			<li><a href="/encheres">ENCHERES</a></li>
-		
-				<li><a href="/films/creer">CREER UNE ENCHERE</a></li>
-		
+				
 			<th:block sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
 			<li><a href="/ajout-vente">VENDRE UN ARTICLE</a></li>
 			<li><a href="/profil">MON PROFIL</a></li>
