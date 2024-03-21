@@ -120,3 +120,9 @@ span {
 	color: #808080;
 	font-weight: 600;
 }
+
+#categorySelect option {
+    font-weight: bold;
+    background-color: #eef2e9; 
+    border: none;
+}
