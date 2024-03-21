@@ -117,5 +117,6 @@ button:hover {
 }
 
 span {
-	color: black;
+	color: #808080;
+	font-weight: 600;
 }
