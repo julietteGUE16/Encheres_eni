@@ -27,11 +27,11 @@
 		<img id="display" width="400" height="250"></img>
 		</p>
 	</div>
-	<form  method="post" action="/encheres">
+	<form  method="post" th:action="@{/ajout-vente}">
 	<div class="infos">
-			<label for="nomArticle">Article : </label> <input type="text" id="nomArticle" name="nomArticle" maxlength="200">
+			<label for="nomArticle">Article : </label> <input th:name="nom_article" type="text" id="nomArticle" name="nomArticle" maxlength="200">
 			<br/><br/>
-			<label for="description">Description : </label><textarea id="description" name="description" maxlength="800"></textarea>
+			<label for="description">Description : </label><textarea th:name="description" id="description" name="description" maxlength="800"></textarea>
 			<br/><br/>
 			<label for="categories">Catégorie : </label>
 		    <select id="categorie" name="categorie">
