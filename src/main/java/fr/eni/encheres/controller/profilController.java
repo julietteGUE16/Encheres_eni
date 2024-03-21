@@ -48,14 +48,14 @@ public class profilController {
 	
 	@PostMapping("/validerModifProfil")
 	public String validerModifProfil(@Valid @ModelAttribute("user") Utilisateur user, BindingResult result,  RedirectAttributes redirectAttributes) {
-		System.out.println("credit"+user.getCredit());
+		//System.out.println("credit"+user.getCredit());
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("user", user);
 			redirectAttributes.addFlashAttribute("errorResult", result);
 			System.out.println("ERROR");
 			return "modifierProfil";
 		}else {
-			System.out.println("pseudo ="+user.getPseudo());
+			//System.out.println("pseudo ="+user.getPseudo());
 			return "redirect:/profil";
 		}
 		

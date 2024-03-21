@@ -64,6 +64,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 			auth.requestMatchers("/css/*").permitAll();
 			//auth.requestMatchers("/images/*").permitAll();
 			auth.requestMatchers("/*").permitAll();// C'est la fête, tout le monde à le droit
+			auth.requestMatchers("encheres/*").permitAll();// C'est la fête, tout le monde à le droit
 			
 			auth.anyRequest().denyAll();// Seulement les utilisateurs non connectés ont accès
 		}).csrf(AbstractHttpConfigurer::disable);

@@ -1,78 +1,101 @@
-@charset "UTF-8";
-
 main {
-	flex-wrap: wrap;
-	gap: 20px;
+    width: 95%; /* Largeur de votre choix */
+    margin: auto; /* Centre l'élément horizontalement */
+    padding: 20px; /* Ajoute des marges internes à l'intérieur de main */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre l'élément verticalement */
+    justify-content: center; /* Centre l'élément horizontalement */
 }
 
+
 .cards {
-	width: 80%;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 20px;
+    width: 85%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 4 cartes par ligne */
+    gap: 20px;
 }
 
 .card {
-	background-color: rgba(255,255,255,0.90);
-	border-radius: 8px;
-	padding: 20px;
-	box-shadow: 0 4px 8px rgb(201, 201, 201);
-	flex: 1 0 300px; /* Définit une largeur de carte flexible */
-	max-width: 300px; /* Largeur maximale de la carte */
-	transition: all 0.3s ease 0s;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgb(201, 201, 201);
+    transition: all 0.3s ease 0s;
+    text-decoration: none;
 }
 
 .card:hover {
-	box-shadow: none;
+    box-shadow: none;
 }
 
 .card h2 {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 .card p {
-	margin: 5px 0;
+    margin: 5px 0;
 }
 
 strong {
-	color: #F28705;
+    color: #f28705;
 }
 
 h2 {
-	color: #F2226E;
+    color: #f2226e;
 }
 
-form{
-	width: 80%;
-	margin-bottom: 20px;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 20px;
+form {
+    width: 80%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
+
 /* Définition des couleurs */
 :root {
-    --primary-color: #F2226E;
-    --secondary-color: #D91480;
-    --accent-color: #3BACD9;
-    --background-color: #EEF2E9;
-    --text-color: #F28705;
+    --primary-color: #f2226e;
+    --secondary-color: #d91480;
+    --accent-color: #3bacd9;
+    --background-color: #eef2e9;
+    --text-color: #f28705;
 }
 
 /* Style des libellés */
 label {
     color: var(--primary-color);
     font-size: 20px;
+    font-weight: bold;
 }
 
 /* Style des champs de texte */
 input[type="text"] {
-    border: 1px solid var(--secondary-color);
+    border: none;
+    background-color:  rgba(255,255,255,0.6); 
+    border-radius: 15px;
+    padding: 5px, 5px;
 }
 
-/* Style des menus déroulants */
-select {
-    border: 1px solid var(--background-color);
+input[type="text"]::after {
+    border: none;
+}
+
+select,
+input {
+    background-color: transparent;
+    padding: 10px 10px;
+    border: none;
     border-radius: 15px;
+    background-color:  rgba(255,255,255,0.6); 
+    font-weight: bold;
+    box-shadow: 0 1px 8px rgb(201, 201, 201);
+}
+
+/* Lorsque les éléments sont en focus */
+select:focus,
+input:focus {
+    outline: none; /* Supprime la bordure de mise au point par défaut */
 }
 
 /* Style des boutons */
@@ -83,10 +106,16 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 1px 8px rgb(201, 201, 201);
 }
 
 /* Style au survol des boutons */
 button:hover {
     background-color: var(--text-color);
     color: var(--background-color);
+}
+
+span {
+	color: black;
 }
