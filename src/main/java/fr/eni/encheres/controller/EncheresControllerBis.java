@@ -21,21 +21,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@RequestMapping("/ajout-vente")
 public class EncheresControllerBis {
+	
+	
 	@GetMapping("/ajout-vente")
 	public String pageAjoutVente(Model model, 
 			@ModelAttribute("userSession") Utilisateur userSession) {
 		//Si l'user est connecté
-		if(userSession != null && userSession.getIdUtilisateur() >= 1) {
+		if(userSession != null && userSession.getNoUtilisateur() >= 1) {
 			//Instanciation du formulaire 
 			Article article = new Article();
-			model.addAttribute(article);
+			model.addAttribute(article);	
 			
 			return "ajoutVente";
 		}
-		return "redirect:/encheres";
+		return "ajoutVente";
 	}
+	
+
 	
 	//Ajout d'une vente dans la bdd
 	/*public String ajoutVente
