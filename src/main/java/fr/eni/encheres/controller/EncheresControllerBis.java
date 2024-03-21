@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class EncheresControllerBis {
 	@GetMapping("/ajout-vente")
-	public String pageAjoutEnchere() {
+	public String pageAjoutVente() {
 		return "ajoutVente";
 	}
 	
-	//Ajout d'une enchère
-	@PostMapping("/ajout-vente")
+	//Ajout d'une vente
+	/*@PostMapping("/ajout-vente")
 	public String ajoutEnchere(@RequestParam("id_article") int id_article, 
 			@RequestParam("date_enchere") Date date_enchere, 
 				@RequestParam("montant_enchere") int montant_enchere,
@@ -43,5 +43,5 @@ public class EncheresControllerBis {
 			
 		}
 		return "redirect:/encheres";
-	}
+	}*/
 }
