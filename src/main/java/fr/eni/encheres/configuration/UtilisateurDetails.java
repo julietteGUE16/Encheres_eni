@@ -40,7 +40,7 @@ public class UtilisateurDetails implements UserDetails{
 
 	@Override
 	public String getUsername() {
-		return user.getEmail();
+		return user.getPseudo();
 	}
 
 	@Override

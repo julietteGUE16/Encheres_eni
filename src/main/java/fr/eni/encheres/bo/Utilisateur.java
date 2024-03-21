@@ -18,7 +18,8 @@ import jakarta.validation.constraints.Size;
  * Un user peut être ou non un admin.
  * 
  * */
-public class Utilisateur implements UserDetails  {
+@SuppressWarnings("serial")
+public class Utilisateur {
 	
 	private int noUtilisateur;
 	@NotBlank(message = "Le pseudo ne peut pas être vide")
@@ -155,64 +156,6 @@ public class Utilisateur implements UserDetails  {
 		this.administrateur = administrateur;
 	}
 	
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> ga  = new ArrayList<GrantedAuthority>();
-		if(this.isAdministrateur()) {
-			ga.add(new SimpleGrantedAuthority("ROLE_ADMINISTRATEUR"));
-		}else {
-			ga.add(new SimpleGrantedAuthority("ROLE_MEMBRE"));
-		}
-		
-		//todo : role user
-		return ga;
-	}
-	
-	public String getPassword() {
-		return this.motDePasse	;
-	}
-	
-
-	@Override
-	public String getUsername() {
-		
-		return this.email;
-	}
-	
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-
-
-
-
 	
 	
  
