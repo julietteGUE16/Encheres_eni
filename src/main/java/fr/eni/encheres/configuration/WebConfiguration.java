@@ -61,7 +61,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 		http
 		.csrf(csrf ->csrf.ignoringRequestMatchers("**"))
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","register" ,"/","/resetPasswordValid","/resetPassword","/encheres/detail").permitAll()
+				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","/register" ,"/","/resetPasswordValid","/resetPassword","/encheres/detail").permitAll()
 				.requestMatchers("/profil","/modifierProfil","ajout-vente","ajout").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
 				.anyRequest().authenticated()
 			)
@@ -75,7 +75,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 		                .userDetailsService(userDetailsService))
 			 .logout((logout) -> logout
 					 	.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) 
-		                .logoutSuccessUrl("/login")
+		                .logoutSuccessUrl("/encheres")
 		                .invalidateHttpSession(true)
 		                .clearAuthentication(true)
 		                .permitAll()
