@@ -35,7 +35,7 @@ public class EncheresController {
 		this.categorieService = categorieService;
 	}
 
-	@GetMapping("/encheres")
+	@GetMapping({"/","/encheres"})
 	public String afficherArticles(Model model) {
 //		System.out.println("\nTous les articles : ");
 		List<Article> articles = articlesService.consulterArticles();

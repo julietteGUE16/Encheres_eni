@@ -11,6 +11,9 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -41,6 +44,39 @@ public class WebConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
+	
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+		.csrf(csrf ->csrf.ignoringRequestMatchers("**")) // Disable CSRF protection for /user/save endpoint )
+			.authorizeHttpRequests((requests) -> requests
+				.requestMatchers("/css/**","/images/**","/", "/encheres", "/").permitAll()
+				.requestMatchers("/profil","/modifierProfil").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
+				.anyRequest().authenticated()
+			)
+			.formLogin((form) -> form
+				    .loginPage("/login")
+				    .permitAll()
+				)
+				.logout((logout) -> logout
+				    .logoutSuccessUrl("/encheres")
+				    .permitAll()
+				);
+
+		return http.build();
+	}
+
+
+	
+	@Bean
+	public PasswordEncoder encoder() {
+		return NoOpPasswordEncoder.getInstance();
+	   //return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	} 
+	
+	
+	/*
 
 	 @Bean
 	    UserDetailsManager userDetailsManager(DataSource datasource) {
@@ -77,6 +113,6 @@ public class WebConfiguration implements WebMvcConfigurer {
 //                .deleteCookies("JSESSIONID"));
 //
 //		return http.build();
-	}
+	}*/
 
 }

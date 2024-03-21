@@ -33,6 +33,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	public String getUserPasswordById(int id) {
 		return	utilisateurRepository.getUserPasswordById(id);
 	}
+
+	@Override
+	public Optional<Utilisateur> findUtilisateurByPseudo(String pseudo) {
+		return utilisateurRepository.findUtilisateurByPseudo(pseudo);
+	}
 	
 
 

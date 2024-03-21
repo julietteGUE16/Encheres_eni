@@ -15,9 +15,17 @@
 							&& membreEnSession.id > 0 && membreEnSession.admin}">
 				<li><a href="/films/creer">CREER UNE ENCHERE</a></li>
 			</th:block>
+			<th:block data-th-if="${membreEnSession != null 
+							&& membreEnSession.id > 0}">
 			<li><a href="/enchères/creer">VENDRE UN ARTICLE</a></li>
 			<li><a href="/profil">MON PROFIL</a></li>
-			<li><a href="/connexion">CONNEXION</a></li>
+			<li><a href="/login">DECONNEXION</a></li>	
+			</th:block>
+			
+			<th:block sec:authorize="!hasRole('ROLE_USER') || !hasRole('ROLE_ADMIN')"> 
+			<li><a href="/login">CONNEXION</a></li>		
+			</th:block>
+			
 		</ul>
 	</nav>
 </header>

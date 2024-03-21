@@ -51,4 +51,23 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 		return password;
 	}
 
+	@Override
+	public Optional<Utilisateur> findUtilisateurByPseudo(String pseudo) {
+		Utilisateur user = null;
+		Optional<Utilisateur> optUser = null;
+		
+		String sql = "select * from utilisateurs where pseudo = ?";
+		try {
+			user = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Utilisateur.class), pseudo);
+			
+			optUser = Optional.of(user);
+		}catch(EmptyResultDataAccessException exc) {
+			optUser = Optional.empty();
+		}
+		
+		
+		
+		return optUser;
+	}
+
 }

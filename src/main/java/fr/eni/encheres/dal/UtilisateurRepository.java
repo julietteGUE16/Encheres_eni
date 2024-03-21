@@ -11,6 +11,8 @@ public interface UtilisateurRepository {
 	public abstract void updateUser(Utilisateur user);
 
 	public abstract String getUserPasswordById(int id);
+
+	public abstract Optional<Utilisateur> findUtilisateurByPseudo(String pseudo);
 	
 
 }

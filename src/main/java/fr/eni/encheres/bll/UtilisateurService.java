@@ -13,5 +13,7 @@ public interface UtilisateurService {
 	
 	public abstract String getUserPasswordById(int id);
 
+	public abstract Optional<Utilisateur> findUtilisateurByPseudo(String username);
+
 
 }
