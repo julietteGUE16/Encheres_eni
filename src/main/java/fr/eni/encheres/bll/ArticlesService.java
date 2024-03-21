@@ -6,4 +6,6 @@ import fr.eni.encheres.bo.Article;
 
 public interface ArticlesService {
 	List<Article> consulterArticles();
+	
+	void creerArticle(Article article);
 }

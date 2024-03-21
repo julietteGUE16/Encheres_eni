@@ -2,6 +2,7 @@ package fr.eni.encheres.bll;
 
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.dal.ArticleDAO;
+import fr.eni.encheres.exceptions.BusinessException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -23,5 +24,14 @@ public class ArticlesServiceImpl implements ArticlesService{
 	@Override
 	public List<Article> consulterArticles() {
 		return articleDAO.findAll();
+	}
+	
+	@Override
+	public void creerArticle(Article article){
+		//Vérification des informations saisies
+		BusinessException be = new BusinessException();
+		boolean isValid = true;
+		
+		
 	}
 }

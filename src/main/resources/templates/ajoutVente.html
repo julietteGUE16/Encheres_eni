@@ -6,6 +6,12 @@
 </style>
 <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
 <script>
+	$user = "sa";
+	$password = "Pa$$w0rd";
+	
+	$database = "ENCHERES";
+	
+	$sql = "SELECT libelle FROM CATEGORIES"
 	function upload() {
 		var uploadImage = document.getElementById('imageArticle');
 		var display = document.getElementById('display');
@@ -27,7 +33,14 @@
 			<br/><br/>
 			<label for="description">Description : </label><textarea id="description" name="description" maxlength="800"></textarea>
 			<br/><br/>
-			<label for="categories">Catégories : </label><select name="categories" id="categories"></select>
+			<label for="categories">Catégorie : </label>
+		    <select id="categorie" name="categorie">
+					<option value="-1">Toutes les catégories</option>
+					<option data-th-each="category : ${categories}"
+						data-th-value="${category.noCategorie}"
+						data-th-text="${category.libelle}"></option>
+		    </select>
+			
 			<br/><br/> 
 			<label for="imageArticle">Photo de l'article : </label><input type="file" id="imageArticle" name="imageArticle" accept="image/*"
 				 th:onchange="upload()">
