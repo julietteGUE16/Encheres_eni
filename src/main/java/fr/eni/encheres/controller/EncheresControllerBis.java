@@ -82,11 +82,11 @@ public class EncheresControllerBis {
 		//System.out.println("cat = " + id_categorie);
 		System.out.println("article = " + article.toString());
 		//todo : this.getUser()
-		Utilisateur user = new Utilisateur(1, "Jean");
+		Utilisateur user = new Utilisateur(2, "Jean");
 		Categorie cg = new Categorie(1, "yrdy");
 		article.setCategorie(cg);
 		article.setVendeur(user);
 		articleService.creerArticle(article);
-		return "view-encheres";
+		return "redirect:/encheres";
 	}	
 }
