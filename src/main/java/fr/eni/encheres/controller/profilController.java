@@ -36,7 +36,9 @@ public class profilController {
 	
 	private int getIdUser() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
+		//EROOR
 		String name = authentication.getName();
+		System.out.println("nom : "+name);
 		return utilisateurService.findUtilisateurByPseudo(name).get().getNoUtilisateur();
 	}
 	
