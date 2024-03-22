@@ -46,17 +46,21 @@ nav li {
 }
 
 .image {
-	margin-left: auto;
+	margin-left: 20%;
 }
 
 .infos {
-	position: relative;
 	text-align: center;
-	margin-bottom: 2%;
-	margin-right: auto;
-	margin-left: auto;
 	margin-top: auto;
-	display: inline;
+	margin-left: 10%;
+	float: left;
+}
+
+
+
+
+label {
+	vertical-align: top;
 }
 
 textarea {
@@ -73,6 +77,7 @@ fieldset {
 	margin-top: 4%;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 5%;
 }
 
 div.button {
@@ -81,12 +86,14 @@ div.button {
 	margin-right: auto;
 }
 
-div.canvas {
+.canvas {
 	border-style: solid;
 	border-width: 1px;
 	border-color: black;
 	margin-left: 10%;
 	margin-bottom: 10%;
+	margin-right: auto;
+	padding: 10px;
 	display: inline-block;
 	
   }
