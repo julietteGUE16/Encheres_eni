@@ -2,44 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org">
 <head>
-<title>login</title>
+<title>Login</title>
+<th:block id="ressources-css">
+	<link rel="stylesheet" data-th-href="@{/css/connexion.css}">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Encode+Sans:wght@100&display=swap"
+		rel="stylesheet">
+</th:block>
+
 </head>
 <body>
 <div sec:authorize="(hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN'))">
 	<meta http-equiv="refresh" content="0; URL=/encheres">
 </div>
-	<a href="/encheres">
-		<button>RETOUR</button>
-	</a>
-	<br><br><br>
-	<div th:if="${param.error}">Invalid username and password.</div>
-	<div th:if="${param.logout}">You have been logged out.</div>
-	<form th:action="@{/login}" method="post">
-		<div>
-			<label> Pseudo (email): <br><br><input type="text" name="username"
-				placeHolder="email" />
-			</label>
-		</div>
-			<br>
-		<div>
-			<label> Mot de passe : <br><br><input type="password" name="password"
-				placeHolder="mot de passe" />
-			</label>
-		</div>
-		<div>
-		<br>
-			<input type="submit" value="Sign In" />
-					<label for="remember-me">Se souvenir de moi</label>
-		<input type="checkbox" id="remember-me" name="remember-me">
+<div class="btnRetour"><a class="retour" href="/encheres">RETOUR</a></div>
+	<div class="container">
+		<div class="login-wrapo flex">
+			<div class="login-box">
+				<h2>Connexion</h2>
+				<form th:action="@{/login}" method="post">
+					<input type="text" name="username" placeHolder="pseudo"
+						autocomplete="off" /> <br /> <input type="password"
+						name="password" placeHolder="mot de passe" autocomplete="off" />
+					<p class="flex">
+						<a href="/resetPassword"> mot de passe oublié</a>
+					</p>
+					<br> <div class="sesouvenir"><div><label for="remember-me">Se souvenir de moi</label></div><div><input type="checkbox" id="remember-me" name="remember-me"></div></div>
+					<br>
+					<p th:if="${param.error}">Invalid username or password.</p>
+					<button type="submit" value="Sign In">SE CONNECTER</button>
+				</form>
+				<button>CREER UN COMPTE</button>
+			</div>
+
 		</div>
 
-	</form>
-	<br>
-	<br>	
-	<a href="/resetPassword">mot de passe oublié</a>
-	<br><br>
-		<a href="/register">
-		<button>REGISTER</button>
-	</a>
+	</div>
 </body>
 </html>
+<!-- <div th:if="${param.logout}">You have been logged out.</div> -->

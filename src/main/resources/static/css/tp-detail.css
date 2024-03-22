@@ -30,3 +30,26 @@ span {
 	font-weight: bold;
 	color: #808080;
 }
+:root {
+    --primary-color: #f2226e;
+    --secondary-color: #d91480;
+    --accent-color: #3bacd9;
+    --background-color: #eef2e9;
+    --text-color: #f28705;
+}
+button {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 6px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 1px 8px rgb(201, 201, 201);
+}
+
+/* Style au survol des boutons */
+button:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
