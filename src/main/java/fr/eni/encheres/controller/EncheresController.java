@@ -42,7 +42,6 @@ public class EncheresController {
 		List<Article> articles = articlesService.consulterArticles();
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("articles", articles);
-		System.out.println(articles);
 		model.addAttribute("categories", categories);
 		
 		return "view-encheres";

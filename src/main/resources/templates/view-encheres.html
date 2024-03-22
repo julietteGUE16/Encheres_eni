@@ -36,7 +36,7 @@
 			<a th:each="item : ${articles}" class="card" data-th-href="@{/encheres/detail(noArticle=${item.noArticle})}">
 				<h2 th:text="${item.nom}">Nom Article</h2>
 				<p>
-					<strong>Prix:</strong> <span th:text="${item.miseAprix} + ' €'">Prix</span>
+					<strong>Prix:</strong> <span th:text="${item.miseAPrix} + ' €'">Prix</span>
 				</p>
 				<p>
 					<strong>Fin de l'enchère:</strong> <span th:text="${item.fin}">Fin</span>
