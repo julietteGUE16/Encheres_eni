@@ -1,5 +1,14 @@
 package fr.eni.encheres.bo;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -9,9 +18,10 @@ import jakarta.validation.constraints.Size;
  * Un user peut être ou non un admin.
  * 
  * */
+@SuppressWarnings("serial")
 public class Utilisateur {
 	
-	private int idUtilisateur;
+	private int noUtilisateur;
 	@NotBlank(message = "Le pseudo ne peut pas être vide")
 	private String pseudo;
 	@NotBlank(message = "Le nom ne peut pas être vide")
@@ -27,6 +37,7 @@ public class Utilisateur {
 	@NotBlank(message = "La rue ne peut pas être vide")
 	private String rue;
 	@NotBlank(message = "Le codePostal ne peut pas être vide")
+	@Size(min = 5, max = 5, message = "Le code postale doit contenir 5 numéros")
 	private String codePostal;
 	@NotBlank(message = "La ville ne peut pas être vide")
 	private String ville;
@@ -39,9 +50,9 @@ public class Utilisateur {
 	}
 	
 	
-	public Utilisateur(int idUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
+	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
-		this.idUtilisateur = idUtilisateur;
+		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -54,9 +65,15 @@ public class Utilisateur {
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
+	public Utilisateur(int noUtilisateur, String pseudo) {
+		this.noUtilisateur = noUtilisateur;
+		this.pseudo = pseudo;
+	
+	}
+	
 	@Override
 	public String toString() {
-		return "Utilisateur [idUtilisateur=" + idUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
+		return "Utilisateur [idUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
 				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal="
 				+ codePostal + ", ville=" + ville + ", motDePasse=" + motDePasse + ", credit=" + credit
 				+ ", administrateur=" + administrateur + "]";
@@ -72,11 +89,11 @@ public class Utilisateur {
 	}
 
 
-	public int getIdUtilisateur() {
-		return idUtilisateur;
+	public int getNoUtilisateur() {
+		return noUtilisateur;
 	}
-	public void setIdUtilisateur(int idUtilisateur) {
-		this.idUtilisateur = idUtilisateur;
+	public void setNoUtilisateur(int idUtilisateur) {
+		this.noUtilisateur = idUtilisateur;
 	}
 	public String getPseudo() {
 		return pseudo;
@@ -144,6 +161,7 @@ public class Utilisateur {
 	public void setAdministrateur(boolean administrateur) {
 		this.administrateur = administrateur;
 	}
+	
 	
 	
  

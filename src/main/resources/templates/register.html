@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="design.css">
-<title>Modification Profil</title>
+    <title>Inscription</title>
 </head>
+<a href="/login">
+		<button>RETOUR</button>
+	</a>
 <body>
-	<div class="title-container">
-		<h2>ENI - NOM DU SITE</h2>
-	</div>
-	<br>
-	<h3>MODIFIER VOS INFORMATIONS :</h3>
-	<form action="/validerModifProfil" method="post" th:object="${user}">
+    <h2>Inscription</h2>
+		<!--<form th:action="@{/register}" method="post" th:object="${user}">
 		<div class="container">
 
 			<div class="container-titre">
@@ -103,20 +100,8 @@
 
 		</div>
 		<div>
-			<!-- <div class="bouton" sec:authorize="hasRole('ROLE_USER')">  -->
-			<!-- todo : role user et user.getId == sessionUser.getId -->
 			<button>VALIDER</button>
 		</div>
-	</form>
-	<br>
-	<div class="bouton">
-		<a href="/profil">
-			<button>RETOUR</button>
-		</a>
-	</div>
-
-
-
-
+	</form> -->
 </body>
 </html>

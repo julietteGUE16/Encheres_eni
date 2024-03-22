@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
  * 
  * */
 public class Article {
-	private int idArticle;
+	private int noArticle;
 	private String nom;
 	private String description;
 	private Date debut;
 	private Date fin;
-	private int miseAprix;
+	private int miseAPrix;
 	private int prixVente;
 	private Utilisateur vendeur;
 //	private Utilisateur Acheteur;
@@ -27,30 +27,44 @@ public class Article {
 	
 	@Override
 	public String toString() {
-		return "Article [idArticle=" + idArticle + ", nom=" + nom + ", description=" + description + ", debut=" + debut
-				+ ", fin=" + fin + ", miseAprix=" + miseAprix + ", prixVente=" + prixVente + ", vendeur=" + vendeur
+		return "Article [noArticle=" + noArticle + ", nom=" + nom + ", description=" + description + ", debut=" + debut
+				+ ", fin=" + fin + ", miseAprix=" + miseAPrix + ", prixVente=" + prixVente + ", vendeur=" + vendeur
 				+ ", categorie=" + categorie + "]";
 	}
 
 
-	public Article(int idArticle, String nom, String description, Date debut, Date fin, int miseAprix, int prixVente,
+	public Article(int noArticle, String nom, String description, Date debut, Date fin, int miseAPrix, int prixVente,
 		Utilisateur vendeur, Categorie categorie) {
 	super();
-	this.idArticle = idArticle;
+	this.noArticle = noArticle;
 	this.nom = nom;
 	this.description = description;
 	this.debut = debut;
 	this.fin = fin;
-	this.miseAprix = miseAprix;
+	this.miseAPrix = miseAPrix;
 	this.prixVente = prixVente;
 	this.vendeur = vendeur;
 	this.categorie = categorie;
 }
-	public int getIdArticle() {
-		return idArticle;
+	
+	public Article(String nom, String description, Date debut, Date fin, int miseAprix, int prixVente,
+			Utilisateur vendeur, Categorie categorie) {
+		super();
+		this.nom = nom;
+		this.description = description;
+		this.debut = debut;
+		this.fin = fin;
+		this.miseAPrix = miseAprix;
+		this.prixVente = prixVente;
+		this.vendeur = vendeur;
+		this.categorie = categorie;
 	}
-	public void setIdArticle(int idArticle) {
-		this.idArticle = idArticle;
+	
+	public int getNoArticle() {
+		return noArticle;
+	}
+	public void setNoArticle(int noArticle) {
+		this.noArticle = noArticle;
 	}
 	public String getNom() {
 		return nom;
@@ -76,11 +90,11 @@ public class Article {
 	public void setFin(Date fin) {
 		this.fin = fin;
 	}
-	public int getMiseAprix() {
-		return miseAprix;
+	public int getMiseAPrix() {
+		return miseAPrix;
 	}
-	public void setMiseAprix(int miseAprix) {
-		this.miseAprix = miseAprix;
+	public void setMiseAPrix(int miseAPrix) {
+		this.miseAPrix = miseAPrix;
 	}
 	public int getPrixVente() {
 		return prixVente;

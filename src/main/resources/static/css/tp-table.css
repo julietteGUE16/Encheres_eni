@@ -1,18 +1,32 @@
-@charset "UTF-8";
 main {
-    width: 80%;
+    width: 95%; /* Largeur de votre choix */
+    margin: auto; /* Centre l'élément horizontalement */
+    padding: 20px; /* Ajoute des marges internes à l'intérieur de main */
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center; /* Centre l'élément verticalement */
+    justify-content: center; /* Centre l'élément horizontalement */
+}
+
+
+.cards {
+    width: 85%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 4 cartes par ligne */
     gap: 20px;
 }
 
 .card {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1 0 300px; /* Définit une largeur de carte flexible */
-    max-width: 300px; /* Largeur maximale de la carte */
+    box-shadow: 0 4px 8px rgb(201, 201, 201);
+    transition: all 0.3s ease 0s;
+    text-decoration: none;
+}
+
+.card:hover {
+    box-shadow: none;
 }
 
 .card h2 {
@@ -21,4 +35,94 @@ main {
 
 .card p {
     margin: 5px 0;
+}
+
+strong {
+    color: #f28705;
+}
+
+h2 {
+    color: #f2226e;
+}
+
+form {
+    width: 80%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Définition des couleurs */
+:root {
+    --primary-color: #f2226e;
+    --secondary-color: #d91480;
+    --accent-color: #3bacd9;
+    --background-color: #eef2e9;
+    --text-color: #f28705;
+}
+
+/* Style des libellés */
+label {
+    color: var(--primary-color);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Style des champs de texte */
+input[type="text"] {
+    border: none;
+    background-color:  rgba(255,255,255,0.6); 
+    border-radius: 15px;
+    padding: 5px, 5px;
+}
+
+input[type="text"]::after {
+    border: none;
+}
+
+select,
+input {
+    background-color: transparent;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 15px;
+    background-color:  rgba(255,255,255,0.6); 
+    font-weight: bold;
+    box-shadow: 0 1px 8px rgb(201, 201, 201);
+}
+
+/* Lorsque les éléments sont en focus */
+select:focus,
+input:focus {
+    outline: none; /* Supprime la bordure de mise au point par défaut */
+}
+
+/* Style des boutons */
+button {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 6px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 1px 8px rgb(201, 201, 201);
+}
+
+/* Style au survol des boutons */
+button:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+span {
+	color: #808080;
+	font-weight: 600;
+}
+
+#categorySelect option {
+    font-weight: bold;
+    background-color: #eef2e9; 
+    border: none;
 }

@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.ArticlesService;
+import fr.eni.encheres.bll.CategorieService;
 import fr.eni.encheres.bo.Article;
+import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 
 @Controller
 // Injection de la liste des attributs en session
@@ -25,18 +28,54 @@ public class EncheresController {
 
 	@Autowired
 	private ArticlesService articlesService;
+	@Autowired
+	private CategorieService categorieService;
 
-	public EncheresController(ArticlesService articlesService) {
+	public EncheresController(ArticlesService articlesService, CategorieService categorieService) {
 		this.articlesService = articlesService;
+		this.categorieService = categorieService;
 	}
 
-	@GetMapping("/encheres")
+	@GetMapping({"/","/encheres"})
 	public String afficherArticles(Model model) {
 //		System.out.println("\nTous les articles : ");
 		List<Article> articles = articlesService.consulterArticles();
-		System.out.println(articles);
+		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("articles", articles);
+		System.out.println(articles);
+		model.addAttribute("categories", categories);
+		
 		return "view-encheres";
+	}
+
+	@PostMapping("/encheresParCategorieEtNom")
+	public String afficherArticlesParCategorie(@RequestParam(name = "categorySelect", required = true) int id,
+			@RequestParam(name = "searchInput", required = true) String nom, Model model) {
+		List<Categorie> categories = categorieService.consulterCategories();
+		model.addAttribute("categories", categories);
+		if (id != -1 && nom == null) {
+			List<Article> articles = articlesService.consulterArticlesByCategorie(id);
+			model.addAttribute("articles", articles);
+		}
+		if (nom != null && id == -1) {
+			List<Article> articles = articlesService.consulterArticlesByNomArticle(nom);
+			model.addAttribute("articles", articles);
+		}
+		if (nom != null && id != -1) {
+			List<Article> articles = articlesService.consulterArticlesByNomArticleAndCategorie(nom, id);
+			model.addAttribute("articles", articles);
+		}
+		return "view-encheres";
+	}
+	
+	@GetMapping("/encheres/detail")
+	public String AfficherUnArticle(@RequestParam(name = "noArticle") int no_article, Model model) {
+		Article article = articlesService.consulterArticleByIdArticle(no_article);
+		Retrait retrait = articlesService.consulterRetraitByIDArticle(no_article);
+		model.addAttribute("article", article);
+		System.out.println(retrait);
+		model.addAttribute("retrait", retrait);
+		return "view-detail";
 	}
 
 //	@GetMapping("/detail")

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	data-th-replace="~{layouts/layout :: layout-filmotheque( 
+					titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{:: #ressources-css})}">
+
+<head>
+<title>Articles</title>
+<th:block id="ressources-css">
+	<link rel="stylesheet" data-th-href="@{/css/tp-detail.css}">
+</th:block>
+
+</head>
+<body>
+	<main>
+	<div class="cards">
+			<div class="cardDetail">
+			<h1>Détail du produit</h1>
+				<h2 th:text="${article.nom}">Nom Article</h2>
+				<p>
+					<strong>Description:</strong> <span th:text="${article.description}">Description</span>
+				</p>
+				<p>
+					<strong>Prix:</strong> <span th:text="${article.miseAprix} + ' €'">Prix</span>
+				</p>
+				<p>
+					<strong>Fin de l'enchère:</strong> <span th:text="${article.fin}">Fin</span>
+				</p>
+				<p>
+					<strong>Vendeur:</strong> <span th:text="${article.vendeur.pseudo}">Vendeur</span>
+				</p>
+				<p>
+					<strong>Retrait:</strong> <span th:text="${retrait.rue} + '  ' + ${retrait.codePostal} + ' ' + ${retrait.ville}">Vendeur</span>
+				</p>
+				<p>
+					<strong>Categorie:</strong> <span th:text="${article.categorie.libelle}">Categorie</span>
+				</p>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
+
+

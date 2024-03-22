@@ -14,7 +14,7 @@ header li {
 * {
 	margin: 0;
 	padding: 0;
-	font-family: Arial, Helvetica;
+	font-family: "Encode Sans"; /*ou "Prompt", j'ai importé 2 polices qui me plaisaient via google front*/
 }
 
 /* Header */
@@ -22,8 +22,8 @@ header {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	padding: 20px 50px;
-	box-shadow: 0 1px 8px #ddd;
+	padding: 10px 50px;
+	box-shadow: 0 1px 8px rgb(201, 201, 201);
 }
 
 #nav-title {
@@ -31,20 +31,35 @@ header {
 	font-size: 1.1em;
 }
 
-header li {
-	list-style: none;
-	display: inline-block;
-	padding: 0 20px;
+ul li {
+  list-style: none;
+  display: inline-block;
+  padding: 8px 20px 0 20px;
+  font-size: 18px;
 }
 
-header a {
-	text-decoration: none;
-	color: #555;
-	transition: all 0.3s ease 0s;
+ul li::after {
+  content: ""; /*petite barre sous les items*/
+  width: 0%;
+  height: 2px;
+  background: #F2226E;
+  display: block;
+  margin: auto;
+}
+ul li:hover::after {
+  width: 100%;
 }
 
-header a:hover {
-	color: rgb(0, 128, 192);
+ul li a {
+  text-decoration: none;
+  color: #D91480;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: 0.4s ease-in-out; /*le temps de transition vers le bleu lorsque l'utilisateur passe la souris"*/
+}
+
+ul li a:hover {
+  color: #F2226E;
 }
 
 main {
@@ -66,11 +81,4 @@ main h1 {
 .center-section {
 	margin: auto;
 	text-align: center;
-}
-
-/* 
-Module 04 - TP 2
-Remplacement de la couleur des liens par défaut à blanc*/
-header a {
-	color: white;
 }

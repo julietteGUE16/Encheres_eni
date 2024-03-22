@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>login</title>
+</head>
+<body>
+<div sec:authorize="(hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN'))">
+	<meta http-equiv="refresh" content="0; URL=/encheres">
+</div>
+	<a href="/encheres">
+		<button>RETOUR</button>
+	</a>
+	<br><br><br>
+	<div th:if="${param.error}">Invalid username and password.</div>
+	<div th:if="${param.logout}">You have been logged out.</div>
+	<form th:action="@{/login}" method="post">
+		<div>
+			<label> Pseudo : <br><br><input type="text" name="username"
+				placeHolder="email" />
+			</label>
+		</div>
+			<br>
+		<div>
+			<label> Mot de passe : <br><br><input type="password" name="password"
+				placeHolder="mot de passe" />
+			</label>
+		</div>
+		<div>
+		<br>
+			<input type="submit" value="Sign In" />
+					<label for="remember-me">Se souvenir de moi</label>
+		<input type="checkbox" id="remember-me" name="remember-me">
+		</div>
+
+	</form>
+	<br>
+	<br>	
+	<a href="/resetPassword">mot de passe oublié</a>
+	<br><br>
+		<a href="/register">
+		<button>REGISTER</button>
+	</a>
+</body>
+</html>
