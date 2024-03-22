@@ -21,24 +21,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+//@RequestMapping("/ajout-vente")
 public class EncheresControllerBis {
-	
-	
 	@GetMapping("/ajout-vente")
 	public String pageAjoutVente(Model model, 
 			@ModelAttribute("userSession") Utilisateur userSession) {
 		//Si l'user est connecté
-		if(userSession != null && userSession.getNoUtilisateur() >= 1) {
+		if(userSession != null && userSession.getIdUtilisateur() >= 1) {
 			//Instanciation du formulaire 
 			Article article = new Article();
-			model.addAttribute(article);	
+			model.addAttribute(article);
 			
 			return "ajoutVente";
 		}
 		return "ajoutVente";
 	}
-	
-
 	
 	//Ajout d'une vente dans la bdd
 	/*public String ajoutVente
@@ -52,6 +49,17 @@ public class EncheresControllerBis {
 		
 		
 	}*/
+	
+	@RequestMapping(value="/encheres", params = "save", method = RequestMethod.POST)
+	public String ajoutVente(@RequestParam(value = "nom_article", required = true) String nom_article,  
+			 @RequestParam(value = "description", required = true) String description, 
+			 @RequestParam(value = "categorie", required = true) String categorie, 
+			 @RequestParam(value = "prix_initial", required = true) int prix_intial ,
+		     @RequestParam(value = "date_debut", required = true) Date date_debut,
+			 @RequestParam(value = "date_fin", required = true) Date date_fin, Model model) {
+		
+		return "encheres";
+	}
 	
 	
 }
