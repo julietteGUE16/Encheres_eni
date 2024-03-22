@@ -1,9 +1,14 @@
 
-<html xmlns:th="http://www.thymeleaf.org" data-th-replace="~{fragments/layout::layout(contenuPage=~{:: main},title=~{:: title},ressources=~{:: link})}">
+<html xmlns:th="http://www.thymeleaf.org"
+	data-th-replace="~{layouts/layout :: layout-filmotheque( 
+					titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{:: #ressources-css})}">
 <head>
 <title>ENIEnchères - Nouvelle vente</title>
-<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" data-th-href="@{/css/demo-table.css}">
+<th:block id="ressources-css">
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+</th:block>
 <script>
 	function upload() {
 		var uploadImage = document.getElementById('imageArticle');
@@ -64,12 +69,12 @@
 		</div>
 	</form>
 	<fieldset>
-				<legend>Retrait</legend> 
-				<table>
-				  <tr><td>Rue : </td><td><input type="text"></td></tr>
-				  <tr><td>Code postal : </td><td><input type="text" maxlength="5"></td></tr>
-				  <tr><td>Ville : </td><td><input type="text"></td></tr>
-				</table>
+		<legend>Retrait</legend> 
+			<table>
+				<tr><td>Rue : </td><td><input type="text"></td></tr>
+				<tr><td>Code postal : </td><td><input type="text" maxlength="5"></td></tr>
+				<tr><td>Ville : </td><td><input type="text"></td></tr>
+			</table>
 			</fieldset>
 	<button>Annuler</button>
 	</main>
