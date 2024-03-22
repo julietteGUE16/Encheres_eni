@@ -45,7 +45,8 @@ public class EncheresControllerBis {
 	private Utilisateur getUser() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String name = authentication.getName();
-		return utilisateurService.findUtilisateurByPseudo(name).get();
+		Utilisateur user = utilisateurService.findUtilisateurByPseudo(name).get();
+		return user;
 	}
 	
 	
@@ -63,29 +64,11 @@ public class EncheresControllerBis {
 		//return "ajoutVente";
 	}
 	
-	//Ajout d'une vente dans la bdd
-	/*public String ajoutVente
-	(@RequestParam(value = "nom_article", required = true) String nom_article,  
-	 @RequestParam(value = "description", required = true) String description, 
-	 @RequestParam(value = "id_categorie", required = true) int id_categorie, 
-	 @RequestParam(value = "prix_intial", required = true) int prix_intial ,
-     @RequestParam(value = "date_debut", required = true) Date date_debut,
-	 @RequestParam(value = "date_end", required = true) Date date_fin, Model model){
-		
-		
-		
-	}*/
 	
-	//@RequestMapping(value="/encheres", params = "save", method = RequestMethod.POST)
 	@PostMapping("/ajout-vente-valider")
 	public String ajoutVente(@ModelAttribute("article") Article article) {
-		//System.out.println("cat = " + id_categorie);
-		System.out.println("article = " + article.toString());
-		//todo : this.getUser()
-		Utilisateur user = new Utilisateur(2, "Jean");
-		Categorie cg = new Categorie(1, "yrdy");
-		article.setCategorie(cg);
-		article.setVendeur(user);
+
+		article.setVendeur(this.getUser());
 		articleService.creerArticle(article);
 		return "redirect:/encheres";
 	}	

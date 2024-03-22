@@ -29,12 +29,12 @@
 			<label for="description">Description : </label>
 			<textarea id="description" th:field="*{description}" maxlength="800"></textarea>
 			<br/><br/>
-			<label for="categories">Catégorie : </label>
-		    <select th:field="*{categorie}" id="categorie" name="categorie" required>
+			<label for="categorie">Catégorie : </label>
+		    <select th:field="*{categorie.noCategorie}" id="categorie" required>
 					<option value="-1">Toutes les catégories</option>
-					<option data-th-each="category : ${categories}"
-						data-th-value="${category.noCategorie}"
-						data-th-text="${category.libelle}"></option>
+					<option th:each="category : ${categories}"
+						th:value="${category.noCategorie}"
+						th:text="${category.libelle}"></option>
 		    </select>
 			
 			<br/><br/> 
