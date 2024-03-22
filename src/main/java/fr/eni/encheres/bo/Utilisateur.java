@@ -65,6 +65,12 @@ public class Utilisateur {
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
+	public Utilisateur(int noUtilisateur, String pseudo) {
+		this.noUtilisateur = noUtilisateur;
+		this.pseudo = pseudo;
+	
+	}
+	
 	@Override
 	public String toString() {
 		return "Utilisateur [idUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="

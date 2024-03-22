@@ -14,7 +14,7 @@ public class Article {
 	private String description;
 	private Date debut;
 	private Date fin;
-	private int miseAprix;
+	private int miseAPrix;
 	private int prixVente;
 	private Utilisateur vendeur;
 //	private Utilisateur Acheteur;
@@ -28,12 +28,12 @@ public class Article {
 	@Override
 	public String toString() {
 		return "Article [noArticle=" + noArticle + ", nom=" + nom + ", description=" + description + ", debut=" + debut
-				+ ", fin=" + fin + ", miseAprix=" + miseAprix + ", prixVente=" + prixVente + ", vendeur=" + vendeur
+				+ ", fin=" + fin + ", miseAprix=" + miseAPrix + ", prixVente=" + prixVente + ", vendeur=" + vendeur
 				+ ", categorie=" + categorie + "]";
 	}
 
 
-	public Article(int noArticle, String nom, String description, Date debut, Date fin, int miseAprix, int prixVente,
+	public Article(int noArticle, String nom, String description, Date debut, Date fin, int miseAPrix, int prixVente,
 		Utilisateur vendeur, Categorie categorie) {
 	super();
 	this.noArticle = noArticle;
@@ -41,11 +41,25 @@ public class Article {
 	this.description = description;
 	this.debut = debut;
 	this.fin = fin;
-	this.miseAprix = miseAprix;
+	this.miseAPrix = miseAPrix;
 	this.prixVente = prixVente;
 	this.vendeur = vendeur;
 	this.categorie = categorie;
 }
+	
+	public Article(String nom, String description, Date debut, Date fin, int miseAprix, int prixVente,
+			Utilisateur vendeur, Categorie categorie) {
+		super();
+		this.nom = nom;
+		this.description = description;
+		this.debut = debut;
+		this.fin = fin;
+		this.miseAPrix = miseAprix;
+		this.prixVente = prixVente;
+		this.vendeur = vendeur;
+		this.categorie = categorie;
+	}
+	
 	public int getNoArticle() {
 		return noArticle;
 	}
@@ -76,11 +90,11 @@ public class Article {
 	public void setFin(Date fin) {
 		this.fin = fin;
 	}
-	public int getMiseAprix() {
-		return miseAprix;
+	public int getMiseAPrix() {
+		return miseAPrix;
 	}
-	public void setMiseAprix(int miseAprix) {
-		this.miseAprix = miseAprix;
+	public void setMiseAPrix(int miseAPrix) {
+		this.miseAPrix = miseAPrix;
 	}
 	public int getPrixVente() {
 		return prixVente;

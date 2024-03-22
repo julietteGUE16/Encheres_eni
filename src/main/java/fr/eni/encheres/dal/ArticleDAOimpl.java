@@ -167,17 +167,20 @@ public class ArticleDAOimpl implements ArticleDAO{
 	
 	
 	@Override
-		public void ajoutArticle(String nom_article, String description, Date date_debut, Date date_fin, 
-				int prix_initial, int prix_vente, Utilisateur utilisateur, Categorie categorie) {
+		public void ajoutArticle(Article article) {
+		
+		System.out.println("on passe dans la dal");
+		System.out.println("vendeur = " + article.getVendeur().getNoUtilisateur());
+		System.out.println("cat = " + article.getCategorie().getNoCategorie());
 			var namedParameters = new MapSqlParameterSource();
-			namedParameters.addValue("nom_article", nom_article);
-			namedParameters.addValue("description", description);
-			namedParameters.addValue("date_debut", date_debut);
-			namedParameters.addValue("date_fin", date_fin);
-			namedParameters.addValue("prix_initial", prix_initial);
-			namedParameters.addValue("prix_vente", prix_vente);
-			namedParameters.addValue("id_utilisateur", utilisateur.getNoUtilisateur());
-			namedParameters.addValue("id_categorie", categorie.getNoCategorie());
+			namedParameters.addValue("nom_article", article.getNom());
+			namedParameters.addValue("description", article.getDescription());
+			namedParameters.addValue("date_debut", article.getDebut());
+			namedParameters.addValue("date_fin", article.getFin());
+			namedParameters.addValue("prix_initial", article.getMiseAPrix());
+			namedParameters.addValue("prix_vente", article.getPrixVente());
+			namedParameters.addValue("id_utilisateur", article.getVendeur().getNoUtilisateur());
+			namedParameters.addValue("id_categorie", article.getCategorie().getNoCategorie());
 			namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters);
 		}
 }

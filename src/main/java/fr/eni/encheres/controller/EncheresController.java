@@ -44,6 +44,7 @@ public class EncheresController {
 		model.addAttribute("articles", articles);
 		System.out.println(articles);
 		model.addAttribute("categories", categories);
+		
 		return "view-encheres";
 	}
 
