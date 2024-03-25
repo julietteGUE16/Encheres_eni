@@ -35,18 +35,18 @@
 				<label for="achats">Achats</label>
 
 				<div id="achatsOptions" class="options">
-					<label><input type="checkbox"> Enchères ouvertes</label> <label><input
-						type="checkbox"> Mes enchères en cours</label> <label><input
-						type="checkbox"> Mes enchères remportées</label>
+					<label><input type="checkbox" name="encheresOuvertes"> Enchères ouvertes</label> 
+					<label><input type="checkbox" name="enchèresEnCours"> Mes enchères en cours</label> 
+					<label><input type="checkbox" name="enchèresRemportées"> Mes enchères remportées</label>
 				</div>
 
 				<input type="radio" id="ventes" name="choix" value="ventes">
 				<label for="ventes">Mes Ventes</label>
 
 				<div id="ventesOptions" class="options">
-					<label><input type="checkbox"> Mes ventes en cours</label>
-					<label><input type="checkbox"> Ventes non débutées</label>
-					<label><input type="checkbox"> Ventes terminées</label>
+					<label><input type="checkbox" name="mesVentesEnCours"> Mes ventes en cours</label>
+					<label><input type="checkbox" name= "ventesNonDebutees"> Mes ventes non débutées</label>
+					<label><input type="checkbox" name= "ventesTerminees"> Mes ventes terminées</label>
 				</div>
 			</th:block>
 			<div>
@@ -59,6 +59,9 @@
 				<h2 th:text="${item.nom}">Nom Article</h2>
 				<p>
 					<strong>Prix:</strong> <span th:text="${item.miseAPrix} + ' €'">Prix</span>
+				</p>
+				<p>
+					<strong>Debut de l'enchère:</strong> <span th:text="${item.debut}">Fin</span>
 				</p>
 				<p>
 					<strong>Fin de l'enchère:</strong> <span th:text="${item.fin}">Fin</span>

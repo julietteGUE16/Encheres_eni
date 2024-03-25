@@ -1,10 +1,13 @@
 package fr.eni.encheres.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.ArticlesService;
 import fr.eni.encheres.bll.CategorieService;
+import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
@@ -25,48 +29,125 @@ import fr.eni.encheres.bo.Retrait;
 // Injection de la liste des attributs en session
 //@SessionAttributes({ "genresEnSession", "membreEnSession", "participantsEnSession" })
 public class EncheresController {
-
-	@Autowired
+	
+	private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	private ArticlesService articlesService;
-	@Autowired
 	private CategorieService categorieService;
+	private UtilisateurService utilisateurService;
 
-	public EncheresController(ArticlesService articlesService, CategorieService categorieService) {
+	public EncheresController(ArticlesService articlesService, CategorieService categorieService, UtilisateurService utilisateurService) {
 		this.articlesService = articlesService;
 		this.categorieService = categorieService;
+		this.utilisateurService = utilisateurService;
 	}
 
-	@GetMapping({"/","/encheres"})
+	@GetMapping({ "/", "/encheres" })
 	public String afficherArticles(Model model) {
 //		System.out.println("\nTous les articles : ");
 		List<Article> articles = articlesService.consulterArticles();
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("articles", articles);
 		model.addAttribute("categories", categories);
-		
+
 		return "view-encheres";
 	}
 
 	@PostMapping("/encheresParCategorieEtNom")
 	public String afficherArticlesParCategorie(@RequestParam(name = "categorySelect", required = true) int id,
-			@RequestParam(name = "searchInput", required = true) String nom, Model model) {
+			@RequestParam(name = "searchInput", required = true) String nom,
+			@RequestParam(name = "mesVentesEnCours", required = false) boolean enCours,
+			@RequestParam(name = "ventesNonDebutees", required = false) boolean nonDebutee,
+			@RequestParam(name = "ventesTerminees", required = false) boolean terminee,
+			@RequestParam(name = "encheresOuvertes", required = false) boolean ouvertes,
+			@RequestParam(name = "enchèresEnCours", required = false) boolean achatsEnCours,
+			@RequestParam(name = "enchèresRemportées", required = false) boolean remportees, Model model) {
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("categories", categories);
-		if (id != -1 && nom == null) {
+		if (id != -1 && nom.trim() == "" && enCours == false && nonDebutee == false && terminee == false ) { // seule la categorie est selectionnée
 			List<Article> articles = articlesService.consulterArticlesByCategorie(id);
 			model.addAttribute("articles", articles);
 		}
-		if (nom != null && id == -1) {
+		if (nom != "" && id == -1 && id == -1 && enCours == false && nonDebutee == false && terminee == false ) {// seule la recherche est selectionnée
 			List<Article> articles = articlesService.consulterArticlesByNomArticle(nom);
 			model.addAttribute("articles", articles);
 		}
-		if (nom != null && id != -1) {
+		if (nom != "" && id != -1 && enCours == false && nonDebutee == false && terminee == false ) { //recherche & categorie selectionnées
 			List<Article> articles = articlesService.consulterArticlesByNomArticleAndCategorie(nom, id);
 			model.addAttribute("articles", articles);
 		}
+		if (nom.trim() == "" && id == -1 && (enCours != false || nonDebutee != false || terminee != false || ouvertes != false || achatsEnCours != false || remportees != false)) { // seules les checkbox sont cochées
+			List<Article> articles = new ArrayList<Article>();
+			if (enCours ==  true) {
+				articles.addAll(articlesService.consulterArticlesByIdVendeur(getIdUser()));
+			};
+			if (nonDebutee ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVenteNonDebutee(getIdUser()));
+			};
+			if (terminee ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVenteTerminee(getIdUser()));
+			};
+			if (ouvertes ==  true) {
+				//
+			};
+			if (achatsEnCours ==  true) {
+				
+			};
+			if (remportees ==  true) {
+				//
+			};
+			model.addAttribute("articles", articles);
+		}
+		if (nom.trim() == "" && id != -1 && (enCours != false || nonDebutee != false || terminee != false || ouvertes != false || achatsEnCours != false || remportees != false)) { // les checkbox sont cochées et la categorie
+			List<Article> articles = new ArrayList<Article>();
+			if (enCours ==  true) {
+				articles.addAll(articlesService.consulterArticlesByIdVendeurAndCategorie(getIdUser(), id));
+			};
+			if (nonDebutee ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVenteNonDebuteeAndCategorie(getIdUser(), id));
+			};
+			if (terminee ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVenteTermineeAndCategorie(getIdUser(), id));
+			};
+			if (ouvertes ==  true) {
+				//
+			};
+			if (achatsEnCours ==  true) {
+				//
+			};
+			if (remportees ==  true) {
+				//
+			};
+			model.addAttribute("articles", articles);
+		}
+		if (nom.trim() != "" && id != -1 && (enCours != false || nonDebutee != false || terminee != false || ouvertes != false || achatsEnCours != false || remportees != false)) { // les checkbox sont cochées, la categorie et la recherche
+			List<Article> articles = new ArrayList<Article>();
+			if (enCours ==  true) {
+				articles.addAll(articlesService.consulterArticlesByIdVendeurAndCategorieAndNomArticle(getIdUser(), id, nom));
+			};
+			if (nonDebutee ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVenteNonDebuteeAndCategorieAndNomArticle(getIdUser(), id, nom));
+			};
+			if (terminee ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVenteTermineeAndCategorieAndNomArticle(getIdUser(), id, nom));
+			};
+			if (ouvertes ==  true) {
+				//
+			};
+			if (achatsEnCours ==  true) {
+				//
+			};
+			if (remportees ==  true) {
+				//
+			};
+			model.addAttribute("articles", articles);
+		}
+		if (nom.trim() == "" && id == -1 && enCours == false && nonDebutee == false && terminee == false && ouvertes == false && achatsEnCours == false && remportees == false) {
+			return "redirect:/encheres";
+		}
+		System.out.println("id: " + id + " nom: " + nom + " enCours: " + enCours + " nonDebutee: " + nonDebutee + " terminee: " + terminee);
 		return "view-encheres";
 	}
-	
+
 	@GetMapping("/encheres/detail")
 	public String AfficherUnArticle(@RequestParam(name = "noArticle") int no_article, Model model) {
 		Article article = articlesService.consulterArticleByIdArticle(no_article);
@@ -76,111 +157,10 @@ public class EncheresController {
 		model.addAttribute("retrait", retrait);
 		return "view-detail";
 	}
-
-//	@GetMapping("/detail")
-//	public String afficherUnFilm(@RequestParam(name = "id", required = true) long id, Model model) {
-//		if (id > 0) {// L'identifiant en base commencera en 1
-//			Film film = filmService.consulterFilmParId(id);
-//			System.out.println(film);
-//			if (film != null) {
-//				// Ajout de l'instance dans le modèle
-//				model.addAttribute("film", film);
-//				return "view-film-detail";
-//			} else
-//				System.out.println("Film inconnu!!");
-//		} else {
-//			System.out.println("Identifiant inconnu");
-//		}
-//		// Par défaut redirection vers l'url pour afficher les films
-//		return "redirect:/films";
-//	}
-//
-//	@ModelAttribute("genresEnSession")
-//	public List<Genre> chargerGenres() {
-//		System.out.println("Chargement en Session - GENRES");
-//		return filmService.consulterGenres();
-//	}
-//
-//	/**
-//	* - Cette méthode va transmettre l'instance de l'objet Film pour le formulaire
-//	*/
-//	@GetMapping("/creer")
-//	public String creerFilm(Model model, @ModelAttribute("membreEnSession") Membre membreEnSession) {
-//		if (membreEnSession != null && membreEnSession.getId() >= 1 && membreEnSession.isAdmin()) {
-//		// Il y a un membre en session et c'est un administrateur
-//		// Ajout de l'instance dans le modèle
-//			model.addAttribute("film", new Film());
-//			return "view-film-add";
-//		} else {
-//			// redirection vers la page des films
-//			return "redirect:/films";
-//		}
-//	}
-//
-//	// Création d'un nouveau film
-//	@PostMapping("/creer")
-//	public String creerFilm(@Valid @ModelAttribute("film") Film film, BindingResult result,
-//						@ModelAttribute("membreEnSession") Membre membreEnSession) {
-//		if (membreEnSession != null && membreEnSession.isAdmin()) {
-//
-//			if(result.hasErrors()){
-//				return "view-film-add";
-//			}
-//		// Il y a un membre en session et c'est un administrateur
-//
-//			System.out.println(film);
-//			filmService.creerFilm(film);
-//			return "redirect:/films";
-//		} else {
-//			System.out.println("Aucun membre en session");
-//			return "redirect:/films";
-//		}
-//	}
-//
-//	/**
-//	 * - Cette méthode va transmettre l'instance de l'objet Film pour le formulaire
-//	 */
-//	@GetMapping("/edit")
-//	public String editFilm(@RequestParam(name = "idFilm", required = true) long id,Model model, @ModelAttribute("membreEnSession") Membre membreEnSession) {
-//		if (membreEnSession != null && membreEnSession.getId() >= 1 && membreEnSession.isAdmin()) {
-//			// Il y a un membre en session et c'est un administrateur
-//			// Ajout de l'instance dans le modèle
-//			Film film =  filmService.consulterFilmParId(id);
-//			System.out.println(film);
-//			model.addAttribute("film", filmService.consulterFilmParId(id));
-//			return "view-film-edit";
-//		} else {
-//			// redirection vers la page des films
-//			return "redirect:/films";
-//		}
-//	}
-//
-//	// Création d'un nouveau film
-//	@PostMapping("/edit")
-//	public String editFilm(@Valid @ModelAttribute("film") Film film, BindingResult result,
-//							@ModelAttribute("membreEnSession") Membre membreEnSession) {
-//		if (membreEnSession != null && membreEnSession.isAdmin()) {
-//
-//			if(result.hasErrors()){
-//				return "view-film-edit";
-//			}
-//			// Il y a un membre en session et c'est un administrateur
-//
-//			System.out.println(film);
-//			filmService.updateFilm(film);
-//			return "redirect:/films";
-//		} else {
-//			System.out.println("Aucun membre en session");
-//			return "redirect:/films";
-//		}
-//	}
-//	// Injection en session des listes représentant les participants
-//	@ModelAttribute("participantsEnSession")
-//	public List<Participant> chargerParticipants() {
-//		System.out.println("Chargement en Session - PARTICIPANTS");
-//		return filmService.consulterParticipants();
-//	}
-//
-//	
-
+	
+	private int getIdUser() {
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		String name = authentication.getName();
+		return utilisateurService.findUtilisateurByPseudo(name).get().getNoUtilisateur();
+	}
 }

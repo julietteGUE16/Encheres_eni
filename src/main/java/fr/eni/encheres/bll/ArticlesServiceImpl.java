@@ -59,4 +59,66 @@ public class ArticlesServiceImpl implements ArticlesService{
 	public Retrait consulterRetraitByIDArticle(int no_article) {
 		return articleDAO.findRetraitById(no_article);
 	}
+
+	@Override
+	public List<Article> consulterArticlesByIdVendeur(int idVendeur) {
+		return articleDAO.findAllByIdVendeur(idVendeur);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVenteNonDebutee(int idVendeur) {
+		return articleDAO.findAllByIdVenteNonDebutee(idVendeur);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVenteTerminee(int idVendeur) {
+		return articleDAO.findAllByIdVenteTerminee(idVendeur);
+	}
+	
+	@Override
+	public List<Article> consulterArticlesByIdVendeurAndNomArticle(int idVendeur, String mot) {
+		return articleDAO.findAllByIdVendeurAndNomArticle(idVendeur, mot);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVenteNonDebuteeAndNomArticle(int idVendeur, String mot) {
+		return articleDAO.findAllByIdVenteNonDebuteeAndNomArticle(idVendeur, mot);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVenteTermineeAndNomArticle(int idVendeur, String mot) {
+		return articleDAO.findAllByIdVenteTermineeAndNomArticle(idVendeur, mot);
+	}
+
+	@Override
+	public List<Article> consulterArticlesByIdVendeurAndCategorie(int idVendeur, int idCategorie) {
+		return articleDAO.findAllByIdVendeurAndCategorie(idVendeur, idCategorie);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVenteNonDebuteeAndCategorie(int idVendeur, int idCategorie) {
+		return articleDAO.findAllByIdVenteNonDebuteeAndCategorie(idVendeur, idCategorie);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVenteTermineeAndCategorie(int idVendeur, int idCategorie) {
+		return articleDAO.findAllByIdVenteTermineeAndCategorie(idVendeur, idCategorie);
+	}
+
+	@Override
+	public List<Article> consulterArticlesByIdVendeurAndCategorieAndNomArticle(int idVendeur, int id, String mot) {
+		return articleDAO.findAllByIdVendeurAndCategorieAndNomArticle(idVendeur, id, mot);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVenteNonDebuteeAndCategorieAndNomArticle(int idVendeur, int idCategorie,
+			String mot) {
+		return articleDAO.findAllByIdVenteNonDebuteeAndCategorieAndNomArticle(idVendeur, idCategorie, mot);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie,
+			String mot) {
+		return articleDAO.findAllByIdVenteTermineeAndCategorieAndNomArticle(idVendeur, idCategorie, mot);
+	}
 }
