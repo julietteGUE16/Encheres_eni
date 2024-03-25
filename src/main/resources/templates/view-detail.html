@@ -38,6 +38,11 @@
 				<p>
 					<strong>Vendeur:</strong> <span th:text="${article.vendeur.pseudo}">Vendeur</span>
 				</p>
+				<form>
+				<p>
+					<strong>Enchérir:</strong> <span ><input type="number" id="nouvelleEnchere" th:field="*{enchere.Montant}" required></span>
+				</p>
+				</form>
 			</div>
 	</main>
 </body>
