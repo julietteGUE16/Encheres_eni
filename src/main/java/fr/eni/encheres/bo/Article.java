@@ -21,7 +21,6 @@ public class Article {
 	private Categorie categorie;
 	
 	public Article() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	

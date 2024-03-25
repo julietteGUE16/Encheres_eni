@@ -22,62 +22,66 @@ import jakarta.validation.Valid;
 
 @Controller
 public class profilController {
-	
+
 	private UtilisateurService utilisateurService;
 	private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	private boolean pswBlank = false;
 	private boolean oldPswWrong = false;
 	private boolean pswNotTheSame = false;
-	
+	private boolean pseudoExists = false;
+	private boolean passwordTooShort = false;
+	private boolean emailExists = false;
+
 	public profilController(UtilisateurService utilisateurService) {
 		this.utilisateurService = utilisateurService;
 	}
-	
-	
+
 	private int getIdUser() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String name = authentication.getName();
 		return utilisateurService.findUtilisateurByPseudo(name).get().getNoUtilisateur();
 	}
-	
+
 	/*
 	 * affichage de la page profil
 	 */
 	@GetMapping("/profil")
-	public String afficherProfil( Model modele) throws UserNotFound {
+	public String afficherProfil(Model modele) throws UserNotFound {
 		Optional<Utilisateur> user = Optional.empty();
 		user = utilisateurService.getUserById(getIdUser());
-		modele.addAttribute("user",user.get());
+		modele.addAttribute("user", user.get());
 		return "profil";
 	}
-	
+
 	@GetMapping("/profilOther")
-	public String afficherProfilOther( Model modele) throws UserNotFound {
+	public String afficherProfilOther(Model modele) throws UserNotFound {
 		Optional<Utilisateur> user = Optional.empty();
-		user = utilisateurService.getUserById(2); //TODO : other profil
-		modele.addAttribute("user",user.get());
+		user = utilisateurService.getUserById(2); // TODO : other profil
+		modele.addAttribute("user", user.get());
 		return "profil";
 	}
-	
+
 	@GetMapping("/modifierProfil")
-	public String afficherModifierProfil( Model modele) throws UserNotFound { 
+	public String afficherModifierProfil(Model modele) throws UserNotFound {
 		Optional<Utilisateur> user = Optional.empty();
 		user = utilisateurService.getUserById(getIdUser());
-		modele.addAttribute("user",user.get());
+		modele.addAttribute("user", user.get());
 		modele.addAttribute("pswBlank", false);
 		modele.addAttribute("oldPswWrong", false);
 		modele.addAttribute("pswNotTheSame", false);
 		return "modifierProfil";
 	}
-	
+
 	@PostMapping("/validerModifProfil")
 	public String validerModifProfil(@Valid @ModelAttribute("user") Utilisateur user, BindingResult result,
 			RedirectAttributes redirectAttributes, @RequestParam String ancienMdp, @RequestParam String nouveauMdp,
 			@RequestParam String confirmationMdp, Model modele) {
-		pswBlank = oldPswWrong = pswNotTheSame = false;
+		pswBlank = oldPswWrong = pswNotTheSame = passwordTooShort = emailExists = false;
 		modele.addAttribute("pswBlank", false);
 		modele.addAttribute("oldPswWrong", false);
 		modele.addAttribute("pswNotTheSame", false);
+		modele.addAttribute("passwordTooShort", false);
+		modele.addAttribute("emailExists", false);
 		String mdp = utilisateurService.getUserPasswordById(user.getNoUtilisateur());
 
 		if (result.hasErrors()) {
@@ -88,7 +92,7 @@ public class profilController {
 			if (ancienMdp.isEmpty() || nouveauMdp.isEmpty() || confirmationMdp.isEmpty()) {
 				modele.addAttribute("pswBlank", true);
 				pswBlank = true;
-			}		
+			}
 			if (!mdp.equals(ancienMdp)) {
 				modele.addAttribute("oldPswWrong", true);
 				oldPswWrong = true;
@@ -97,13 +101,23 @@ public class profilController {
 				modele.addAttribute("pswNotTheSame", true);
 				pswNotTheSame = true;
 			}
+			if (nouveauMdp.length() < 5) {
+				modele.addAttribute("passwordTooShort", true);
+				passwordTooShort = true;
+			}
 		}
+		if (utilisateurService.emailExisteDeja(user.getEmail(), getIdUser())) {
+			modele.addAttribute("emailExists", true);
+			emailExists = true;
 
-		if (!result.hasErrors() && !pswBlank && !oldPswWrong && !pswNotTheSame) {
-			if(!nouveauMdp.isEmpty()) {
+		}
+		
+		System.out.println("emailExists = "+emailExists);
+		if (!result.hasErrors() && !pswBlank && !oldPswWrong && !pswNotTheSame && !passwordTooShort && !emailExists) {
+			if (!nouveauMdp.isEmpty()) {
 				mdp = nouveauMdp;
 			}
-			user.setMotDePasse(mdp);		
+			user.setMotDePasse(mdp);
 			utilisateurService.updateUser(user);
 			return "redirect:/profil";
 		}
@@ -111,37 +125,95 @@ public class profilController {
 		return "modifierProfil";
 
 	}
-	
+
 	@GetMapping("/login")
-	public String afficherLogin(HttpServletRequest request) { 
-		String rememberMe = request.getParameter("remember-me");
+	public String afficherLogin(HttpServletRequest request) {
+		// String rememberMe = request.getParameter("remember-me");
 		return "login";
 	}
-	
+
 	@GetMapping("/register")
-    public String registerForm() {
-        return "register";
-    }
+	public String displayRegister(Model model) {
+		Utilisateur user = new Utilisateur();
+		model.addAttribute("user", user);
+		return "register";
+	}
+
+	@PostMapping("/register")
+	public String registerForm(@Valid @ModelAttribute("user") Utilisateur utilisateur, BindingResult result,
+			@RequestParam String confirmationMdp, @RequestParam String mdp, Model model) {
+		pswBlank = pswNotTheSame = pseudoExists = passwordTooShort = emailExists = false;
+		model.addAttribute("pswBlank", false);
+		model.addAttribute("pswNotTheSame", false);
+		model.addAttribute("pseudoExists", false);
+		model.addAttribute("passwordTooShort", false);
+		model.addAttribute("emailExists", false);
+
+		if (result.hasErrors()) {
+			model.addAttribute("user", utilisateur);
+			model.addAttribute("errorResult", result);
+		}
+
+		if (mdp.isEmpty() || confirmationMdp.isEmpty()) {
+			model.addAttribute("pswBlank", true);
+			pswBlank = true;
+		}
+		if (!mdp.equals(confirmationMdp)) {
+			model.addAttribute("pswNotTheSame", true);
+			pswNotTheSame = true;
+		}
+
+		if (utilisateurService.pseudoExisteDeja(utilisateur.getPseudo())) {
+			model.addAttribute("pseudoExists", true);
+			pseudoExists = true;
+		}
+		if (utilisateurService.emailExisteDeja(utilisateur.getEmail(),-1)) {
+			model.addAttribute("emailExists", true);
+			emailExists = true;
+		}
+		if (mdp.length() < 5) {
+			model.addAttribute("passwordTooShort", true);
+			passwordTooShort = true;
+		}
 	
+		if (!result.hasErrors() && !pswBlank && !pswNotTheSame && !pseudoExists && !passwordTooShort && !emailExists) {
+			utilisateur.setMotDePasse(mdp);
+			utilisateurService.save(utilisateur);
+			return "redirect:/login";
+		}
+
+		return "register";
+
+		/*
+		 * return "register"; } else { utilisateurService.save(utilisateur); return
+		 * "redirect:/login"; }
+		 */
+	}
+
+	@PostMapping()
+
 	@GetMapping("/resetPassword")
-    public String resetPassword() {
-        return "resetPassword";
-    }
-	
+	public String resetPassword() {
+		return "resetPassword";
+	}
+
 	@PostMapping("/resetPasswordValid")
-    public String resetPasswordForm(Model modele, @RequestParam String email) {
-		if(!email.isBlank() && email.contains("@")) {
+	public String resetPasswordForm(Model modele, @RequestParam String email) {
+		if (!email.isBlank() && email.contains("@")) {
 			modele.addAttribute("message", true);
-			modele.addAttribute("messageAlert",false);
+			modele.addAttribute("messageAlert", false);
 		} else {
 			modele.addAttribute("message", false);
-			modele.addAttribute("messageAlert",true);
+			modele.addAttribute("messageAlert", true);
 		}
-        return "resetPassword";
-    }
-	
+		return "resetPassword";
+	}
 
-	
+	@GetMapping("/deleteProfil")
+	public String deleteProfil() {
+		utilisateurService.deleteUser(getIdUser());
 
+		return "redirect:/logout";
+	}
 
 }

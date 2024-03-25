@@ -13,6 +13,14 @@ public interface UtilisateurRepository {
 	public abstract String getUserPasswordById(int id);
 
 	public abstract Optional<Utilisateur> findUtilisateurByPseudo(String pseudo);
+
+	public abstract void deleteUser(int idUser);
+
+	public abstract boolean pseudoExisteDeja(String pseudo);
+
+	public abstract void save(Utilisateur utilisateur);
+
+	public abstract boolean emailExisteDeja(String email, int id);
 	
 
 }

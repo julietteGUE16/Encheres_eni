@@ -61,7 +61,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 		http
 		.csrf(csrf ->csrf.ignoringRequestMatchers("**"))
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","register" ,"/","/resetPasswordValid","/resetPassword","ajout-vente", "/encheres/detail", "encheresParCategorieEtNom").permitAll()
+				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","/register","/registerValid" ,"/**","/resetPasswordValid","/resetPassword","ajout-vente", "/encheres/detail", "encheresParCategorieEtNom").permitAll()
 				.requestMatchers("/profil","/modifierProfil","ajout-vente","ajout").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
 				.anyRequest().authenticated()
 			)
@@ -92,45 +92,5 @@ public class WebConfiguration implements WebMvcConfigurer {
 	   //return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	} 
 	
-	
-	/*
-
-	 @Bean
-	    UserDetailsManager userDetailsManager(DataSource datasource) {
-	        var jdbcUserDetailsManager = new JdbcUserDetailsManager(datasource);
-	        jdbcUserDetailsManager.setUsersByUsernameQuery("select pseudo, mot_de_passe, 1 from utilisateurs where pseudo=?");
-	        //"select case when administrateur = 0 then 'ROLE_MEMBRE' else 'ROLE_ADMIN' end as authority from utilisateurs where pseudo = ?"
-	        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select pseudo, administrateur from utilisateurs where pseudo=?");
-	        return jdbcUserDetailsManager;
-	    }
-	 
-	@Bean
-	SecurityFilterChain filterChain(HttpSecurity http ) throws Exception
-	{
-//			return http.formLogin(Customizer.withDefaults()).build();
-
-		http.authorizeHttpRequests(auth->{
-			//auth.requestMatchers(HttpMethod.GET,"/formateurs").authenticated();// seulement les utilisateurs connectés
-			//auth.requestMatchers(HttpMethod.GET,"/formateurs/detail").hasRole("FORMATEUR");
-			//auth.requestMatchers(HttpMethod.GET,"/encheres").hasRole("ADMIN");
-			auth.requestMatchers("/css/*").permitAll();
-			//auth.requestMatchers("/images/*").permitAll();
-			auth.requestMatchers("/*").permitAll();// C'est la fête, tout le monde à le droit
-			auth.requestMatchers("encheres/*").permitAll();// C'est la fête, tout le monde à le droit
-			
-			auth.anyRequest().denyAll();// Seulement les utilisateurs non connectés ont accès
-		}).csrf(AbstractHttpConfigurer::disable);
-		
-		return http.formLogin(Customizer.withDefaults()).build();
-//	    http
-//        .formLogin(form -> form
-//                .loginPage("/login")
-//                .failureUrl("/login?loginError=true"))
-//            .logout(logout -> logout
-//                .logoutSuccessUrl("/login?logoutSuccess=true")
-//                .deleteCookies("JSESSIONID"));
-//
-//		return http.build();
-	}*/
 
 }
