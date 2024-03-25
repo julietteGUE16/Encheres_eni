@@ -6,7 +6,7 @@
 					ressourcesSupp=~{:: #ressources-css})}">
 
 <head>
-<title>Articles</title>
+<title>Detail</title>
 <th:block id="ressources-css">
 	<link rel="stylesheet" data-th-href="@{/css/tp-detail.css}">
 </th:block>
@@ -14,7 +14,6 @@
 </head>
 <body>
 	<main>
-	<div class="cards">
 			<div class="cardDetail">
 			<h1>Détail du produit</h1>
 				<h2 th:text="${article.nom}">Nom Article</h2>
@@ -37,7 +36,6 @@
 					<strong>Categorie:</strong> <span th:text="${article.categorie.libelle}">Categorie</span>
 				</p>
 			</div>
-		</div>
 	</main>
 </body>
 </html>

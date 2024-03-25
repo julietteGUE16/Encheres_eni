@@ -3,7 +3,7 @@ body {
 	flex-direction: column;
 	justify-content: space-between;
 	height: 100vh;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "Encode Sans"; /*ou "Prompt", j'ai importé 2 polices qui me plaisaient via google front*/
 	margin: 0;
 	background-color: #EEF2E9;
 }
