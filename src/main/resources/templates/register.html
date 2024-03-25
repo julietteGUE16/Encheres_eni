@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Inscription</title>
+<meta charset="UTF-8">
+<th:block id="">
+	<link rel="stylesheet" href="register.css">
+</th:block>
+<title>Inscription</title>
 </head>
 <body>
-    <h2>Inscription</h2>
-		<!--<form th:action="@{/register}" method="post" th:object="${user}">
+	<div class="title-container">
+		<h2>ENI - NOM DU SITE</h2>
+	</div>
+
+	<h2>Inscription</h2>
+	<form action="/register" method="post" th:object="${user}">
 		<div class="container">
 
 			<div class="container-titre">
@@ -13,11 +22,8 @@
 				<p>Prénom* :</p>
 				<p>Téléphone* :</p>
 				<p>Code Postal* :</p>
-				<p>Ancien mot de passe :</p>
-				<p>Nouveau mot de passe :</p>
-				<br>
-				<p th:text="${'Crédit : '+user.getCredit()}"></p>
-				<br>
+				<p>mot de passe :</p>
+				<br> <br>
 				<p>* (champs obligatoires)</p>
 
 			</div>
@@ -26,6 +32,7 @@
 				<div class="error-message">
 					<p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}"
 						class="erreur">Erreur de validation</p>
+					<p th:if="${pseudoExists}">le pseudo existe déjà</p>
 				</div>
 				<input class="element" type="text" th:field="*{prenom}" id="prenom">
 				<div class="error-message">
@@ -33,29 +40,31 @@
 						class="erreur">Erreur de validation</p>
 				</div>
 				<input class="element" type="number" th:field="*{telephone}"
-					id="telephone" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10">
+					id="telephone"
+					oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+					maxlength="10">
 				<div class="error-message">
 					<p th:if="${#fields.hasErrors('telephone')}"
 						th:errors="*{telephone}" class="erreur">Erreur de validation</p>
 				</div>
 				<input class="element" type="number" th:field="*{CodePostal}"
-					id="codePostal" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+					id="codePostal"
+					oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+					maxlength="5">
 				<div class="error-message">
 					<p th:if="${#fields.hasErrors('codePostal')}"
 						th:errors="*{codePostal}" class="erreur">Erreur de validation</p>
 				</div>
-				<input class="element" type="hidden" th:field="*{noUtilisateur}" id="noUtilisateur">
-				<input class="element" type="hidden" th:field="*{credit}" id="credit">
-				<input class="element" type="hidden" th:field="*{administrateur}" id="administrateur">
-				 
-					<input class="element" type="password" id="ancienMdp" name="ancienMdp">
-				<div class="error-message" >
-	      			<p th:if="${oldPswWrong}" >mauvais mot de passe</p>	
-	    		</div>
-				<input class="element" type="password" id="nouveauMdp" name="nouveauMdp">
+				<input class="element" type="hidden" th:field="*{noUtilisateur}"
+					id="noUtilisateur"> <input class="element" type="hidden"
+					th:field="*{credit}" id="credit"> <input class="element"
+					type="hidden" th:field="*{administrateur}" id="administrateur">
+
+				<input class="element" type="password" id="mdp" name="mdp">
 				<div class="error-message">
-	      			<p th:if="${pswBlank}" >Les cases nouveau, ancien et confirmation doivent être complétées</p>	
-	    		</div>
+					<p th:if="${pswBlank}">Les cases mot de passe et confirmation
+						doivent être complétées</p>
+				</div>
 			</div>
 
 			<div class="container-titre-2">
@@ -87,10 +96,12 @@
 					<p th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}"
 						class="erreur">Erreur de validation</p>
 				</div>
-				<input class="elementConfirm" type="password" id="confirmationMdp" name="confirmationMdp">
-				<div class="error-message" >
-	      			<p th:if="${pswNotTheSame}" >nouveau mot de passe et confirmation différent</p>	
-	    		</div>
+				<input class="elementConfirm" type="password" id="confirmationMdp"
+					name="confirmationMdp">
+				<div class="error-message">
+					<p th:if="${pswNotTheSame}">mot de passe et confirmation
+						différent</p>
+				</div>
 
 			</div>
 
@@ -99,7 +110,7 @@
 		<div>
 			<button>VALIDER</button>
 		</div>
-	</form> -->
+	</form>
 	<a href="/login">
 		<button>ANNULER</button>
 	</a>

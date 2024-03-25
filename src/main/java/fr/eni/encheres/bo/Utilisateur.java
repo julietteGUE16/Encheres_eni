@@ -22,7 +22,7 @@ import jakarta.validation.constraints.Size;
 public class Utilisateur {
 	
 	private int noUtilisateur;
-	//@NotBlank(message = "Le pseudo ne peut pas être vide")
+	@NotBlank(message = "Le pseudo ne peut pas être vide")
 	private String pseudo;
 	@NotBlank(message = "Le nom ne peut pas être vide")
 	private String nom;

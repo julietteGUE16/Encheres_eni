@@ -28,6 +28,7 @@ public class profilController {
 	private boolean pswBlank = false;
 	private boolean oldPswWrong = false;
 	private boolean pswNotTheSame = false;
+	private boolean pseudoExists = false;
 	
 	public profilController(UtilisateurService utilisateurService) {
 		this.utilisateurService = utilisateurService;
@@ -36,9 +37,7 @@ public class profilController {
 	
 	private int getIdUser() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
-		//EROOR
 		String name = authentication.getName();
-		System.out.println("nom : "+name);
 		return utilisateurService.findUtilisateurByPseudo(name).get().getNoUtilisateur();
 	}
 	
@@ -116,14 +115,61 @@ public class profilController {
 	
 	@GetMapping("/login")
 	public String afficherLogin(HttpServletRequest request) { 
-		String rememberMe = request.getParameter("remember-me");
+		//String rememberMe = request.getParameter("remember-me");
 		return "login";
 	}
 	
 	@GetMapping("/register")
-    public String registerForm() {
+    public String displayRegister(Model model) {
+		Utilisateur user = new Utilisateur();
+		model.addAttribute("user",user);
         return "register";
     }
+	
+	 @PostMapping("/register")
+	    public String registerForm(@Valid @ModelAttribute("user") Utilisateur utilisateur,BindingResult result,@RequestParam String confirmationMdp,@RequestParam String mdp, Model model) {
+			model.addAttribute("pswBlank", false);
+			model.addAttribute("pswNotTheSame", false);
+			model.addAttribute("pseudoExists", false);
+		 if (result.hasErrors() ) {
+			 	model.addAttribute("user", utilisateur);
+				model.addAttribute("errorResult", result);
+			}
+		 
+		 if (mdp.isEmpty() || confirmationMdp.isEmpty()) {
+				model.addAttribute("pswBlank", true);
+				pswBlank = true;
+			}		
+			if (!mdp.equals(confirmationMdp)) {
+				model.addAttribute("pswNotTheSame", true);
+				pswNotTheSame = true;
+			}
+			
+			if (utilisateurService.pseudoExisteDeja(utilisateur.getPseudo())) {
+	            model.addAttribute("pseudoExists", true);
+	            pseudoExists = true;
+			}
+			
+
+			if (!result.hasErrors() && !pswBlank && !pswNotTheSame && !pseudoExists) {
+				utilisateur.setMotDePasse(mdp);		
+				utilisateurService.save(utilisateur);
+				return "redirect:/login";
+			}
+
+			return "register";
+		 
+		 
+	   
+	       /* 
+	            return "register"; 
+	        } else {
+	            utilisateurService.save(utilisateur);
+	            return "redirect:/login"; 
+	        }*/
+	    }
+	
+	@PostMapping()
 	
 	@GetMapping("/resetPassword")
     public String resetPassword() {

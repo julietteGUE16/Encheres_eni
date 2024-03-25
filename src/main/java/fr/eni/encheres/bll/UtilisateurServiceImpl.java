@@ -44,6 +44,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		utilisateurRepository.deleteUser(idUser);
 		
 	}
+
+	@Override
+	public boolean pseudoExisteDeja(String pseudo) {
+		return utilisateurRepository.pseudoExisteDeja(pseudo);
+	}
+
+	@Override
+	public void save(Utilisateur utilisateur) {
+		utilisateurRepository.save(utilisateur);
+		
+	}
 	
 
 

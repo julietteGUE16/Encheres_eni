@@ -74,4 +74,20 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 		
 	}
 
+	@Override
+	public boolean pseudoExisteDeja(String pseudo) {
+		String sql = "SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, pseudo);
+        return count > 0;
+	}
+
+	@Override
+	public void save(Utilisateur utilisateur) {
+		   String sql = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) " +
+                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      jdbcTemplate.update(sql, utilisateur.getPseudo(), utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getEmail(), 
+                          utilisateur.getTelephone(), utilisateur.getRue(), utilisateur.getCodePostal(), utilisateur.getVille(), 
+                          utilisateur.getMotDePasse(), utilisateur.getCredit(), utilisateur.isAdministrateur());
+	}
+
 }
