@@ -21,19 +21,22 @@
 					<strong>Description:</strong> <span th:text="${article.description}">Description</span>
 				</p>
 				<p>
-					<strong>Prix:</strong> <span th:text="${article.miseAPrix} + ' €'">Prix</span>
+					<strong>Categorie:</strong> <span th:text="${article.categorie.libelle}">Categorie</span>
+				</p>
+				<p>
+					<strong>Meilleure offre:</strong> <span th:text="${enchere.Montant} + ' € (' + ${enchere.utilisateur.pseudo} + ')'">MeilleureOffre</span>
+				</p>
+				<p>
+					<strong>Mise à prix:</strong> <span th:text="${article.miseAPrix} + ' €'">Prix</span>
 				</p>
 				<p>
 					<strong>Fin de l'enchère:</strong> <span th:text="${article.fin}">Fin</span>
 				</p>
 				<p>
-					<strong>Vendeur:</strong> <span th:text="${article.vendeur.pseudo}">Vendeur</span>
-				</p>
-				<p>
 					<strong>Retrait:</strong> <span th:text="${retrait.rue} + '  ' + ${retrait.codePostal} + ' ' + ${retrait.ville}">Vendeur</span>
 				</p>
 				<p>
-					<strong>Categorie:</strong> <span th:text="${article.categorie.libelle}">Categorie</span>
+					<strong>Vendeur:</strong> <span th:text="${article.vendeur.pseudo}">Vendeur</span>
 				</p>
 			</div>
 	</main>

@@ -8,19 +8,17 @@ import java.time.LocalDateTime;
  * 
  * */
 public class Enchere {
-	private int idEnchere;
 	private LocalDateTime date;
 	private int Montant;
 	private Article article;
 	private Utilisateur utilisateur;
 	
-	public Enchere(LocalDateTime date, int montant, Article article, Utilisateur utilisateur,int idEnchere) {
+	public Enchere(LocalDateTime date, int montant, Article article, Utilisateur utilisateur) {
 		super();
 		this.date = date;
 		Montant = montant;
 		this.article = article;
 		this.utilisateur = utilisateur;
-		this.idEnchere = idEnchere;
 	}
 	public Enchere() {
 		// TODO Auto-generated constructor stub
@@ -49,15 +47,4 @@ public class Enchere {
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
 	}
-	public int getIdEnchere() {
-		return idEnchere;
-	}
-	public void setIdEnchere(int idEnchere) {
-		this.idEnchere = idEnchere;
-	}
-	
-	
-	
-	
-
 }

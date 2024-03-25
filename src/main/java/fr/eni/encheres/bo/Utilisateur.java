@@ -87,7 +87,10 @@ public class Utilisateur {
 		this.email = email;
 		this.telephone = telephone;
 	}
-
+	
+	public Utilisateur(String pseudo) {
+		this.pseudo = pseudo;
+	}
 
 	public int getNoUtilisateur() {
 		return noUtilisateur;

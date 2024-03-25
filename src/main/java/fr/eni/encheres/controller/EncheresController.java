@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.ArticlesService;
 import fr.eni.encheres.bll.CategorieService;
+import fr.eni.encheres.bll.EnchereService;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 
 @Controller
@@ -34,16 +36,18 @@ public class EncheresController {
 	private ArticlesService articlesService;
 	private CategorieService categorieService;
 	private UtilisateurService utilisateurService;
+	private EnchereService enchereService;
 
-	public EncheresController(ArticlesService articlesService, CategorieService categorieService, UtilisateurService utilisateurService) {
+	public EncheresController(ArticlesService articlesService, CategorieService categorieService, UtilisateurService utilisateurService,
+			EnchereService encheresService) {
 		this.articlesService = articlesService;
 		this.categorieService = categorieService;
 		this.utilisateurService = utilisateurService;
+		this.enchereService = encheresService;
 	}
 
 	@GetMapping({ "/", "/encheres" })
 	public String afficherArticles(Model model) {
-//		System.out.println("\nTous les articles : ");
 		List<Article> articles = articlesService.consulterArticles();
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("articles", articles);
@@ -152,9 +156,10 @@ public class EncheresController {
 	public String AfficherUnArticle(@RequestParam(name = "noArticle") int no_article, Model model) {
 		Article article = articlesService.consulterArticleByIdArticle(no_article);
 		Retrait retrait = articlesService.consulterRetraitByIDArticle(no_article);
+		Enchere enchere = enchereService.consulterBestEnchereByIdArticle(no_article);
 		model.addAttribute("article", article);
-		System.out.println(retrait);
 		model.addAttribute("retrait", retrait);
+		model.addAttribute("enchere", enchere);
 		return "view-detail";
 	}
 	
