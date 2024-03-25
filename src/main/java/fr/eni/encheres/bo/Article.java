@@ -3,6 +3,9 @@ package fr.eni.encheres.bo;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
+
 /*
  * class objet de 
  * Un ....
@@ -10,14 +13,23 @@ import java.time.LocalDateTime;
  * */
 public class Article {
 	private int noArticle;
+	
+	@NotBlank(message = "Le nom de l'article ne peut pas être vide")
 	private String nom;
+	
+	@NotBlank(message = "La description ne peut pas être vide")
 	private String description;
+	
 	private Date debut;
+	
+
 	private Date fin;
 	private int miseAPrix;
 	private int prixVente;
 	private Utilisateur vendeur;
 //	private Utilisateur Acheteur;
+	
+	
 	private Categorie categorie;
 	
 	public Article() {
@@ -114,6 +126,7 @@ public class Article {
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
+
 }
 
 

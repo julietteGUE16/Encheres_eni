@@ -39,7 +39,7 @@ nav li {
 
 .title {
 	margin-top: 2%;
-	margin-bottom: 7%;
+	margin-bottom: 5%;
 	text-align: center;
 	margin-left: auto;
     margin-right: auto;
@@ -52,7 +52,8 @@ nav li {
 .infos {
 	text-align: center;
 	margin-top: auto;
-	margin-left: 10%;
+	margin-left: 12%;
+	margin-bottom: 3%;
 	float: left;
 }
 
@@ -86,10 +87,8 @@ div.button {
 	margin-right: auto;
 }
 
-div.annuler {
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
+button {
+	margin-left: 2%;
 }
 
 .canvas {
@@ -97,6 +96,7 @@ div.annuler {
 	border-width: 1px;
 	border-color: black;
 	margin-left: 10%;
+	margin-top: 10%;
 	margin-bottom: 10%;
 	margin-right: auto;
 	padding: 10px;

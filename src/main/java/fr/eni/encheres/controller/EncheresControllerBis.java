@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -66,10 +68,18 @@ public class EncheresControllerBis {
 	
 	
 	@PostMapping("/ajout-vente-valider")
-	public String ajoutVente(@ModelAttribute("article") Article article) {
-
+	public String ajoutVente(@Valid @ModelAttribute("article") Article article, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute("article", article);
+			model.addAttribute("categories", categorieService.consulterCategories());
+			model.addAttribute("errorResult", result);
+			return "ajoutVente";
+		}
+		
 		article.setVendeur(this.getUser());
 		articleService.creerArticle(article);
 		return "redirect:/encheres";
-	}	
+	}
+	
+
 }
