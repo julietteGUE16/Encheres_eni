@@ -32,7 +32,8 @@ public class ArticleDAOimpl implements ArticleDAO{
 		    + "    U.nom AS vendeur_nom, "
 		    + "    U.prenom AS vendeur_prenom, "
 		    + "    U.email AS vendeur_email, "
-		    + "    U.telephone AS vendeur_telephone "
+		    + "    U.telephone AS vendeur_telephone, "
+		    + "    U.no_utilisateur AS vendeur_noUtilisateur "
 		    + "FROM "
 		    + "    ARTICLES_VENDUS A "
 		    + "    INNER JOIN CATEGORIES C ON A.no_categorie = C.no_categorie "
@@ -98,6 +99,7 @@ public class ArticleDAOimpl implements ArticleDAO{
  
 	@Override
 	public Article findArticleById(int idArticle) {
+		System.out.println("idArticle = "+idArticle);
 		return jdbcTemplate.queryForObject(FIND_ARTICLE_BY_ID, new ArticleMapper(),idArticle);
 	}
  

@@ -50,14 +50,16 @@ public class profilController {
 		Optional<Utilisateur> user = Optional.empty();
 		user = utilisateurService.getUserById(getIdUser());
 		modele.addAttribute("user", user.get());
+		modele.addAttribute("userSession", getIdUser());
 		return "profil";
 	}
 
 	@GetMapping("/profilOther")
-	public String afficherProfilOther(Model modele) throws UserNotFound {
+	public String afficherProfilOther(@RequestParam(name = "noUtilisateur") int noUtilisateur, Model modele) throws UserNotFound {
 		Optional<Utilisateur> user = Optional.empty();
-		user = utilisateurService.getUserById(2); // TODO : other profil
+		user = utilisateurService.getUserById(noUtilisateur); 
 		modele.addAttribute("user", user.get());
+		modele.addAttribute("userSession", getIdUser());
 		return "profil";
 	}
 

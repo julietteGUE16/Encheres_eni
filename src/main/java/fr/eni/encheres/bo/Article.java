@@ -17,7 +17,6 @@ public class Article {
 	private int miseAPrix;
 	private int prixVente;
 	private Utilisateur vendeur;
-//	private Utilisateur Acheteur;
 	private Categorie categorie;
 	
 	public Article() {

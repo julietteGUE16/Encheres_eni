@@ -87,6 +87,15 @@ public class Utilisateur {
 		this.email = email;
 		this.telephone = telephone;
 	}
+	
+	public Utilisateur(int noUtilisateur,String pseudo, String nom, String prenom, String email, String telephone) {
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+		this.noUtilisateur = noUtilisateur;
+	}
 
 
 	public int getNoUtilisateur() {
