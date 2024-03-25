@@ -19,6 +19,8 @@ public interface UtilisateurRepository {
 	public abstract boolean pseudoExisteDeja(String pseudo);
 
 	public abstract void save(Utilisateur utilisateur);
+
+	public abstract boolean emailExisteDeja(String email, int id);
 	
 
 }

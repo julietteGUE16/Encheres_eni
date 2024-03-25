@@ -55,6 +55,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		utilisateurRepository.save(utilisateur);
 		
 	}
+
+	@Override
+	public boolean emailExisteDeja(String email, int id) {
+		return utilisateurRepository.emailExisteDeja(email, id);
+	}
 	
 
 

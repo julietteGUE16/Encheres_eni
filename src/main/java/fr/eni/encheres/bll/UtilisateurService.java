@@ -21,5 +21,7 @@ public interface UtilisateurService {
 
 	public abstract void save(Utilisateur utilisateur);
 
+	public abstract boolean emailExisteDeja(String email, int i);
+
 
 }

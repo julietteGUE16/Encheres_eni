@@ -63,6 +63,7 @@
 				<input class="element" type="password" id="nouveauMdp" name="nouveauMdp">
 				<div class="error-message">
 	      			<p th:if="${pswBlank}" >Les cases nouveau, ancien et confirmation doivent être complétées</p>	
+	      				<p th:if="${passwordTooShort}">le mot de passe doit faire minimum 5 caractères</p>
 	    		</div>
 			</div>
 
@@ -84,6 +85,7 @@
 				<div class="error-message">
 					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
 						class="erreur">Erreur de validation</p>
+						<p th:if="${emailExists}">l'email est déjà utilisé</p>
 				</div>
 				<input class="element" type="text" th:field="*{rue}" id="rue">
 				<div class="error-message">

@@ -90,4 +90,21 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
                           utilisateur.getMotDePasse(), utilisateur.getCredit(), utilisateur.isAdministrateur());
 	}
 
+	@Override
+	public boolean emailExisteDeja(String email,int id) {
+		System.out.println("l'id = "+id);
+		if(id != -1) {
+			System.out.println("email = "+email);
+			System.out.println("id = "+id);
+			 String sql = "SELECT COUNT(*) FROM UTILISATEURS WHERE email = ? AND no_utilisateur <> ?";
+		        int count = jdbcTemplate.queryForObject(sql, Integer.class, email, id);
+		        return count > 0;
+		} else {
+			String sql = "SELECT COUNT(*) FROM UTILISATEURS WHERE email = ?";
+	        int count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+	        return count > 0;	
+		}
+		
+	}
+
 }
