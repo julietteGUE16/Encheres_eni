@@ -1,0 +1,166 @@
+:root {
+    --primary-color: #f2226e;
+    --secondary-color: #d91480;
+    --accent-color: #3bacd9;
+    --background-color: #eef2e9;
+    --text-color: #f28705;
+}
+body {
+    font-weight: 400;
+    margin: 0;
+    font-family: "Encode Sans"; /*ou "Prompt", j'ai importé 2 polices qui me plaisaient via google front*/
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: var(--background-color);
+}
+
+.logo {
+    width: 550px;
+    margin-bottom: 0px;
+    position: absolute;
+    bottom: 300px;
+    right: 270px;
+}
+
+
+img {
+    max-width: 100%;
+    width: auto;
+    vertical-align: middle;
+}
+
+
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+button:focus,
+input:focus,
+textarea:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.login-wrapo {
+    width: 100%;
+    justify-content: left;
+    align-items: center;
+    height: 100vh;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.login-box {
+    width: 400px;
+    background: rgba(255, 255, 255, 0.838);
+    padding: 50px 22px;
+    border-radius: 8px;
+    margin-left: 500px;
+}
+
+.login-box h2 {
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.login-box input {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    border: 0;
+    border-bottom: solid 1px var(--secondary-color);
+    padding: 15px 10px;
+    width: 100%;
+    background: transparent;
+}
+.retour {
+	background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 6px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 1px 8px rgb(201, 201, 201);
+    transition: 0.7s;
+}
+
+.retour:hover {
+	background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+.login-box button {
+    width: 100%;
+    height: 58px;
+    border-radius: 4px;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    line-height: 58px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    border: 0px;
+    transition: 0.7s;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+.login-box p {
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.login-box p a {
+    font-size: 20px;
+    font-weight: 500;
+    color: #3bacd9;
+    margin-bottom: 0px;
+}
+
+
+.login-box input::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: var(--text-color);
+    text-transform: uppercase;
+}
+
+.btnRetour {
+	align-self: start;
+	margin-top:20px;
+	margin-left:10px;
+}
+
+sesouvenir {
+	display: flex;
+	flex-direction: column;
+
+	}
+}

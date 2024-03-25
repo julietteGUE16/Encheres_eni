@@ -1,52 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	data-th-replace="~{layouts/layout :: layout-filmotheque( 
+					titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{:: #ressources-css})}">
+
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="design.css">
 <title>Profil</title>
-</head>
+<th:block id="ressources-css">
+	<link rel="stylesheet" data-th-href="@{/css/tp-detail.css}">
+</th:block>
 <body>
-	<div class="title-container">
-		<h2>ENI - NOM DU SITE</h2>
-	</div>
-	<br>
-	<div class="container">
-		<div class="container-titre">
-			<p>Pseudo :</p>
-			<p>Nom :</p>
-			<p>Prénom :</p>
-			<p>Email :</p>
-			<p>Téléphone :</p>
-			<p>Rue :</p>
-			<p>Code Postal :</p>
-			<p>Ville :</p>
-			<br>
-			<p th:text="${'Crédit : '+user.getCredit()}"></p>
-
+	<main>
+		<div class="cardDetail">
+			<h2>PROFIL</h2>
+			<div class="container">
+				<div class="container-titre">
+					<p>
+						<strong>Pseudo: </strong><span th:text="${user.getPseudo()}"></span>
+					</p>
+					<p>
+						<strong>Nom: </strong><span th:text="${user.getNom()}"></span>
+					</p>
+					<p>
+						<strong>Prénom: </strong><span th:text="${user.getPrenom()}"></span>
+					</p>
+					<p>
+						<strong>Email: </strong><span th:text="${user.getEmail()}"></span>
+					</p>
+					<p>
+						<strong>Téléphone: </strong><span th:text="${user.getTelephone()}"></span>
+					</p>
+					<p>
+						<strong>Rue: </strong><span th:text="${user.getRue()}"></span>
+					</p>
+					<p>
+						<strong>Code Postal: </strong><span th:text="${user.getCodePostal()}"></span>
+					</p>
+					<p>
+						<strong>Ville: </strong><span th:text="${user.getVille()}"></span>
+					</p>
+					<br>
+					<p>
+						<strong>Credit: </strong><span th:text="${user.getCredit()}"></span>
+					</p>
+				</div>
+			</div>
+			<div>
+				<!-- <div class="bouton" sec:authorize="hasRole('ROLE_USER')">  -->
+				<!-- todo : role user et user.getId == sessionUser.getId -->
+				<a href="/modifierProfil">
+					<button>MODIFIER</button>
+				</a>
+			</div>
 		</div>
-		<div class="container-value-2">
-			<p th:text="${user.getPseudo()}"></p>
-			<p th:text="${user.getNom()}"></p>
-			<p th:text="${user.getPrenom()}"></p>
-			<p th:text="${user.getEmail()}"></p>
-			<p th:text="${user.getTelephone()}"></p>
-			<p th:text="${user.getRue()}"></p>
-			<p th:text="${user.getCodePostal()}"></p>
-			<p th:text="${user.getVille()}"></p>
-
-		</div>
-
-	</div>
-	<div>
-		<!-- <div class="bouton" sec:authorize="hasRole('ROLE_USER')">  -->
-		<!-- todo : role user et user.getId == sessionUser.getId -->
-		<a href="/modifierProfil">
-			<button>MODIFIER</button>
-		</a>
-	</div>
-
-
-
+	</main>
 
 </body>
 </html>
