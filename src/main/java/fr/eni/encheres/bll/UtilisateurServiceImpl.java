@@ -38,6 +38,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	public Optional<Utilisateur> findUtilisateurByPseudo(String pseudo) {
 		return utilisateurRepository.findUtilisateurByPseudo(pseudo);
 	}
+
+	@Override
+	public void deleteUser(int idUser) {
+		utilisateurRepository.deleteUser(idUser);
+		
+	}
 	
 
 

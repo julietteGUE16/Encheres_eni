@@ -130,6 +130,8 @@ public class profilController {
         return "resetPassword";
     }
 	
+	
+	
 	@PostMapping("/resetPasswordValid")
     public String resetPasswordForm(Model modele, @RequestParam String email) {
 		if(!email.isBlank() && email.contains("@")) {
@@ -141,6 +143,13 @@ public class profilController {
 		}
         return "resetPassword";
     }
+	
+	@GetMapping("/deleteProfil")
+	public String deleteProfil() {
+		utilisateurService.deleteUser(getIdUser());
+		
+		return "redirect:/logout";
+	}
 	
 
 	

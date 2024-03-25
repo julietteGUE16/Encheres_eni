@@ -28,7 +28,8 @@
 
 			</div>
 			<div class="container-value">
-				<input class="element" type="text" th:field="*{pseudo}" id="pseudo">
+				<input class="elementPseudo" type="hidden" th:field="*{pseudo}" id="pseudo">
+				<p class="element" type="text" th:text="*{pseudo}" id="pseudo">*{pseudo}</p>
 				<div class="error-message">
 					<p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}"
 						class="erreur">Erreur de validation</p>
@@ -112,6 +113,10 @@
 	<div class="bouton">
 		<a href="/profil">
 			<button>RETOUR</button>
+		</a>
+		<div class="boutonDeleteContainer">
+		<a href="/deleteProfil">
+			<button  class="boutonDelete">DELETE ACCOUNT</button>
 		</a>
 	</div>
 

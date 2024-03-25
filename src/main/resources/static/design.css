@@ -6,6 +6,8 @@
     flex-direction: colunm;
 }
 
+
+
 .container {
   
     margin: 0 auto; 	
@@ -34,10 +36,11 @@
 			}
 			
     	}
+    		p {
+		    margin: 0;
+			}
     	
-    	.element{
     	
-    	}
     	.elementConfirm{
     		margin-top:38px
     	}
@@ -65,6 +68,17 @@
 	    align-items: center;
     }
     
-     
+ 
+        
 }
+
+   .boutonDeleteContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+		.boutonDelete {
+		    color: black;
+		    background-color: red;
+		}
 

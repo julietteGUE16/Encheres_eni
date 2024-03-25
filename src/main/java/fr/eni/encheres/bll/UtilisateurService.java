@@ -15,5 +15,7 @@ public interface UtilisateurService {
 
 	public abstract Optional<Utilisateur> findUtilisateurByPseudo(String username);
 
+	public abstract void deleteUser(int idUser);
+
 
 }
