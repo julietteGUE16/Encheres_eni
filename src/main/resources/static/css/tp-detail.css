@@ -53,3 +53,7 @@ button:hover {
     background-color: var(--text-color);
     color: var(--background-color);
 }
+.info{
+	color:var(--secondary-color);
+	font-weight: bold;
+}

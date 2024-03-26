@@ -61,7 +61,11 @@ public class WebConfiguration implements WebMvcConfigurer {
 		http
 		.csrf(csrf ->csrf.ignoringRequestMatchers("**"))
 			.authorizeHttpRequests((requests) -> requests
+<<<<<<< HEAD
 				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","/register","/registerValid" ,"/**","/resetPasswordValid","/resetPassword","ajout-vente", "/encheres/detail", "encheresParCategorieEtNom").permitAll()
+=======
+				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","register" ,"/","/resetPasswordValid","/resetPassword","ajout-vente", "/encheres/*", "encheresParCategorieEtNom").permitAll()
+>>>>>>> juliette_1
 				.requestMatchers("/profil","/modifierProfil","ajout-vente","ajout").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
 				.anyRequest().authenticated()
 			)

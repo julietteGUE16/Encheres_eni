@@ -88,6 +88,7 @@ public class Utilisateur {
 		this.telephone = telephone;
 	}
 	
+<<<<<<< HEAD
 	public Utilisateur(int noUtilisateur,String pseudo, String nom, String prenom, String email, String telephone) {
 		this.pseudo = pseudo;
 		this.nom = nom;
@@ -97,6 +98,11 @@ public class Utilisateur {
 		this.noUtilisateur = noUtilisateur;
 	}
 
+=======
+	public Utilisateur(String pseudo) {
+		this.pseudo = pseudo;
+	}
+>>>>>>> juliette_1
 
 	public int getNoUtilisateur() {
 		return noUtilisateur;
