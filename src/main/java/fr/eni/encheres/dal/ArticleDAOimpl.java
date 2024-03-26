@@ -38,9 +38,12 @@ public class ArticleDAOimpl implements ArticleDAO{
 		    + "    INNER JOIN CATEGORIES C ON A.no_categorie = C.no_categorie "
 		    + "    INNER JOIN UTILISATEURS U ON A.no_utilisateur = U.no_utilisateur ";
 	
-	private final String FIND_ALL_BY_CATEGORY = FIND_ALL + " WHERE A.no_categorie = ?";
-	private final String FIND_ALL_BY_NOM_ARTICLE = FIND_ALL +" WHERE A.nom_article LIKE '%' + ? + '%'";
-	private final String FIND_ALL_BY_NOM_ARTICLE_AND_CATEGORY = FIND_ALL + " WHERE A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%'";
+	private final String FIND_ALL_EN_COURS = FIND_ALL + " WHERE A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()";
+	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER = FIND_ALL + " WHERE (A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()) OR A.no_utilisateur = ?";
+	
+	private final String FIND_ALL_BY_CATEGORY = FIND_ALL_EN_COURS + " AND A.no_categorie = ?";
+	private final String FIND_ALL_BY_NOM_ARTICLE = FIND_ALL_EN_COURS +" AND A.nom_article LIKE '%' + ? + '%'";
+	private final String FIND_ALL_BY_NOM_ARTICLE_AND_CATEGORY = FIND_ALL_EN_COURS + " AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%'";
 	private final String FIND_ARTICLE_BY_ID = FIND_ALL + " WHERE A.no_article = ?";
 	
 	private final String FIND_ARTICLES_BY_ID_VENDEUR_AND_VENTE_EN_COURS = FIND_ALL + " WHERE A.no_utilisateur = ? AND A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()";
@@ -78,7 +81,12 @@ public class ArticleDAOimpl implements ArticleDAO{
  
 	@Override
 	public List<Article> findAll() {
-		return namedParameterJdbcTemplate.query(FIND_ALL, new ArticleMapper());
+		return namedParameterJdbcTemplate.query(FIND_ALL_EN_COURS, new ArticleMapper());
+	}
+	
+	@Override
+	public List<Article> findArticlesEnModeConnecte(int idUser) {
+		return jdbcTemplate.query(FIND_ALL_EN_COURS_ET_ALL_DU_USER, new ArticleMapper(), idUser);
 	}
  
 	@Override
@@ -186,4 +194,5 @@ public class ArticleDAOimpl implements ArticleDAO{
 	public List<Article> findAllByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot) {
 		return jdbcTemplate.query(FIND_ARTICLES_BY_VENTE_TERMINEE_AND_CATEGORIE_AND_NOM_ARTICLE, new ArticleMapper(), idVendeur, idCategorie, mot);
 	}
+
 }

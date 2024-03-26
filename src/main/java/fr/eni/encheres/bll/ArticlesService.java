@@ -9,6 +9,8 @@ import fr.eni.encheres.bo.Retrait;
 public interface ArticlesService {
 	List<Article> consulterArticles();
 	
+	List<Article> consulterArticlesEnModeConnecte(int idUser);
+	
 	void creerArticle(Article article);
 
 	List<Article> consulterArticlesByCategorie(int idCategorie);
@@ -44,4 +46,5 @@ public interface ArticlesService {
 	List<Article> ConsulterArticlesByIdVenteNonDebuteeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 
 	List<Article> ConsulterArticlesByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
+
 }

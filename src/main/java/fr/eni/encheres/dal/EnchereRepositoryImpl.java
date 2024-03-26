@@ -29,13 +29,29 @@ public class EnchereRepositoryImpl implements EnchereDAO {
 			+ "UTILISATEURS u ON e.no_utilisateur = u.no_utilisateur " + "WHERE " + "a.no_article = ? "
 			+ "AND (e.montant_enchere IS NULL OR e.montant_enchere = (SELECT MAX(montant_enchere) " + "FROM ENCHERES "
 			+ "WHERE no_article = a.no_article))";
-
+	
+	private final String INSERT_ENCHERE = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) "
+			+ "VALUES (:no_utilisateur, :no_article, :date_enchere, :montant_enchere)";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	@Override
 	public Enchere findBestEnchereByIdArticle(int no_article) {
 		return jdbcTemplate.queryForObject(FIND_BEST_ENCHERE_BY_ID_Article, new EnchereMapper(), no_article);
+	}
+	
+	@Override
+	public void insertEnchere(Enchere enchere) {
+		var namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("no_utilisateur", enchere.getUtilisateur().getNoUtilisateur());
+		namedParameters.addValue("no_article", enchere.getArticle().getNoArticle());
+		namedParameters.addValue("date_enchere", enchere.getDate());
+		namedParameters.addValue("montant_enchere", enchere.getMontant());
+		System.out.println(namedParameters);
+		namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters);
 	}
 
 }
