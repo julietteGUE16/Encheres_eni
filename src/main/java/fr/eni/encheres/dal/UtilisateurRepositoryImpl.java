@@ -107,4 +107,18 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 		
 	}
 
+	@Override
+	public Utilisateur findUtilisateurByEmail(String email) {
+		
+		String sql = "select * from utilisateurs where email = ?";
+		
+		return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Utilisateur.class), email);
+	}
+
+	@Override
+	public int findEmail(String email) {
+		String sql = "SELECT COUNT(*) FROM utilisateurs WHERE email = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, email);
+	}
+
 }

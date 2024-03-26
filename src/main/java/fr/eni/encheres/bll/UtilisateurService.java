@@ -23,5 +23,9 @@ public interface UtilisateurService {
 
 	public abstract boolean emailExisteDeja(String email, int i);
 
+	public abstract Utilisateur findUtilisateurByEmail(String email);
+
+	public abstract int findEmail(String email);
+
 
 }

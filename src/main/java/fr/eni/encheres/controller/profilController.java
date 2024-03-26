@@ -31,6 +31,7 @@ public class profilController {
 	private boolean pseudoExists = false;
 	private boolean passwordTooShort = false;
 	private boolean emailExists = false;
+	private String emailForReset = "";
 
 	public profilController(UtilisateurService utilisateurService) {
 		this.utilisateurService = utilisateurService;
@@ -186,28 +187,57 @@ public class profilController {
 
 		return "register";
 
-		/*
-		 * return "register"; } else { utilisateurService.save(utilisateur); return
-		 * "redirect:/login"; }
-		 */
+
 	}
 
-	@PostMapping()
+	
 
 	@GetMapping("/resetPassword")
 	public String resetPassword() {
 		return "resetPassword";
 	}
+	
+	@GetMapping("/newPassword")
+	public String newPassword(Model model) {
+		String email = emailForReset;
+		model.addAttribute("email", email);
+		emailForReset = "";
+		return "newPassword";
+	}
+	
+	@PostMapping("/newPasswordValid")
+	public String newPasswordForm(Model modele, @RequestParam String email, @RequestParam String mdp, @RequestParam String mdpConfirm) {
+		modele.addAttribute("mdpError", false);
+		modele.addAttribute("mdpOk", false);
+		if(mdp.length()>5 && mdp.equals(mdpConfirm)) {
+			modele.addAttribute("mdpOk", true);
+			Utilisateur user = utilisateurService.findUtilisateurByEmail(email);
+			user.setMotDePasse(mdp);
+			utilisateurService.updateUser(user);
+		} else {
+			modele.addAttribute("mdpError", true);
+		}
+		return "newPassword";
+	}
 
 	@PostMapping("/resetPasswordValid")
 	public String resetPasswordForm(Model modele, @RequestParam String email) {
+		int emailExiste = utilisateurService.findEmail(email);
 		if (!email.isBlank() && email.contains("@")) {
-			modele.addAttribute("message", true);
+			if(emailExiste > 0) {
+				modele.addAttribute("message", true);
+				modele.addAttribute("noEmail", false);
+			} else {
+				modele.addAttribute("noEmail", true);
+				modele.addAttribute("message", false);
+			}
+		
 			modele.addAttribute("messageAlert", false);
 		} else {
 			modele.addAttribute("message", false);
 			modele.addAttribute("messageAlert", true);
 		}
+		emailForReset = email;
 		return "resetPassword";
 	}
 
