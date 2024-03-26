@@ -43,9 +43,19 @@
 				<strong>Retrait:</strong> <span
 					th:text="${retrait.rue} + '  ' + ${retrait.codePostal} + ' ' + ${retrait.ville}">Vendeur</span>
 			</p>
-			<p>
+			<p sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
+					<strong>Vendeur:</strong> 
+					  <a data-th-href="@{/profilOther(noUtilisateur=${article.vendeur.noUtilisateur})}">
+					<span th:text="${article.vendeur.pseudo}">Vendeur</span>	
+					</a>				
+				</p>
+				
+				<p sec:authorize="!hasRole('ROLE_MEMBRE') AND !hasRole('ROLE_ADMIN')">
 				<strong>Vendeur:</strong> <span th:text="${article.vendeur.pseudo}">Vendeur</span>
-			</p>
+				</p>
+					
+				
+			
 			<th:block
 				sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
 				<form>
