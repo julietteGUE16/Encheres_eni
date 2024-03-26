@@ -60,6 +60,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	public boolean emailExisteDeja(String email, int id) {
 		return utilisateurRepository.emailExisteDeja(email, id);
 	}
+
+	@Override
+	public Utilisateur findUtilisateurByEmail(String email) {
+		return utilisateurRepository.findUtilisateurByEmail(email);
+	}
+
+	@Override
+	public int findEmail(String email) {
+		return utilisateurRepository.findEmail(email);
+	}
 	
 
 
