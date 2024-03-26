@@ -66,19 +66,12 @@
 				<p>
 					<strong>Fin de l'enchère:</strong> <span th:text="${item.fin}">Fin</span>
 				</p>
-				<p sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
-					<strong>Vendeur:</strong> 
-					  <a data-th-href="@{/profilOther(noUtilisateur=${item.vendeur.noUtilisateur})}">
-					<span> th:text="${item.vendeur.pseudo}">Vendeur</span>	
-					</a>				
-				</p>
-				<p sec:authorize="!hasRole('ROLE_MEMBRE') AND !hasRole('ROLE_ADMIN')">
-					<strong>Vendeur:</strong> 
-					<span> th:text="${item.vendeur.pseudo}">Vendeur</span>					
+				<p>
+				<strong>Vendeur:</strong> 
+					<span th:text="${item.vendeur.pseudo}">Vendeur</span>					
 				</p>
 				<p>
-					<strong>Categorie:</strong> <span
-						th:text="${item.categorie.libelle}">Categorie</span>
+					<strong>Categorie:</strong> <span th:text="${item.categorie.libelle}">Categorie</span>
 				</p>
 			</a>
 		</div>
