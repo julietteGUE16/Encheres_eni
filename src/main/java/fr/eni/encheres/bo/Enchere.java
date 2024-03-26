@@ -14,7 +14,6 @@ public class Enchere {
 	private Utilisateur utilisateur;
 	
 	public Enchere(LocalDateTime date, int montant, Article article, Utilisateur utilisateur) {
-		super();
 		this.date = date;
 		Montant = montant;
 		this.article = article;

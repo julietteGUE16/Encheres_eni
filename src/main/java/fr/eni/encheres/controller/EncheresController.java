@@ -26,6 +26,7 @@ import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Utilisateur;
 
 @Controller
 // Injection de la liste des attributs en session
@@ -157,9 +158,9 @@ public class EncheresController {
 		Article article = articlesService.consulterArticleByIdArticle(no_article);
 		Retrait retrait = articlesService.consulterRetraitByIDArticle(no_article);
 		Enchere enchere = enchereService.consulterBestEnchereByIdArticle(no_article);
+		model.addAttribute("enchere", enchere); 
 		model.addAttribute("article", article);
 		model.addAttribute("retrait", retrait);
-		model.addAttribute("enchere", enchere);
 		return "view-detail";
 	}
 	

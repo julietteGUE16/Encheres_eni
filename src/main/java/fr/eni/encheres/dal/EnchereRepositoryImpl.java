@@ -21,29 +21,21 @@ import fr.eni.encheres.dal.mapper.EnchereMapper;
 
 @Repository
 public class EnchereRepositoryImpl implements EnchereDAO {
-	
+
 	private final String FIND_BEST_ENCHERE_BY_ID_Article = "SELECT "
-	        + "    e.montant_enchere AS meilleure_offre, "
-	        + "    u.pseudo AS pseudo_encherisseur "
-	        + "FROM "
-	        + "    ENCHERES e "
-	        + "    JOIN UTILISATEURS u ON e.no_utilisateur = u.no_utilisateur "
-	        + "    JOIN ARTICLES_VENDUS a ON e.no_article = a.no_article "
-	        + "WHERE "
-	        + "    e.montant_enchere = ( "
-	        + "        SELECT MAX(montant_enchere) "
-	        + "        FROM ENCHERES "
-	        + "        WHERE no_article = a.no_article "
-	        + "    ) "
-	        + "    AND a.no_article = ? ";
+			+ "COALESCE(e.montant_enchere, 0) AS meilleure_offre, "
+			+ "COALESCE(u.pseudo, 'Aucun encherisseur') AS pseudo_encherisseur " + "FROM " + "ARTICLES_VENDUS a "
+			+ "LEFT JOIN " + "ENCHERES e ON a.no_article = e.no_article " + "LEFT JOIN "
+			+ "UTILISATEURS u ON e.no_utilisateur = u.no_utilisateur " + "WHERE " + "a.no_article = ? "
+			+ "AND (e.montant_enchere IS NULL OR e.montant_enchere = (SELECT MAX(montant_enchere) " + "FROM ENCHERES "
+			+ "WHERE no_article = a.no_article))";
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    
 	@Override
 	public Enchere findBestEnchereByIdArticle(int no_article) {
-		return jdbcTemplate.queryForObject(FIND_BEST_ENCHERE_BY_ID_Article, new EnchereMapper(),no_article);
+		return jdbcTemplate.queryForObject(FIND_BEST_ENCHERE_BY_ID_Article, new EnchereMapper(), no_article);
 	}
 
 }
