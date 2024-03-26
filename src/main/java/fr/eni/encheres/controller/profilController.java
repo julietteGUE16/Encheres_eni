@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exceptions.UserNotFound;
@@ -32,9 +34,11 @@ public class profilController {
 	private boolean passwordTooShort = false;
 	private boolean emailExists = false;
 	private String emailForReset = "";
+    private PasswordEncoder passwordEncoder;
 
-	public profilController(UtilisateurService utilisateurService) {
+	public profilController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
 		this.utilisateurService = utilisateurService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	private int getIdUser() {
@@ -180,7 +184,8 @@ public class profilController {
 		}
 	
 		if (!result.hasErrors() && !pswBlank && !pswNotTheSame && !pseudoExists && !passwordTooShort && !emailExists) {
-			utilisateur.setMotDePasse(mdp);
+			String motDePasseCrypte = passwordEncoder.encode(mdp);
+	        utilisateur.setMotDePasse(motDePasseCrypte);
 			utilisateurService.save(utilisateur);
 			return "redirect:/login";
 		}

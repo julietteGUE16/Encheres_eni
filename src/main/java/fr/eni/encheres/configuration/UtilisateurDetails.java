@@ -16,6 +16,7 @@ import fr.eni.encheres.bo.Utilisateur;
 public class UtilisateurDetails implements UserDetails{
 
 	private Utilisateur user;
+
 	
 	public UtilisateurDetails(Utilisateur user) {
 		this.user = user;
@@ -33,10 +34,10 @@ public class UtilisateurDetails implements UserDetails{
 		return roles;
 	}
 
-	@Override
-	public String getPassword() {
-		return user.getMotDePasse();
-	}
+	  @Override
+	    public String getPassword() {
+	        return user.getMotDePasse();
+	    }
 
 	@Override
 	public String getUsername() {
