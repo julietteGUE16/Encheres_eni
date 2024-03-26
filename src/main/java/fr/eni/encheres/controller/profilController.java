@@ -100,7 +100,7 @@ public class profilController {
 				modele.addAttribute("pswBlank", true);
 				pswBlank = true;
 			}
-			if (!mdp.equals(ancienMdp)) {
+			if (!passwordEncoder.matches(ancienMdp, mdp)) {
 				modele.addAttribute("oldPswWrong", true);
 				oldPswWrong = true;
 			}
@@ -124,7 +124,8 @@ public class profilController {
 			if (!nouveauMdp.isEmpty()) {
 				mdp = nouveauMdp;
 			}
-			user.setMotDePasse(mdp);
+			String motDePasseCrypte = passwordEncoder.encode(mdp);
+			user.setMotDePasse(motDePasseCrypte);
 			utilisateurService.updateUser(user);
 			return "redirect:/profil";
 		}
@@ -214,10 +215,11 @@ public class profilController {
 	public String newPasswordForm(Model modele, @RequestParam String email, @RequestParam String mdp, @RequestParam String mdpConfirm) {
 		modele.addAttribute("mdpError", false);
 		modele.addAttribute("mdpOk", false);
-		if(mdp.length()>5 && mdp.equals(mdpConfirm)) {
+		if(mdp.length()>=5 && mdp.equals(mdpConfirm)) {
 			modele.addAttribute("mdpOk", true);
 			Utilisateur user = utilisateurService.findUtilisateurByEmail(email);
-			user.setMotDePasse(mdp);
+			String motDePasseCrypte = passwordEncoder.encode(mdp);
+			user.setMotDePasse(motDePasseCrypte);
 			utilisateurService.updateUser(user);
 		} else {
 			modele.addAttribute("mdpError", true);
