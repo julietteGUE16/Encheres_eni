@@ -49,6 +49,10 @@ public class UtilisateurDetails implements UserDetails{
 		return user.getNom();
 	}
 	
+	public int getCredit() {
+		return user.getCredit();
+	}
+	
 	public String getPrenom() {
 		return user.getPrenom();
 	}
