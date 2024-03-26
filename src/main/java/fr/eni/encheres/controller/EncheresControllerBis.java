@@ -1,6 +1,7 @@
 package fr.eni.encheres.controller;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import jakarta.validation.Valid;
 
@@ -51,6 +53,12 @@ public class EncheresControllerBis {
 		return user;
 	}
 	
+	private int getIdUser() {
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		String name = authentication.getName();
+		return utilisateurService.findUtilisateurByPseudo(name).get().getNoUtilisateur();
+	}
+	
 	
 	@GetMapping("/ajout-vente")
 	public String pageAjoutVente(Model model, 
@@ -60,18 +68,35 @@ public class EncheresControllerBis {
 			//Instanciation du formulaire 
 			Article article = new Article();
 			model.addAttribute(article);
+			
+			Optional<Utilisateur> user = Optional.empty();
+			user = utilisateurService.getUserById(getIdUser());
+			model.addAttribute("user", user.get());
+			
 			model.addAttribute("categories", categorieService.consulterCategories());
 			return "ajoutVente";
-		//}
-		//return "ajoutVente";
+		/*}
+		return "ajoutVente";*/
+	}
+	
+	@RequestMapping(value="/ajout-vente", method = RequestMethod.POST, params = "cancel")
+	public String annuler(@Valid @ModelAttribute("article") Article article, BindingResult result, Model model) {
+		model.addAttribute("message", "Redirection...");
+		return "view-encheres";
 	}
 	
 	
 	@PostMapping("/ajout-vente-valider")
-	public String ajoutVente(@Valid @ModelAttribute("article") Article article, BindingResult result, Model model) {
+	public String ajoutVente(@Valid @ModelAttribute("article") Article article, @ModelAttribute("retrait") Retrait retrait, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("article", article);
+			model.addAttribute("retrait",  retrait);
 			model.addAttribute("categories", categorieService.consulterCategories());
+			
+			model.addAttribute("rue", retrait.getRue());
+			model.addAttribute("code_postal", retrait.getCodePostal());
+			model.addAttribute("ville", retrait.getVille());
+			
 			model.addAttribute("errorResult", result);
 			return "ajoutVente";
 		}
@@ -80,6 +105,8 @@ public class EncheresControllerBis {
 		articleService.creerArticle(article);
 		return "redirect:/encheres";
 	}
+	
+
 	
 
 }

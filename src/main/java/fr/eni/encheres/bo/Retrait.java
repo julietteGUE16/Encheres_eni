@@ -1,5 +1,6 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
 
 /*
  * class objet du retrait pour un article
@@ -8,8 +9,14 @@ package fr.eni.encheres.bo;
  * */
 public class Retrait {
 	private int noRetrait;
+	
+	@NotBlank(message = "La rue doit être saisie")
 	private String rue;
+	
+	@NotBlank(message = "Le code postal doit être saisi")
 	private String codePostal;
+	
+	@NotBlank(message = "La ville doit être saisie")
 	private String ville;
 	
 	public Retrait() {

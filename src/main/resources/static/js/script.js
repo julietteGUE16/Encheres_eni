@@ -12,6 +12,21 @@ function minDebutDate() {
 	
 function minFinDate() {
 		var today = new Date();
-	    var maxDate = new Date(today.setDate(today.getDate() + 1)).toISOString().split("T")[0];
-	    document.getElementsByName("fin")[0].setAttribute("min", maxDate);
+		var debut_date_value = document.getElementById("debut").getAttribute("value");
+		
+		document.getElementById("debut").addEventListener("change", function() {
+   			var input = this.value;
+    		var dateEntered = new Date(input);
+    		console.log("date debut = " + input);
+    		
+    		document.getElementsByName("fin")[0].removeAttribute("disabled");
+	   		var maxDate = new Date(dateEntered.setDate(dateEntered.getDate() + 1)).toISOString().split("T")[0];
+	    	document.getElementsByName("fin")[0].setAttribute("min", maxDate);
+    	});		
+};
+
+
+function backButton() {
+	document.getElementById("debut").removeAttribute("required");
+	document.getElementById("fin").removeAttribute("required");
 }
