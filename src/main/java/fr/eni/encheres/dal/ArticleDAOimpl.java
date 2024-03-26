@@ -33,7 +33,7 @@ public class ArticleDAOimpl implements ArticleDAO{
 		    + "    U.prenom AS vendeur_prenom, "
 		    + "    U.email AS vendeur_email, "
 		    + "    U.telephone AS vendeur_telephone, "
-		    + "    U.no_utilisateur AS vendeur_noUtilisateur"
+		    + "    U.no_utilisateur AS vendeur_noUtilisateur "
 		    + "FROM "
 		    + "    ARTICLES_VENDUS A "
 		    + "    INNER JOIN CATEGORIES C ON A.no_categorie = C.no_categorie "
