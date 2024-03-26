@@ -76,17 +76,36 @@ public class EncheresController {
 			@RequestParam(name = "enchèresRemportées", required = false) boolean remportees, Model model) {
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("categories", categories);
+		
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		String name = authentication.getName();
+		
 		if (id != -1 && nom.trim() == "" && enCours == false && nonDebutee == false && terminee == false ) { // seule la categorie est selectionnée
-			List<Article> articles = articlesService.consulterArticlesByCategorie(id);
-			model.addAttribute("articles", articles);
+			if (name.equals("anonymousUser")) {
+				List<Article> articles = articlesService.consulterArticlesByCategorie(id);
+				model.addAttribute("articles", articles);
+			}else {
+				List<Article> articles = articlesService.consulterArticlesConnecteByCategorie(getIdUser(), id);
+				model.addAttribute("articles", articles);
+			}
 		}
 		if (nom != "" && id == -1 && id == -1 && enCours == false && nonDebutee == false && terminee == false ) {// seule la recherche est selectionnée
-			List<Article> articles = articlesService.consulterArticlesByNomArticle(nom);
-			model.addAttribute("articles", articles);
+			if (name.equals("anonymousUser")) {
+				List<Article> articles = articlesService.consulterArticlesByNomArticle(nom);
+				model.addAttribute("articles", articles);
+			}else {
+				List<Article> articles = articlesService.consulterArticlesConnecteByNomArticle(getIdUser(), nom);
+				model.addAttribute("articles", articles);
+			}
 		}
 		if (nom != "" && id != -1 && enCours == false && nonDebutee == false && terminee == false ) { //recherche & categorie selectionnées
-			List<Article> articles = articlesService.consulterArticlesByNomArticleAndCategorie(nom, id);
-			model.addAttribute("articles", articles);
+			if (name.equals("anonymousUser")) {
+				List<Article> articles = articlesService.consulterArticlesByNomArticleAndCategorie(nom, id);
+				model.addAttribute("articles", articles);
+			}else {
+				List<Article> articles = articlesService.consulterArticlesConnecteByNomArticleAndCategory(getIdUser(), nom, id);
+				model.addAttribute("articles", articles);
+			}
 		}
 		if (nom.trim() == "" && id == -1 && (enCours != false || nonDebutee != false || terminee != false || ouvertes != false || achatsEnCours != false || remportees != false)) { // seules les checkbox sont cochées
 			List<Article> articles = new ArrayList<Article>();
@@ -181,7 +200,6 @@ public class EncheresController {
 		Article article = new Article();
 		article.setNoArticle(noArticle);
 		Enchere nouvelleEnchere = new Enchere(now,nouvelleEnchereNumber, article, utilisateur);
-		System.out.println(now + " " + nouvelleEnchereNumber + " " + article + " " + utilisateur);
 		enchereService.creerEnchere(nouvelleEnchere);
 		return "redirect:/encheres/detail?noArticle=" + noArticle;
 	}	

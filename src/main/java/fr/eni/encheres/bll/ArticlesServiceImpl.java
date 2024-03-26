@@ -126,4 +126,20 @@ public class ArticlesServiceImpl implements ArticlesService{
 	public List<Article> consulterArticlesEnModeConnecte(int idUser) {
 		return articleDAO.findArticlesEnModeConnecte(idUser);
 	}
+
+	@Override
+	public List<Article> consulterArticlesConnecteByCategorie(int idUser, int idCategorie) {
+		return articleDAO.findAllConnecteByCategorie(idUser, idCategorie);
+	}
+
+	@Override
+	public List<Article> consulterArticlesConnecteByNomArticle(int idUser, String nomArticle) {
+		return articleDAO.findAllConnecteByNomArticle(idUser, nomArticle);
+	}
+
+	@Override
+	public List<Article> consulterArticlesConnecteByNomArticleAndCategory(int idUser, String nomArticle,
+			int idCategorie) {
+		return articleDAO.findAllConnecteByNomArticleAndCategory(idUser, nomArticle, idCategorie);
+	}
 }
