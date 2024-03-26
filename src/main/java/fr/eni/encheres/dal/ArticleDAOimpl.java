@@ -40,11 +40,17 @@ public class ArticleDAOimpl implements ArticleDAO{
 		    + "    INNER JOIN UTILISATEURS U ON A.no_utilisateur = U.no_utilisateur ";
 	
 	private final String FIND_ALL_EN_COURS = FIND_ALL + " WHERE A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()";
-	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER = FIND_ALL + " WHERE (A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()) OR A.no_utilisateur = ?";
+	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER = FIND_ALL + " WHERE ((A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()) OR A.no_utilisateur = ?)";
 	
 	private final String FIND_ALL_BY_CATEGORY = FIND_ALL_EN_COURS + " AND A.no_categorie = ?";
 	private final String FIND_ALL_BY_NOM_ARTICLE = FIND_ALL_EN_COURS +" AND A.nom_article LIKE '%' + ? + '%'";
 	private final String FIND_ALL_BY_NOM_ARTICLE_AND_CATEGORY = FIND_ALL_EN_COURS + " AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%'";
+	
+	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER_BY_CATEGORY = FIND_ALL_EN_COURS_ET_ALL_DU_USER + " AND A.no_categorie = ?";
+	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER_BY_NOM_ARTICLE = FIND_ALL_EN_COURS_ET_ALL_DU_USER +" AND A.nom_article LIKE '%' + ? + '%'";
+	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER_NOM_ARTICLE_AND_CATEGORY = FIND_ALL_EN_COURS_ET_ALL_DU_USER + " AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%'";
+	
+	
 	private final String FIND_ARTICLE_BY_ID = FIND_ALL + " WHERE A.no_article = ?";
 	
 	private final String FIND_ARTICLES_BY_ID_VENDEUR_AND_VENTE_EN_COURS = FIND_ALL + " WHERE A.no_utilisateur = ? AND A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()";
@@ -103,6 +109,21 @@ public class ArticleDAOimpl implements ArticleDAO{
 	@Override
 	public List<Article> findAllByNomArticleAndCategory(String nomArticle, int idCategorie) {
 		return jdbcTemplate.query(FIND_ALL_BY_NOM_ARTICLE_AND_CATEGORY, new ArticleMapper(),idCategorie, nomArticle);
+	}
+ 
+	@Override
+	public List<Article> findAllConnecteByCategorie(int idUser, int idCategorie) {
+		return jdbcTemplate.query(FIND_ALL_EN_COURS_ET_ALL_DU_USER_BY_CATEGORY, new ArticleMapper(), idUser, idCategorie);
+	}
+ 
+	@Override
+	public List<Article> findAllConnecteByNomArticle(int idUser, String nomArticle) {
+		return jdbcTemplate.query(FIND_ALL_EN_COURS_ET_ALL_DU_USER_BY_NOM_ARTICLE, new ArticleMapper(), idUser,  nomArticle);
+	}
+ 
+	@Override
+	public List<Article> findAllConnecteByNomArticleAndCategory(int idUser,String nomArticle, int idCategorie) {
+		return jdbcTemplate.query(FIND_ALL_EN_COURS_ET_ALL_DU_USER_NOM_ARTICLE_AND_CATEGORY, new ArticleMapper(), idUser, idCategorie, nomArticle);
 	}
  
 	@Override
