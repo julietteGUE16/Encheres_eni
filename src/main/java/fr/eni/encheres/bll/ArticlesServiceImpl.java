@@ -142,4 +142,6 @@ public class ArticlesServiceImpl implements ArticlesService{
 			int idCategorie) {
 		return articleDAO.findAllConnecteByNomArticleAndCategory(idUser, nomArticle, idCategorie);
 	}
+	
+	
 }

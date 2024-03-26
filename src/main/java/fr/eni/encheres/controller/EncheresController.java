@@ -39,6 +39,7 @@ public class EncheresController {
 	private CategorieService categorieService;
 	private UtilisateurService utilisateurService;
 	private EnchereService enchereService;
+	private boolean errorPrice;
 
 	public EncheresController(ArticlesService articlesService, CategorieService categorieService, UtilisateurService utilisateurService,
 			EnchereService encheresService) {
@@ -102,7 +103,7 @@ public class EncheresController {
 			if (name.equals("anonymousUser")) {
 				List<Article> articles = articlesService.consulterArticlesByNomArticleAndCategorie(nom, id);
 				model.addAttribute("articles", articles);
-			}else {
+			} else {
 				List<Article> articles = articlesService.consulterArticlesConnecteByNomArticleAndCategory(getIdUser(), nom, id);
 				model.addAttribute("articles", articles);
 			}
@@ -188,12 +189,26 @@ public class EncheresController {
 		model.addAttribute("enchere", enchere); 
 		model.addAttribute("article", article);
 		model.addAttribute("retrait", retrait);
+		model.addAttribute("errorPrice", errorPrice);
+		
 		return "view-detail";
 	}
 	
 	@PostMapping("/encheres/ajouter")
 	public String ajoutVente(@RequestParam(name = "nouvelleEnchere")int nouvelleEnchereNumber, @RequestParam(name = "noArticle") int noArticle,
-			Model model) {
+			@RequestParam(name = "enchereMax")int enchereMax, @RequestParam(name = "miseAPrix") int miseAPrix, Model model) {
+		errorPrice = false;
+		if (enchereMax == 0) {
+			if (nouvelleEnchereNumber <= miseAPrix) {
+				errorPrice = true;
+				return "redirect:/encheres/detail?noArticle=" + noArticle;
+			}
+		} else {
+			if (nouvelleEnchereNumber <= enchereMax) {
+				errorPrice = true;
+				return "redirect:/encheres/detail?noArticle=" + noArticle;
+			}
+		}
 		LocalDateTime now = LocalDateTime.now();
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setNoUtilisateur(getIdUser());
