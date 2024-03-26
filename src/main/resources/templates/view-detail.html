@@ -58,11 +58,13 @@
 			
 			<th:block
 				sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
-				<form>
+				<form action="/encheres/ajouter" method="post">
+				    <input type="hidden" id="noArticle" name="noArticle" th:value="${article.noArticle}" />
 					<p>
 						<strong>Enchérir:</strong> <span><input type="number"
-							id="nouvelleEnchere" th:field="*{enchere.Montant}" required></span>
+							id="nouvelleEnchere" name="nouvelleEnchere" required th:value="${enchere.Montant != 0 ? enchere.Montant + 1 : article.miseAPrix + 1}"></span>
 					</p>
+					<button type="submit">Enregistrer</button>
 				</form>
 			</th:block>
 		</div>

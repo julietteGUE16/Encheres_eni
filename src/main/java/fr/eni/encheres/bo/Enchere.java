@@ -13,6 +13,11 @@ public class Enchere {
 	private Article article;
 	private Utilisateur utilisateur;
 	
+	@Override
+	public String toString() {
+		return "Enchere [date=" + date + ", Montant=" + Montant + ", article=" + article + ", utilisateur="
+				+ utilisateur + "]";
+	}
 	public Enchere(LocalDateTime date, int montant, Article article, Utilisateur utilisateur) {
 		this.date = date;
 		Montant = montant;
@@ -34,10 +39,10 @@ public class Enchere {
 	public void setMontant(int montant) {
 		Montant = montant;
 	}
-	public Article getIdArticle() {
+	public Article getArticle() {
 		return article;
 	}
-	public void setIdArticle(Article article) {
+	public void setArticle(Article article) {
 		this.article = article;
 	}
 	public Utilisateur getUtilisateur() {

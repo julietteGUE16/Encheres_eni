@@ -1,5 +1,6 @@
 package fr.eni.encheres.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +50,16 @@ public class EncheresController {
 
 	@GetMapping({ "/", "/encheres" })
 	public String afficherArticles(Model model) {
-		List<Article> articles = articlesService.consulterArticles();
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		String name = authentication.getName();
+		if (name.equals("anonymousUser")) {
+			List<Article> articles = articlesService.consulterArticles();
+			model.addAttribute("articles", articles);
+		}else {
+			List<Article> articles = articlesService.consulterArticlesEnModeConnecte(getIdUser());
+			model.addAttribute("articles", articles);
+		}
 		List<Categorie> categories = categorieService.consulterCategories();
-		model.addAttribute("articles", articles);
 		model.addAttribute("categories", categories);
 
 		return "view-encheres";
@@ -163,6 +171,20 @@ public class EncheresController {
 		model.addAttribute("retrait", retrait);
 		return "view-detail";
 	}
+	
+	@PostMapping("/encheres/ajouter")
+	public String ajoutVente(@RequestParam(name = "nouvelleEnchere")int nouvelleEnchereNumber, @RequestParam(name = "noArticle") int noArticle,
+			Model model) {
+		LocalDateTime now = LocalDateTime.now();
+		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setNoUtilisateur(getIdUser());
+		Article article = new Article();
+		article.setNoArticle(noArticle);
+		Enchere nouvelleEnchere = new Enchere(now,nouvelleEnchereNumber, article, utilisateur);
+		System.out.println(now + " " + nouvelleEnchereNumber + " " + article + " " + utilisateur);
+		enchereService.creerEnchere(nouvelleEnchere);
+		return "redirect:/encheres/detail?noArticle=" + noArticle;
+	}	
 	
 	private int getIdUser() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();

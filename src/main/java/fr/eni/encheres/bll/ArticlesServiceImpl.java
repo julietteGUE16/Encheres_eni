@@ -121,4 +121,9 @@ public class ArticlesServiceImpl implements ArticlesService{
 			String mot) {
 		return articleDAO.findAllByIdVenteTermineeAndCategorieAndNomArticle(idVendeur, idCategorie, mot);
 	}
+
+	@Override
+	public List<Article> consulterArticlesEnModeConnecte(int idUser) {
+		return articleDAO.findArticlesEnModeConnecte(idUser);
+	}
 }

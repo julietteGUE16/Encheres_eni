@@ -1,6 +1,5 @@
 package fr.eni.encheres.bll;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.Enchere;
@@ -18,5 +17,10 @@ public class EnchereServiceImpl implements EnchereService{
 	@Override
 	public Enchere consulterBestEnchereByIdArticle(int no_article) {
 		return encheredao.findBestEnchereByIdArticle(no_article);
+	}
+
+	@Override
+	public void creerEnchere(Enchere enchere) {
+		encheredao.insertEnchere(enchere);
 	}
 }
