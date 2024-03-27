@@ -30,7 +30,7 @@
 			</p>
 			<th:block
 				sec:authorize="not (hasRole('ROLE_MEMBRE') or hasRole('ROLE_ADMIN'))">
-				<p class= "info">Connectez-vous pour enchérir !</p>
+				<p class="info">Connectez-vous pour enchérir !</p>
 			</th:block>
 			<p>
 				<strong>Mise à prix:</strong> <span
@@ -44,28 +44,42 @@
 					th:text="${retrait.rue} + '  ' + ${retrait.codePostal} + ' ' + ${retrait.ville}">Vendeur</span>
 			</p>
 			<p sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
-					<strong>Vendeur:</strong> 
-					  <a data-th-href="@{/profilOther(noUtilisateur=${article.vendeur.noUtilisateur})}">
-					<span th:text="${article.vendeur.pseudo}">Vendeur</span>	
-					</a>				
-				</p>
-				
-				<p sec:authorize="!hasRole('ROLE_MEMBRE') AND !hasRole('ROLE_ADMIN')">
+				<strong>Vendeur:</strong> <a
+					data-th-href="@{/profilOther(noUtilisateur=${article.vendeur.noUtilisateur})}">
+					<span th:text="${article.vendeur.pseudo}">Vendeur</span>
+				</a>
+			</p>
+
+			<p sec:authorize="!hasRole('ROLE_MEMBRE') AND !hasRole('ROLE_ADMIN')">
 				<strong>Vendeur:</strong> <span th:text="${article.vendeur.pseudo}">Vendeur</span>
-				</p>
-					
-				
-			
+			</p>
+
+
+
 			<th:block
 				sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
-				<form action="/encheres/ajouter" method="post">
-				    <input type="hidden" id="noArticle" name="noArticle" th:value="${article.noArticle}" />
-					<p>
-						<strong>Enchérir:</strong> <span><input type="number"
-							id="nouvelleEnchere" name="nouvelleEnchere" required th:value="${enchere.Montant != 0 ? enchere.Montant + 1 : article.miseAPrix + 1}"></span>
-					</p>
-					<button type="submit">Enregistrer</button>
-				</form>
+				<div
+					th:with="startDate=${new java.util.Date(article.debut.time)}, endDate=${new java.util.Date(article.fin.time)}">
+					<div
+						th:if="${#dates.createNow().after(startDate) and #dates.createNow().before(endDate)}">
+						<form action="/encheres/ajouter" method="post">
+							<input type="hidden" id="noArticle" name="noArticle" th:value="${article.noArticle}" /> 
+							<input type="hidden" id="enchereMax" name="enchereMax" th:value="${enchere.Montant}" />
+							<input type="hidden" id="miseAPrix" name="miseAPrix" th:value="${article.miseAPrix}" />
+							<p>
+								<strong>Enchérir:</strong> <span><input type="number"
+									id="nouvelleEnchere" name="nouvelleEnchere" required
+									th:value="${enchere.Montant != 0 ? enchere.Montant + 1 : article.miseAPrix + 1}"></span>
+							</p>
+							<p class="info" th:if="${errorPrice}">Attention !  Vous devez enchérir à un montant au moins supérieur à l'enchère la plus haute</p>
+							<button type="submit">Enregistrer</button>
+						</form>
+					</div>
+					<div
+						th:unless="${#dates.createNow().after(startDate) and #dates.createNow().before(endDate)}">
+						<p class="info">La date ne vous permet pas d'enchérir !</p>
+					</div>
+				</div>
 			</th:block>
 		</div>
 	</main>
