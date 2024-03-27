@@ -3,6 +3,7 @@ package fr.eni.encheres.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.validation.Valid;
 
@@ -197,37 +198,56 @@ public class EncheresController {
 		model.addAttribute("article", article);
 		model.addAttribute("retrait", retrait);
 		model.addAttribute("errorPrice", errorPrice);
+		model.addAttribute("noMoney", noMoney);
+		noMoney = false;
+		errorPrice = false;
 		
 		return "view-detail";
 	}
 	
 	@PostMapping("/encheres/ajouter")
 	public String ajoutVente(@RequestParam(name = "nouvelleEnchere")int nouvelleEnchereNumber, @RequestParam(name = "noArticle") int noArticle,
-			@RequestParam(name = "enchereMax")int enchereMax, @RequestParam(name = "miseAPrix") int miseAPrix, Model model) {
+			@RequestParam(name = "enchereMax")int enchereMax, @RequestParam(name = "miseAPrix") int miseAPrix, Model model
+			, @RequestParam(name = "noEncherrisseur") int noEncherrisseur) {
 		model.addAttribute("utilisateurService", utilisateurService);
-		errorPrice = false;
-		noMoney = false;
+		int enchereEnCours = 0;
 		if (enchereMax == 0) {
+			enchereEnCours = miseAPrix;
 			if (nouvelleEnchereNumber <= miseAPrix) {
 				errorPrice = true;
-				return "redirect:/encheres/detail?noArticle=" + noArticle;
 			}
 		} else {
+			enchereEnCours = enchereMax;
 			if (nouvelleEnchereNumber <= enchereMax) {
 				errorPrice = true;
-				return "redirect:/encheres/detail?noArticle=" + noArticle;
 			}
 		}
 		if(nouvelleEnchereNumber > utilisateurService.getUserById(getIdUser()).get().getCredit()) {
 			noMoney = true;
+		}
+		if(noMoney || errorPrice) {
 			return "redirect:/encheres/detail?noArticle=" + noArticle;
 		}
 		LocalDateTime now = LocalDateTime.now();
-		Utilisateur utilisateur = new Utilisateur();
+		//crédité le nouvel encherisseur
+		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
 		utilisateur.setNoUtilisateur(getIdUser());
+		utilisateur.setCredit(utilisateur.getCredit()-nouvelleEnchereNumber);
+		utilisateurService.updateUser(utilisateur);
+		
+
+		//recrédité l'ancien encherisseur
+		Optional<Utilisateur> encherisseur = utilisateurService.getUserById(noEncherrisseur);
+		if(encherisseur.isPresent()) {
+			Utilisateur user = encherisseur.get();
+			user.setCredit(user.getCredit()+enchereEnCours);
+			utilisateurService.updateUser(user);
+		}
+		
 		Article article = new Article();
 		article.setNoArticle(noArticle);
 		Enchere nouvelleEnchere = new Enchere(now,nouvelleEnchereNumber, article, utilisateur);
+		
 		enchereService.creerEnchere(nouvelleEnchere);
 		return "redirect:/encheres/detail?noArticle=" + noArticle;
 	}	

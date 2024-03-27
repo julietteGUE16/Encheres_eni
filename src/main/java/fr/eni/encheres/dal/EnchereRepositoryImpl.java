@@ -24,7 +24,8 @@ public class EnchereRepositoryImpl implements EnchereDAO {
 
 	private final String FIND_BEST_ENCHERE_BY_ID_Article = "SELECT "
 			+ "COALESCE(e.montant_enchere, 0) AS meilleure_offre, "
-			+ "COALESCE(u.pseudo, 'Aucun encherisseur') AS pseudo_encherisseur " + "FROM " + "ARTICLES_VENDUS a "
+			+ "COALESCE( u.pseudo, 'Aucun encherisseur') AS pseudo_encherisseur, "
+			+ "u.no_utilisateur AS id_encherisseur " +"FROM " + "ARTICLES_VENDUS a "
 			+ "LEFT JOIN " + "ENCHERES e ON a.no_article = e.no_article " + "LEFT JOIN "
 			+ "UTILISATEURS u ON e.no_utilisateur = u.no_utilisateur " + "WHERE " + "a.no_article = ? "
 			+ "AND (e.montant_enchere IS NULL OR e.montant_enchere = (SELECT MAX(montant_enchere) " + "FROM ENCHERES "

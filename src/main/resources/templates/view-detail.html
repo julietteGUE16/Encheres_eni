@@ -84,6 +84,12 @@
 						<div
 							th:if="${#dates.createNow().after(startDate) and #dates.createNow().before(endDate)}">
 							<form action="/encheres/ajouter" method="post">
+							
+							
+								<input type="hidden" id="noEncherrisseur" name="noEncherrisseur"
+									th:value="${enchere.utilisateur.noUtilisateur}" />
+									
+									
 								<input type="hidden" id="noArticle" name="noArticle"
 									th:value="${article.noArticle}" /> <input type="hidden"
 									id="enchereMax" name="enchereMax" th:value="${enchere.Montant}" />
