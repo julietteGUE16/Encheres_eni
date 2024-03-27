@@ -3,6 +3,7 @@ package fr.eni.encheres.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.validation.Valid;
 
@@ -40,6 +41,7 @@ public class EncheresController {
 	private UtilisateurService utilisateurService;
 	private EnchereService enchereService;
 	private boolean errorPrice;
+	private boolean noMoney;
 
 	public EncheresController(ArticlesService articlesService, CategorieService categorieService, UtilisateurService utilisateurService,
 			EnchereService encheresService) {
@@ -210,35 +212,106 @@ public class EncheresController {
 		model.addAttribute("article", article);
 		model.addAttribute("retrait", retrait);
 		model.addAttribute("errorPrice", errorPrice);
+		model.addAttribute("noMoney", noMoney);
+		noMoney = false;
+		errorPrice = false;
 		
 		return "view-detail";
 	}
 	
 	@PostMapping("/encheres/ajouter")
 	public String ajoutVente(@RequestParam(name = "nouvelleEnchere")int nouvelleEnchereNumber, @RequestParam(name = "noArticle") int noArticle,
-			@RequestParam(name = "enchereMax")int enchereMax, @RequestParam(name = "miseAPrix") int miseAPrix, Model model) {
+			@RequestParam(name = "enchereMax")int enchereMax, @RequestParam(name = "miseAPrix") int miseAPrix, Model model
+			, @RequestParam(name = "noEncherrisseur") int noEncherrisseur) {
 		model.addAttribute("utilisateurService", utilisateurService);
-		errorPrice = false;
+		int enchereEnCours = 0;
 		if (enchereMax == 0) {
+			enchereEnCours = miseAPrix;
 			if (nouvelleEnchereNumber <= miseAPrix) {
 				errorPrice = true;
-				return "redirect:/encheres/detail?noArticle=" + noArticle;
 			}
 		} else {
+			enchereEnCours = enchereMax;
 			if (nouvelleEnchereNumber <= enchereMax) {
 				errorPrice = true;
-				return "redirect:/encheres/detail?noArticle=" + noArticle;
 			}
 		}
+		if(nouvelleEnchereNumber > utilisateurService.getUserById(getIdUser()).get().getCredit()) {
+			noMoney = true;
+		}
+		if(noMoney || errorPrice) {
+			return "redirect:/encheres/detail?noArticle=" + noArticle;
+		}
 		LocalDateTime now = LocalDateTime.now();
-		Utilisateur utilisateur = new Utilisateur();
-		utilisateur.setNoUtilisateur(getIdUser());
+		//crédité le nouvel encherisseur
+		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
+		utilisateur.setCredit(utilisateur.getCredit()-nouvelleEnchereNumber);
+		utilisateurService.updateUser(utilisateur);
+		
+
+		//recrédité l'ancien encherisseur
+		Optional<Utilisateur> encherisseur = utilisateurService.getUserById(noEncherrisseur);
+		if(encherisseur.isPresent()) {
+			Utilisateur user = encherisseur.get();
+			user.setCredit(user.getCredit()+enchereEnCours);
+			utilisateurService.updateUser(user);
+		}
+		
 		Article article = new Article();
+		//set prix vente du plus grand encherrisseur 
+		articlesService.changerPrixVente(noArticle, nouvelleEnchereNumber);
+		
+		
 		article.setNoArticle(noArticle);
 		Enchere nouvelleEnchere = new Enchere(now,nouvelleEnchereNumber, article, utilisateur);
+		
 		enchereService.creerEnchere(nouvelleEnchere);
 		return "redirect:/encheres/detail?noArticle=" + noArticle;
 	}	
+	
+	@GetMapping("/encheres/delete") 
+	public String deleteEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montantRembouse") int montantRembouse ) {
+		enchereService.deleteEnchere(no_article,getIdUser());
+		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
+		utilisateur.setCredit(utilisateur.getCredit()+montantRembouse);
+		utilisateurService.updateUser(utilisateur);
+		
+		
+		
+		//crédité l'ancien encherrisseur
+		
+		Enchere ancienneEnchere = enchereService.consulterBestEnchereByIdArticle(no_article);
+		if(ancienneEnchere != null) {
+			Optional<Utilisateur>  ancienEncherriseur = utilisateurService.getUserById(ancienneEnchere.getUtilisateur().getNoUtilisateur());
+			if(ancienEncherriseur.isPresent()) {
+				Utilisateur user = ancienEncherriseur.get();
+				user.setCredit(user.getCredit()-ancienneEnchere.getMontant());
+				utilisateurService.updateUser(user);
+				articlesService.changerPrixVente(no_article,ancienneEnchere.getMontant());
+			}else {
+				articlesService.changerPrixVente(no_article,0);
+			}
+		}
+		
+		 
+		
+		return "redirect:/encheres/detail?noArticle=" + no_article;
+		
+		}
+	
+	@GetMapping("/encheres/retrait") 
+	public String retraitEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montant") int montant ) {
+		Article article = articlesService.consulterArticleByIdArticle(no_article);
+		Optional<Utilisateur> vendeurOpt = utilisateurService.getUserById(article.getVendeur().getNoUtilisateur());
+		Utilisateur vendeur = vendeurOpt.get();
+		//on rembourse le vendeur
+		vendeur.setCredit(vendeur.getCredit()+montant);
+		utilisateurService.updateUser(vendeur);
+		//on change le prix de vente pour pouvoir ne plus afficher le retrait
+		articlesService.changerPrixVente(no_article,-1);
+		return "redirect:/encheres/detail?noArticle=" + no_article;
+	
+	}
 	
 	private int getIdUser() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();

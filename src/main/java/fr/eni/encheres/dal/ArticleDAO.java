@@ -46,4 +46,6 @@ public interface ArticleDAO {
 	List<Article> findAllArticlesByIdVendeurAyantRemporteAndCategorie(int idVendeur, int idCategorie);
 	List<Article> findAllArticlesByIdVendeurAyantRemporteAndRecherche(int idVendeur, String mot);
 	List<Article> findAllArticlesByIdVendeurAyantRemporte(int idVendeur);
+	void changerPrixVente(int noArticle, int nouvelleEnchereNumber);
+	int getPrixVente(int no_article);
 }

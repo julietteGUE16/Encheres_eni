@@ -279,5 +279,21 @@ public class ArticleDAOimpl implements ArticleDAO{
 	public List<Article> findAllArticlesByIdVendeurAyantRemporte(int idVendeur) {
 		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE, new ArticleMapper(), idVendeur);
 	}
+	
+	@Override
+	public void changerPrixVente(int noArticle, int nouvelleEnchereNumber) {
+		String sql = "UPDATE ARTICLES_VENDUS " +
+                "SET prix_vente = ? " +
+                "WHERE no_article = ?";
+		jdbcTemplate.update(sql,nouvelleEnchereNumber,noArticle);
+	}
+
+	@Override
+	public int getPrixVente(int no_article) {
+		String sql = "SELECT prix_vente " +
+                "FROM ARTICLES_VENDUS " +
+                "WHERE no_article = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, no_article) ;
+	}
 
 }

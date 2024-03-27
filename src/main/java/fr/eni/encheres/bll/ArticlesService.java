@@ -44,5 +44,7 @@ public interface ArticlesService {
 	List<Article> ConsulterArticlesByIdVendeurAyantRemporteAndCategorie(int idVendeur, int idCategorie);
 	List<Article> ConsulterArticlesByIdVendeurAyantRemporteAndRecherche(int idVendeur, String mot);
 	List<Article> ConsulterArticlesByIdVendeurAyantRemporte(int idVendeur);
+	void changerPrixVente(int noArticle, int nouvelleEnchereNumber);
+	int getPrixVente(int no_article);
 
 }

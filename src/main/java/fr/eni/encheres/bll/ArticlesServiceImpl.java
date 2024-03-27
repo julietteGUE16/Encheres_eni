@@ -163,4 +163,15 @@ public class ArticlesServiceImpl implements ArticlesService{
 	public List<Article> ConsulterArticlesByIdVendeurAyantRemporte(int idVendeur) {
 		return articleDAO.findAllArticlesByIdVendeurAyantRemporte(idVendeur);
 	}
+	
+	@Override
+	public void changerPrixVente(int noArticle, int nouvelleEnchereNumber) {
+		articleDAO.changerPrixVente(noArticle, nouvelleEnchereNumber);
+		
+	}
+
+	@Override
+	public int getPrixVente(int no_article) {
+		return articleDAO.getPrixVente(no_article);
+	}
 }
