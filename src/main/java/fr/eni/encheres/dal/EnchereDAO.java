@@ -9,4 +9,6 @@ public interface EnchereDAO {
 	void insertEnchere(Enchere enchere);
 
 	void deleteEnchere(int no_article, int idUser);
+
+	void deleteAllEnchereByArticleId(int no_article);
 }

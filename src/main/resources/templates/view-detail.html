@@ -59,7 +59,7 @@
 						sec:authorize="(hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN'))">
 						<th:block th:if="${#authentication.getPrincipal().getNoUtilisateur()} == ${enchere.utilisateur.noUtilisateur}">
 							<th:block th:if="${now.before(endDate)}">
-								<a data-th-href="@{/encheres/delete(noArticle=${article.noArticle}, montantRembouse=${enchere.Montant})}">
+								<a data-th-href="@{/encheres/delete(noArticle=${article.noArticle}, montantRembourse=${enchere.Montant})}">
 									<button>annuler votre enchere</button></a></p>
 							</th:block>
 						</th:block>
@@ -136,18 +136,31 @@
 			<br>
 			<div
 				th:with="now=${#dates.createNow()}, startDate=${new java.util.Date(article.debut.time)}, endDate=${new java.util.Date(article.fin.time)}">
-				<div th:if="${now.after(endDate) and enchere.utilisateur.pseudo ne pseudoUser}">
-				<th:block th:if="${article.prixVente != -1 && article.prixVente != 0}">
-				<a data-th-href="@{/encheres/retrait(noArticle=${article.noArticle}, montant=${enchere.Montant})}">
-						    <button>Retrait effectué </button></a>	  
-				</th:block>
-				<th:block th:if="${article.prixVente == -1}">
-				<p class="info">retrait déjà effectué</p>
-				</th:block>
-				<th:block th:if="${article.prixVente == 0}">
-				<p class="info">retrait impossible aucune offre</p>
-				</th:block>
+				<div th:if="${now.after(endDate) and article.vendeur.pseudo eq pseudoUser}">
+				
+					<th:block th:if="${article.prixVente != -1 && article.prixVente != 0}">
+					<a data-th-href="@{/encheres/retrait(noArticle=${article.noArticle}, montant=${enchere.Montant})}">
+							    <button>Retrait effectué </button></a>	  
+					</th:block>
+					
+					<th:block th:if="${article.prixVente == -1}">
+					<p class="info">retrait déjà effectué</p>
+					</th:block>
+					
+					<th:block th:if="${article.prixVente == 0}">
+					<p class="info">retrait impossible aucune offre</p>
+					</th:block>
+				</div>
+					<div th:if="${now.before(endDate) and article.vendeur.pseudo eq pseudoUser}">
+						<a data-th-href="@{/article/delete(noArticle=${article.noArticle}, montant=${enchere.Montant})}">
+						    <button>supprimer article</button></a>
+						    <br><br> 
+						<div th:if="${now.before(startDate)}">
+						<a data-th-href="@{/article/modifier(noArticle=${article.noArticle}, montant=${enchere.Montant})}">
+						    <button>modifier</button></a>	
+						</div>
 					</div>
+			
 				</div>
 			</div>
 		</div>

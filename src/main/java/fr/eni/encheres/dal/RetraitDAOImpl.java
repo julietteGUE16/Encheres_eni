@@ -15,6 +15,8 @@ public class RetraitDAOImpl implements RetraitDAO{
 	
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     
     @Override
@@ -27,6 +29,14 @@ public class RetraitDAOImpl implements RetraitDAO{
 		
 		return namedParameterJdbcTemplate.update(INSERT_RETRAIT, namedParameters);
 		
+		
+	}
+
+
+	@Override
+	public void deleteByArticleId(int no_article) {
+		String sql = "DELETE FROM RETRAITS WHERE no_article = ?";
+		jdbcTemplate.update(sql, no_article);
 		
 	}
 }

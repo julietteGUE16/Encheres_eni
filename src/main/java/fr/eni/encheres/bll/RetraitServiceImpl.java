@@ -22,5 +22,11 @@ public class RetraitServiceImpl implements RetraitService{
 	public Object creerRetrait(Retrait retrait) {
 		return retraitDAO.ajoutRetrait(retrait);
 	}
+
+	@Override
+	public void deleteByArticleId(int no_article) {
+		retraitDAO.deleteByArticleId(no_article);
+		
+	}
 	
 }

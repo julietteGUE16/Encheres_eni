@@ -69,6 +69,8 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
 	@Override
 	public void deleteUser(int idUser) {
+		//todo : 
+		//
 		String sql = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
 		jdbcTemplate.update(sql, idUser);
 		

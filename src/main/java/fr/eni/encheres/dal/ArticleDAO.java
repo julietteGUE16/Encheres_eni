@@ -48,4 +48,6 @@ public interface ArticleDAO {
 	List<Article> findAllArticlesByIdVendeurAyantRemporte(int idVendeur);
 	void changerPrixVente(int noArticle, int nouvelleEnchereNumber);
 	int getPrixVente(int no_article);
+
+	void deleteArticleById(int no_article);
 }

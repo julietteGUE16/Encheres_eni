@@ -41,6 +41,9 @@ public class EnchereRepositoryImpl implements EnchereDAO {
             "    AND no_utilisateur = ? " +
             ")";
 	
+	private final String DELETE_ALL_ENCHERE = "DELETE FROM ENCHERES " +
+            "WHERE no_article = ? ";
+	
 	private final String INSERT_ENCHERE = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) "
 			+ "VALUES (:no_utilisateur, :no_article, :date_enchere, :montant_enchere)";
 	@Autowired
@@ -68,6 +71,12 @@ public class EnchereRepositoryImpl implements EnchereDAO {
 	@Override
 	public void deleteEnchere(int no_article, int idUser) {
 		jdbcTemplate.update(DELETE_ENCHERE, no_article,idUser,no_article,idUser);
+	}
+
+	@Override
+	public void deleteAllEnchereByArticleId(int no_article) {
+		jdbcTemplate.update(DELETE_ALL_ENCHERE, no_article);
+		
 	}
 
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import fr.eni.encheres.bll.ArticlesService;
 import fr.eni.encheres.bll.CategorieService;
 import fr.eni.encheres.bll.EnchereService;
+import fr.eni.encheres.bll.RetraitService;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
@@ -40,12 +41,14 @@ public class EncheresController {
 	private CategorieService categorieService;
 	private UtilisateurService utilisateurService;
 	private EnchereService enchereService;
+	private RetraitService retraitService;
 	private boolean errorPrice;
 	private boolean noMoney;
 
 	public EncheresController(ArticlesService articlesService, CategorieService categorieService, UtilisateurService utilisateurService,
-			EnchereService encheresService) {
+			EnchereService encheresService, RetraitService retraitService) {
 		this.articlesService = articlesService;
+		this.retraitService = retraitService;
 		this.categorieService = categorieService;
 		this.utilisateurService = utilisateurService;
 		this.enchereService = encheresService;
@@ -224,6 +227,12 @@ public class EncheresController {
 			, @RequestParam(name = "noEncherrisseur") int noEncherrisseur) {
 		model.addAttribute("utilisateurService", utilisateurService);
 		int enchereEnCours = 0;
+		//vérifier en base si un autre user à changer la valeur entre temps
+		Enchere enchere = enchereService.consulterBestEnchereByIdArticle(noArticle);
+		if(enchere != null) {
+			enchereMax = enchere.getMontant();
+		}
+		
 		if (enchereMax == 0) {
 			enchereEnCours = miseAPrix;
 			if (nouvelleEnchereNumber <= miseAPrix) {
@@ -269,13 +278,11 @@ public class EncheresController {
 	}	
 	
 	@GetMapping("/encheres/delete") 
-	public String deleteEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montantRembouse") int montantRembouse ) {
+	public String deleteEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montantRembourse") int montantRembourse ) {
 		enchereService.deleteEnchere(no_article,getIdUser());
 		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
-		utilisateur.setCredit(utilisateur.getCredit()+montantRembouse);
+		utilisateur.setCredit(utilisateur.getCredit()+montantRembourse);
 		utilisateurService.updateUser(utilisateur);
-		
-		
 		
 		//crédité l'ancien encherrisseur
 		
@@ -295,8 +302,26 @@ public class EncheresController {
 		 
 		
 		return "redirect:/encheres/detail?noArticle=" + no_article;
-		
+			
 		}
+	
+	
+	@GetMapping("/article/delete")
+	public String deleteArticle(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montant") int montant ) {
+		//rembourser best enchere
+		Enchere bestEnchere = enchereService.consulterBestEnchereByIdArticle(no_article);
+		if(bestEnchere != null) {
+			Optional<Utilisateur>  bestEncherriseur = utilisateurService.getUserById(bestEnchere.getUtilisateur().getNoUtilisateur());
+			if(bestEncherriseur.isPresent()) {
+				Utilisateur user = bestEncherriseur.get();
+				user.setCredit(user.getCredit()+ montant);
+				utilisateurService.updateUser(user);
+			}
+		}
+		//delete article (un retrait et les enchères
+		articlesService.deleteArticleById(no_article);
+		return "redirect:/encheres";
+	}
 	
 	@GetMapping("/encheres/retrait") 
 	public String retraitEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montant") int montant ) {

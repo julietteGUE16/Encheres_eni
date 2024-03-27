@@ -5,11 +5,14 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleDAO;
+import fr.eni.encheres.dal.EnchereDAO;
+import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.exceptions.BusinessException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
@@ -20,9 +23,13 @@ public class ArticlesServiceImpl implements ArticlesService{
 	
 	@Autowired
     private ArticleDAO articleDAO;
+	private RetraitDAO retraitDAO;
+	private EnchereDAO enchereDAO;
 
-    public ArticlesServiceImpl(ArticleDAO articleDAO) {
+    public ArticlesServiceImpl(ArticleDAO articleDAO, RetraitDAO retraitDAO, EnchereDAO enchereDAO) {
         this.articleDAO = articleDAO;
+        this.retraitDAO = retraitDAO;
+        this.enchereDAO = enchereDAO;
     }
 
 	@Override
@@ -173,5 +180,16 @@ public class ArticlesServiceImpl implements ArticlesService{
 	@Override
 	public int getPrixVente(int no_article) {
 		return articleDAO.getPrixVente(no_article);
+	}
+
+	@Override
+	@Transactional
+	public void deleteArticleById(int no_article) {
+		//supression d'un retrait puis des encheres et des articles
+		retraitDAO.deleteByArticleId(no_article);
+		enchereDAO.deleteAllEnchereByArticleId(no_article);
+		articleDAO.deleteArticleById(no_article);
+		
+		
 	}
 }

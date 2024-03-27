@@ -47,4 +47,6 @@ public interface ArticlesService {
 	void changerPrixVente(int noArticle, int nouvelleEnchereNumber);
 	int getPrixVente(int no_article);
 
+	void deleteArticleById(int no_article);
+
 }
