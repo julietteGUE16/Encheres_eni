@@ -52,6 +52,7 @@ public class profilController {
 	 */
 	@GetMapping("/profil")
 	public String afficherProfil(Model modele) throws UserNotFound {
+		modele.addAttribute("utilisateurService", utilisateurService);
 		Optional<Utilisateur> user = Optional.empty();
 		user = utilisateurService.getUserById(getIdUser());
 		modele.addAttribute("user", user.get());
@@ -61,6 +62,7 @@ public class profilController {
 
 	@GetMapping("/profilOther")
 	public String afficherProfilOther(@RequestParam(name = "noUtilisateur") int noUtilisateur, Model modele) throws UserNotFound {
+		modele.addAttribute("utilisateurService", utilisateurService);
 		Optional<Utilisateur> user = Optional.empty();
 		user = utilisateurService.getUserById(noUtilisateur); 
 		modele.addAttribute("user", user.get());
@@ -70,6 +72,7 @@ public class profilController {
 
 	@GetMapping("/modifierProfil")
 	public String afficherModifierProfil(Model modele) throws UserNotFound {
+		modele.addAttribute("utilisateurService", utilisateurService);
 		Optional<Utilisateur> user = Optional.empty();
 		user = utilisateurService.getUserById(getIdUser());
 		modele.addAttribute("user", user.get());
@@ -83,6 +86,7 @@ public class profilController {
 	public String validerModifProfil(@Valid @ModelAttribute("user") Utilisateur user, BindingResult result,
 			RedirectAttributes redirectAttributes, @RequestParam String ancienMdp, @RequestParam String nouveauMdp,
 			@RequestParam String confirmationMdp, Model modele) {
+		modele.addAttribute("utilisateurService", utilisateurService);
 		pswBlank = oldPswWrong = pswNotTheSame = passwordTooShort = emailExists = false;
 		modele.addAttribute("pswBlank", false);
 		modele.addAttribute("oldPswWrong", false);
@@ -195,16 +199,35 @@ public class profilController {
 
 
 	}
-
+	
+	
+	
+	@GetMapping("/crediter")
+	public String crediterAccount(Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
+		return "credite";
+	}
+	
+	@PostMapping("/crediterAccount")
+	public String crediterAccount(@RequestParam int credit, Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
+		Utilisateur user = utilisateurService.getUserById(getIdUser()).get();
+		user.setCredit(user.getCredit() + credit);
+		utilisateurService.updateUser(user);
+		return "redirect:/profil";
+	}
+	
 	
 
 	@GetMapping("/resetPassword")
-	public String resetPassword() {
+	public String resetPassword(Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		return "resetPassword";
 	}
 	
 	@GetMapping("/newPassword")
 	public String newPassword(Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		String email = emailForReset;
 		model.addAttribute("email", email);
 		emailForReset = "";
@@ -213,6 +236,7 @@ public class profilController {
 	
 	@PostMapping("/newPasswordValid")
 	public String newPasswordForm(Model modele, @RequestParam String email, @RequestParam String mdp, @RequestParam String mdpConfirm) {
+		modele.addAttribute("utilisateurService", utilisateurService);
 		modele.addAttribute("mdpError", false);
 		modele.addAttribute("mdpOk", false);
 		if(mdp.length()>=5 && mdp.equals(mdpConfirm)) {
@@ -229,6 +253,7 @@ public class profilController {
 
 	@PostMapping("/resetPasswordValid")
 	public String resetPasswordForm(Model modele, @RequestParam String email) {
+		modele.addAttribute("utilisateurService", utilisateurService);
 		int emailExiste = utilisateurService.findEmail(email);
 		if (!email.isBlank() && email.contains("@")) {
 			if(emailExiste > 0) {
@@ -249,7 +274,8 @@ public class profilController {
 	}
 
 	@GetMapping("/deleteProfil")
-	public String deleteProfil() {
+	public String deleteProfil(Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		utilisateurService.deleteUser(getIdUser());
 
 		return "redirect:/logout";

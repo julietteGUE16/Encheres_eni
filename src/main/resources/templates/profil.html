@@ -46,10 +46,15 @@
 					</p>
 				</div>
 			</div>
+			<br>
 				<th:block sec:authorize="hasRole('ROLE_MEMBRE')">
 					<th:block th:if="${user.noUtilisateur == userSession}">
 					    <a href="/modifierProfil">
 					        <button>MODIFIER</button>
+					    </a>
+					    <br><br>
+					    <a href="/crediter">
+					        <button>CREDITER</button>
 					    </a>
 					</th:block>
 				</th:block>

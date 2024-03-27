@@ -38,6 +38,10 @@ public class UtilisateurDetails implements UserDetails{
 	    public String getPassword() {
 	        return user.getMotDePasse();
 	    }
+	  
+	  public int getNoUtilisateur() {
+			return user.getNoUtilisateur();
+		}
 
 	@Override
 	public String getUsername() {

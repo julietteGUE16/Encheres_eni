@@ -9,7 +9,7 @@ public interface UtilisateurService {
 	
 	public abstract Optional<Utilisateur> getUserById(int id);
 
-	public abstract void updateUser(@Valid Utilisateur user); 
+	public abstract void updateUser(Utilisateur user); 
 	
 	public abstract String getUserPasswordById(int id);
 

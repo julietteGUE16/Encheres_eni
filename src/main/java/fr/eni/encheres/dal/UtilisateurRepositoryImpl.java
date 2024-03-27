@@ -36,11 +36,12 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
 	@Override
 	public void updateUser(Utilisateur user) {
+		System.out.println("mot de passe = "+ user.getMotDePasse());
 		 String sql = "UPDATE utilisateurs SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?,"
-				 		+ "rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur = ?";
+				 		+ "rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? , credit = ? WHERE no_utilisateur = ?";
 
 		    jdbcTemplate.update(sql,user.getPseudo(),user.getNom(),user.getPrenom(),user.getEmail(),user.getTelephone(),
-		    		user.getRue(),user.getCodePostal(),user.getVille(),user.getMotDePasse(),user.getNoUtilisateur());
+		    		user.getRue(),user.getCodePostal(),user.getVille(),user.getMotDePasse(),user.getCredit(), user.getNoUtilisateur());
 		
 	}
 

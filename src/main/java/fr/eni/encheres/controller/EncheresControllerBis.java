@@ -63,6 +63,7 @@ public class EncheresControllerBis {
 	@GetMapping("/ajout-vente")
 	public String pageAjoutVente(Model model, 
 			@ModelAttribute("userSession") Utilisateur userSession) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		//Si l'user est connecté
 		//if(userSession != null && userSession.getNoUtilisateur() >= 1) {
 			//Instanciation du formulaire 
@@ -81,6 +82,7 @@ public class EncheresControllerBis {
 	
 	@RequestMapping(value="/ajout-vente", method = RequestMethod.POST, params = "cancel")
 	public String annuler(@Valid @ModelAttribute("article") Article article, BindingResult result, Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		model.addAttribute("message", "Redirection...");
 		return "view-encheres";
 	}
@@ -88,6 +90,7 @@ public class EncheresControllerBis {
 	
 	@PostMapping("/ajout-vente-valider")
 	public String ajoutVente(@Valid @ModelAttribute("article") Article article, @ModelAttribute("retrait") Retrait retrait, BindingResult result, Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		if (result.hasErrors()) {
 			model.addAttribute("article", article);
 			model.addAttribute("retrait",  retrait);

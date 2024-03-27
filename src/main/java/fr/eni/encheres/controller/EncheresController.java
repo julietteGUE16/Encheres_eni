@@ -53,6 +53,7 @@ public class EncheresController {
 	public String afficherArticles(Model model) {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String name = authentication.getName();
+		model.addAttribute("utilisateurService", utilisateurService);
 		if (name.equals("anonymousUser")) {
 			List<Article> articles = articlesService.consulterArticles();
 			model.addAttribute("articles", articles);
@@ -75,6 +76,7 @@ public class EncheresController {
 			@RequestParam(name = "encheresOuvertes", required = false) boolean ouvertes,
 			@RequestParam(name = "enchèresEnCours", required = false) boolean achatsEnCours,
 			@RequestParam(name = "enchèresRemportées", required = false) boolean remportees, Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("categories", categories);
 		
@@ -183,6 +185,7 @@ public class EncheresController {
 
 	@GetMapping("/encheres/detail")
 	public String AfficherUnArticle(@RequestParam(name = "noArticle") int no_article, Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String name = authentication.getName();
 		model.addAttribute("pseudoUser", name); 
@@ -200,6 +203,7 @@ public class EncheresController {
 	@PostMapping("/encheres/ajouter")
 	public String ajoutVente(@RequestParam(name = "nouvelleEnchere")int nouvelleEnchereNumber, @RequestParam(name = "noArticle") int noArticle,
 			@RequestParam(name = "enchereMax")int enchereMax, @RequestParam(name = "miseAPrix") int miseAPrix, Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		errorPrice = false;
 		if (enchereMax == 0) {
 			if (nouvelleEnchereNumber <= miseAPrix) {
