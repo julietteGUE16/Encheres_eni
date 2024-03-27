@@ -64,7 +64,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 			.authorizeHttpRequests((requests) -> requests
 
 
-				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","/register","/registerValid" ,"/**","/resetPasswordValid","/resetPassword","ajout-vente", "/encheres/*", "/encheresParCategorieEtNom").permitAll()
+				.requestMatchers("/css/**","/images/**","/", "/encheres","/logout","/register","/registerValid","register" ,"/**","/resetPasswordValid","/resetPassword","ajout-vente", "/encheres/*", "/encheresParCategorieEtNom").permitAll()
 
 				.requestMatchers("/profil","/modifierProfil","ajout-vente","ajout").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
 				.anyRequest().authenticated()
