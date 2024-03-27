@@ -21,6 +21,15 @@ function minFinDate() {
     		
     		document.getElementsByName("fin")[0].removeAttribute("disabled");
 	   		var maxDate = new Date(dateEntered.setDate(dateEntered.getDate() + 1)).toISOString().split("T")[0];
+    	});	
+    	
+    	document.getElementById("debut").addEventListener("unload", function() {
+   			var input = this.value;
+    		var dateEntered = new Date(input);
+    		console.log("date debut = " + input);
+    		
+    		document.getElementsByName("fin")[0].removeAttribute("disabled");
+	   		var maxDate = new Date(dateEntered.setDate(dateEntered.getDate() + 1)).toISOString().split("T")[0];
 	    	document.getElementsByName("fin")[0].setAttribute("min", maxDate);
     	});		
 };

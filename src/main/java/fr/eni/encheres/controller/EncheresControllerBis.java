@@ -76,6 +76,7 @@ public class EncheresControllerBis {
 			
 			Optional<Utilisateur> user = Optional.empty();
 			user = utilisateurService.getUserById(getIdUser());
+			
 			model.addAttribute("user", user.get());
 			
 			model.addAttribute("categories", categorieService.consulterCategories());
@@ -84,28 +85,26 @@ public class EncheresControllerBis {
 		return "ajoutVente";*/
 	}
 	
-	@RequestMapping(value="/ajout-vente", method = RequestMethod.POST, params = "cancel")
-	public String annuler(@Valid @ModelAttribute("article") Article article, BindingResult result, Model model) {
-		model.addAttribute("message", "Redirection...");
-		return "view-encheres";
-	}
+	
 	
 	
 	@PostMapping("/ajout-vente-valider")
-	public String ajoutVente(@Valid @ModelAttribute("article") Article article, @RequestParam String rue,
-			@RequestParam String code_postal, @RequestParam String ville,
-			 BindingResult result, Model model) {
+	public String ajoutVente(@Valid @ModelAttribute("article") Article article, BindingResult result, @RequestParam String rue,
+			@RequestParam String code_postal, @RequestParam String ville
+			 , Model model) {
 		System.out.println("rue = " + rue);
+		
 	
 		if (result.hasErrors()) {
 			/*model.addAttribute("article", article);
+			model.addAttribute("categories", categorieService.consulterCategories());*/
+			Optional<Utilisateur> user = Optional.empty();
+			user = utilisateurService.getUserById(getIdUser());
+			
+			model.addAttribute("user", user.get());
 			
 			model.addAttribute("categories", categorieService.consulterCategories());
 			
-			model.addAttribute("rue", retrait.getRue());
-			model.addAttribute("code_postal", retrait.getCodePostal());
-			model.addAttribute("ville", retrait.getVille());
-			System.out.println("rue = " + retrait.getRue());*/
 			model.addAttribute("errorResult", result);
 			return "ajoutVente";
 		}
@@ -118,7 +117,30 @@ public class EncheresControllerBis {
 		
 		return "redirect:/encheres";
 	}
+
+	@GetMapping("/modifier-vente") 
+	public String pageModifierVente(@Valid @ModelAttribute("article") Article article, BindingResult result, @RequestParam String rue,
+			@RequestParam String code_postal, @RequestParam String ville
+			 , Model model) {
+		
+		model.addAttribute(article);
+		
+		model.addAttribute("noArticle", article.getNoArticle());
+		model.addAttribute("nom_article", article.getNom());
+		model.addAttribute("description", article.getDescription());
+		model.addAttribute("miseAprix", article.getMiseAPrix());
+		
+		return "modifierVente";
+		
+	}
 	
+	
+	
+	@PostMapping("/supprimer-vente")
+	public String supprimerVente() {
+		
+		return "redirect:/encheres";
+	}
 
 	
 
