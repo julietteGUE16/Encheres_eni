@@ -164,16 +164,19 @@ public class ArticleDAOimpl implements ArticleDAO{
 		namedParameters.addValue("id_utilisateur", article.getVendeur().getNoUtilisateur());
 		namedParameters.addValue("id_categorie", article.getCategorie().getNoCategorie());
 		
-		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-		namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters, keyHolder);
-		Number newPrimaryKey = keyHolder.getKey();
-		int idGenere  = 0;
-		if(newPrimaryKey != null) {
-			idGenere = newPrimaryKey.intValue();
-			
-		}
+		 KeyHolder keyHolder = new GeneratedKeyHolder();
+		    namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters, keyHolder);
 
-		return idGenere;
+		    Map<String, Object> keys = keyHolder.getKeys();
+		    if (keys != null && !keys.isEmpty()) {
+		        Number newPrimaryKey = (Number) keys.get("no_article");
+		        if (newPrimaryKey != null) {
+		            return newPrimaryKey.intValue();
+		        }
+		    }
+
+		  
+		    return 0;
 	}
 
 	@Override
