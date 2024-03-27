@@ -31,6 +31,16 @@ public class EnchereRepositoryImpl implements EnchereDAO {
 			+ "AND (e.montant_enchere IS NULL OR e.montant_enchere = (SELECT MAX(montant_enchere) " + "FROM ENCHERES "
 			+ "WHERE no_article = a.no_article))";
 	
+	private final String DELETE_ENCHERE = "DELETE FROM ENCHERES " +
+            "WHERE no_article = ? " +
+            "AND no_utilisateur = ? " +
+            "AND date_enchere = ( " +
+            "    SELECT MAX(date_enchere) " +
+            "    FROM ENCHERES " +
+            "    WHERE no_article = ? " +
+            "    AND no_utilisateur = ? " +
+            ")";
+	
 	private final String INSERT_ENCHERE = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) "
 			+ "VALUES (:no_utilisateur, :no_article, :date_enchere, :montant_enchere)";
 	@Autowired
@@ -53,6 +63,11 @@ public class EnchereRepositoryImpl implements EnchereDAO {
 		namedParameters.addValue("montant_enchere", enchere.getMontant());
 		System.out.println(namedParameters);
 		namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters);
+	}
+
+	@Override
+	public void deleteEnchere(int no_article, int idUser) {
+		jdbcTemplate.update(DELETE_ENCHERE, no_article,idUser,no_article,idUser);
 	}
 
 }

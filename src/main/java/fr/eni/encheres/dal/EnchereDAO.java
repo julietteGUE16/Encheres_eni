@@ -7,4 +7,6 @@ public interface EnchereDAO {
 	Enchere findBestEnchereByIdArticle(int no_article);
 
 	void insertEnchere(Enchere enchere);
+
+	void deleteEnchere(int no_article, int idUser);
 }

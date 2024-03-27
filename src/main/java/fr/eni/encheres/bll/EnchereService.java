@@ -8,4 +8,6 @@ public interface EnchereService {
 	
 	void creerEnchere(Enchere enchere);
 
+	void deleteEnchere(int no_article, int i);
+
 }

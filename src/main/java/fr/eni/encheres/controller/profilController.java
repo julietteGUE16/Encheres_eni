@@ -123,7 +123,6 @@ public class profilController {
 
 		}
 		
-		System.out.println("emailExists = "+emailExists);
 		if (!result.hasErrors() && !pswBlank && !oldPswWrong && !pswNotTheSame && !passwordTooShort && !emailExists) {
 			if (!nouveauMdp.isEmpty()) {
 				mdp = nouveauMdp;

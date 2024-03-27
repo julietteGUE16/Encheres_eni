@@ -181,7 +181,6 @@ public class EncheresController {
 		if (nom.trim() == "" && id == -1 && enCours == false && nonDebutee == false && terminee == false && ouvertes == false && achatsEnCours == false && remportees == false) {
 			return "redirect:/encheres";
 		}
-		System.out.println("id: " + id + " nom: " + nom + " enCours: " + enCours + " nonDebutee: " + nonDebutee + " terminee: " + terminee);
 		return "view-encheres";
 	}
 
@@ -245,12 +244,25 @@ public class EncheresController {
 		}
 		
 		Article article = new Article();
+		//set prix vente du plus grand encherrisseur 
 		article.setNoArticle(noArticle);
 		Enchere nouvelleEnchere = new Enchere(now,nouvelleEnchereNumber, article, utilisateur);
 		
 		enchereService.creerEnchere(nouvelleEnchere);
 		return "redirect:/encheres/detail?noArticle=" + noArticle;
 	}	
+	
+	@GetMapping("/encheres/delete") 
+	public String deleteEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montantRembouse") int montantRembouse ) {
+		enchereService.deleteEnchere(no_article,getIdUser());
+		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
+		utilisateur.setNoUtilisateur(getIdUser());
+		utilisateur.setCredit(utilisateur.getCredit()+montantRembouse);
+		utilisateurService.updateUser(utilisateur);
+		return "redirect:/encheres/detail?noArticle=" + no_article;
+	}
+		
+	
 	
 	private int getIdUser() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();

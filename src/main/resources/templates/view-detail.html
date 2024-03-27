@@ -23,8 +23,10 @@
 						<h1>Vous avez remporté cette enchère</h1>
 					</div>
 					<div th:if="${now.after(endDate) and enchere.utilisateur.pseudo ne pseudoUser}">
-						<h1>Enchère remportée par</h1><span
-						th:text="${enchere.utilisateur.pseudo}">MeilleureOffre</span>
+						<h1>
+						    <span>Enchère remportée par </span>
+						    <span th:text="${enchere.utilisateur.pseudo}">MeilleureOffre</span>
+						</h1>
 					</div>
 					<div th:if="${now.before(endDate) and now.after(startDate)}">
 						<h1>Détail du produit</h1>
@@ -46,7 +48,14 @@
 				<p>
 					<strong>Meilleure offre:</strong> <span
 						th:text="${enchere.Montant} + ' € (' + ${enchere.utilisateur.pseudo} + ')'">MeilleureOffre</span>
-				</p>
+						
+						<th:block
+						sec:authorize="(hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN'))">
+						<th:block th:if="${#authentication.getPrincipal().getNoUtilisateur()} == ${enchere.utilisateur.noUtilisateur}">
+							<a data-th-href="@{/encheres/delete(noArticle=${article.noArticle}, montantRembouse=${enchere.Montant})}">
+								<button>annuler votre enchere</button></a></p>
+						</th:block>
+					</th:block>
 				<th:block
 					sec:authorize="not (hasRole('ROLE_MEMBRE') or hasRole('ROLE_ADMIN'))">
 					<p class="info">Connectez-vous pour enchérir !</p>
@@ -111,9 +120,18 @@
 							th:unless="${#dates.createNow().after(startDate) and #dates.createNow().before(endDate)}">
 							<p class="info">La date ne vous permet pas d'enchérir !</p>
 						</div>
+					
 					</div>
 				</th:block>
 			</th:block>
+			<br>
+			<div
+				th:with="now=${#dates.createNow()}, startDate=${new java.util.Date(article.debut.time)}, endDate=${new java.util.Date(article.fin.time)}">
+				<div th:if="${now.after(endDate) and enchere.utilisateur.pseudo ne pseudoUser}">
+						    <button>Retrait effectué </button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</main>
 </body>

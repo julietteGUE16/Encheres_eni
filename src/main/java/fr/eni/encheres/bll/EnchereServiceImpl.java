@@ -23,4 +23,10 @@ public class EnchereServiceImpl implements EnchereService{
 	public void creerEnchere(Enchere enchere) {
 		encheredao.insertEnchere(enchere);
 	}
+
+	@Override
+	public void deleteEnchere(int no_article, int idUser) {
+		encheredao.deleteEnchere(no_article, idUser);
+		
+	}
 }
