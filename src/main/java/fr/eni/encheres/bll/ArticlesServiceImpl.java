@@ -31,8 +31,8 @@ public class ArticlesServiceImpl implements ArticlesService{
 	}
 	
 	@Override
-	public void creerArticle(Article article){
-		articleDAO.ajoutArticle(article);		
+	public int creerArticle(Article article){
+		return articleDAO.ajoutArticle(article);		
 	}
 	
 	@Override

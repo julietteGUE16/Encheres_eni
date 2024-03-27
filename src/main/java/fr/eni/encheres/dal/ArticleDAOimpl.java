@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
  
 import fr.eni.encheres.bll.ArticlesService;
@@ -140,11 +141,7 @@ public class ArticleDAOimpl implements ArticleDAO{
 	
 	
 	@Override
-		public void ajoutArticle(Article article) {
-		
-		System.out.println("on passe dans la dal");
-		System.out.println("vendeur = " + article.getVendeur().getNoUtilisateur());
-		System.out.println("cat = " + article.getCategorie().getNoCategorie());
+		public int ajoutArticle(Article article) {
 			var namedParameters = new MapSqlParameterSource();
 			namedParameters.addValue("nom_article", article.getNom());
 			namedParameters.addValue("description", article.getDescription());
@@ -154,7 +151,17 @@ public class ArticleDAOimpl implements ArticleDAO{
 			namedParameters.addValue("prix_vente", article.getPrixVente());
 			namedParameters.addValue("id_utilisateur", article.getVendeur().getNoUtilisateur());
 			namedParameters.addValue("id_categorie", article.getCategorie().getNoCategorie());
-			namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters);
+			
+			GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+			namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters, keyHolder);
+			Number newPrimaryKey = keyHolder.getKey();
+			int idGenere  = 0;
+			if(newPrimaryKey != null) {
+				idGenere = newPrimaryKey.intValue();
+				
+			}
+
+			return idGenere;
 		}
 
 	@Override
