@@ -9,7 +9,7 @@ import fr.eni.encheres.bo.Retrait;
 public interface ArticlesService {
 	List<Article> consulterArticles();
 	
-	void creerArticle(Article article);
+	int creerArticle(Article article);
 
 	List<Article> consulterArticlesByCategorie(int idCategorie);
 	List<Article> consulterArticlesByNomArticle(String nomArticle);

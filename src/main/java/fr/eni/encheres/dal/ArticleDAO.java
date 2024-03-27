@@ -11,7 +11,7 @@ import fr.eni.encheres.bo.Retrait;
 public interface ArticleDAO {
 	List<Article> findAll();
 	
-	void ajoutArticle(Article article);
+	int ajoutArticle(Article article);
 	
 	List<Article> findAllByCategorie(int idCategorie);
 	List<Article> findAllByNomArticle(String nomArticle);
