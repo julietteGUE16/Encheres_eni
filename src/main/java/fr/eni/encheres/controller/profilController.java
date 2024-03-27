@@ -126,9 +126,11 @@ public class profilController {
 		if (!result.hasErrors() && !pswBlank && !oldPswWrong && !pswNotTheSame && !passwordTooShort && !emailExists) {
 			if (!nouveauMdp.isEmpty()) {
 				mdp = nouveauMdp;
+				String motDePasseCrypte = passwordEncoder.encode(mdp);
+				user.setMotDePasse(motDePasseCrypte);
+			}else {
+				user.setMotDePasse(utilisateurService.getUserById(getIdUser()).get().getMotDePasse());
 			}
-			String motDePasseCrypte = passwordEncoder.encode(mdp);
-			user.setMotDePasse(motDePasseCrypte);
 			utilisateurService.updateUser(user);
 			return "redirect:/profil";
 		}
