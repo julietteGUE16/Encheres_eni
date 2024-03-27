@@ -3,14 +3,6 @@ package fr.eni.encheres.bo;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
 /*
  * class objet de 
  * Un ....
@@ -18,26 +10,16 @@ import jakarta.validation.constraints.NotNull;
  * */
 public class Article {
 	private int noArticle;
-	
-	@NotBlank(message = "Le nom de l'article ne peut pas être vide")
-	
 	private String nom;
-	
-	@NotBlank(message = "La description ne peut pas être vide")
 	private String description;
-	
 	private Date debut;
-	
 	private Date fin;
 	private int miseAPrix;
 	private int prixVente;
 	private Utilisateur vendeur;
-//	private Utilisateur Acheteur;
-	
 	private Categorie categorie;
 	
 	public Article() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	
@@ -130,7 +112,6 @@ public class Article {
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
-
 }
 
 

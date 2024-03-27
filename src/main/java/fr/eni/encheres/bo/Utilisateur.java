@@ -23,6 +23,7 @@ public class Utilisateur {
 	
 	private int noUtilisateur;
 	@NotBlank(message = "Le pseudo ne peut pas être vide")
+	@Pattern(regexp = "[a-zA-Z0-9]+", message = "autorisé : (a-z, A-Z, 0-9)")
 	private String pseudo;
 	@NotBlank(message = "Le nom ne peut pas être vide")
 	private String nom;
@@ -86,6 +87,21 @@ public class Utilisateur {
 		this.prenom = prenom;
 		this.email = email;
 		this.telephone = telephone;
+	}
+	
+
+	public Utilisateur(int noUtilisateur,String pseudo, String nom, String prenom, String email, String telephone) {
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+		this.noUtilisateur = noUtilisateur;
+	}
+
+
+	public Utilisateur(String pseudo) {
+		this.pseudo = pseudo;
 	}
 
 

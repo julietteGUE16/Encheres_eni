@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="design.css">
@@ -28,7 +29,8 @@
 
 			</div>
 			<div class="container-value">
-				<input class="element" type="text" th:field="*{pseudo}" id="pseudo">
+				<input class="elementPseudo" type="hidden" th:field="*{pseudo}" id="pseudo">
+				<p class="element" type="text" th:text="*{pseudo}" id="pseudo">*{pseudo}</p>
 				<div class="error-message">
 					<p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}"
 						class="erreur">Erreur de validation</p>
@@ -61,6 +63,7 @@
 				<input class="element" type="password" id="nouveauMdp" name="nouveauMdp">
 				<div class="error-message">
 	      			<p th:if="${pswBlank}" >Les cases nouveau, ancien et confirmation doivent être complétées</p>	
+	      				<p th:if="${passwordTooShort}">le mot de passe doit faire minimum 5 caractères</p>
 	    		</div>
 			</div>
 
@@ -82,6 +85,7 @@
 				<div class="error-message">
 					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
 						class="erreur">Erreur de validation</p>
+						<p th:if="${emailExists}">l'email est déjà utilisé</p>
 				</div>
 				<input class="element" type="text" th:field="*{rue}" id="rue">
 				<div class="error-message">
@@ -105,13 +109,17 @@
 		<div>
 			<!-- <div class="bouton" sec:authorize="hasRole('ROLE_USER')">  -->
 			<!-- todo : role user et user.getId == sessionUser.getId -->
-			<button>VALIDER</button>
+			<button>ENREGISTRER</button>
 		</div>
 	</form>
 	<br>
 	<div class="bouton">
 		<a href="/profil">
 			<button>RETOUR</button>
+		</a>
+		<div class="boutonDeleteContainer">
+		<a href="/deleteProfil">
+			<button  class="boutonDelete">DELETE ACCOUNT</button>
 		</a>
 	</div>
 

@@ -38,6 +38,38 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	public Optional<Utilisateur> findUtilisateurByPseudo(String pseudo) {
 		return utilisateurRepository.findUtilisateurByPseudo(pseudo);
 	}
+
+	@Override
+	public void deleteUser(int idUser) {
+		utilisateurRepository.deleteUser(idUser);
+		
+	}
+
+	@Override
+	public boolean pseudoExisteDeja(String pseudo) {
+		return utilisateurRepository.pseudoExisteDeja(pseudo);
+	}
+
+	@Override
+	public void save(Utilisateur utilisateur) {
+		utilisateurRepository.save(utilisateur);
+		
+	}
+
+	@Override
+	public boolean emailExisteDeja(String email, int id) {
+		return utilisateurRepository.emailExisteDeja(email, id);
+	}
+
+	@Override
+	public Utilisateur findUtilisateurByEmail(String email) {
+		return utilisateurRepository.findUtilisateurByEmail(email);
+	}
+
+	@Override
+	public int findEmail(String email) {
+		return utilisateurRepository.findEmail(email);
+	}
 	
 
 

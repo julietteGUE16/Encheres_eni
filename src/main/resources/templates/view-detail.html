@@ -6,7 +6,7 @@
 					ressourcesSupp=~{:: #ressources-css})}">
 
 <head>
-<title>Articles</title>
+<title>Detail</title>
 <th:block id="ressources-css">
 	<link rel="stylesheet" data-th-href="@{/css/tp-detail.css}">
 </th:block>
@@ -14,29 +14,73 @@
 </head>
 <body>
 	<main>
-	<div class="cards">
-			<div class="cardDetail">
+		<div class="cardDetail">
 			<h1>Détail du produit</h1>
-				<h2 th:text="${article.nom}">Nom Article</h2>
-				<p>
-					<strong>Description:</strong> <span th:text="${article.description}">Description</span>
-				</p>
-				<p>
-					<strong>Prix:</strong> <span th:text="${article.miseAprix} + ' €'">Prix</span>
-				</p>
-				<p>
-					<strong>Fin de l'enchère:</strong> <span th:text="${article.fin}">Fin</span>
-				</p>
-				<p>
-					<strong>Vendeur:</strong> <span th:text="${article.vendeur.pseudo}">Vendeur</span>
-				</p>
-				<p>
-					<strong>Retrait:</strong> <span th:text="${retrait.rue} + '  ' + ${retrait.codePostal} + ' ' + ${retrait.ville}">Vendeur</span>
-				</p>
-				<p>
-					<strong>Categorie:</strong> <span th:text="${article.categorie.libelle}">Categorie</span>
-				</p>
-			</div>
+			<h2 th:text="${article.nom}">Nom Article</h2>
+			<p>
+				<strong>Description:</strong> <span th:text="${article.description}">Description</span>
+			</p>
+			<p>
+				<strong>Categorie:</strong> <span
+					th:text="${article.categorie.libelle}">Categorie</span>
+			</p>
+			<p>
+				<strong>Meilleure offre:</strong> <span
+					th:text="${enchere.Montant} + ' € (' + ${enchere.utilisateur.pseudo} + ')'">MeilleureOffre</span>
+			</p>
+			<th:block
+				sec:authorize="not (hasRole('ROLE_MEMBRE') or hasRole('ROLE_ADMIN'))">
+				<p class="info">Connectez-vous pour enchérir !</p>
+			</th:block>
+			<p>
+				<strong>Mise à prix:</strong> <span
+					th:text="${article.miseAPrix} + ' €'">Prix</span>
+			</p>
+			<p>
+				<strong>Fin de l'enchère:</strong> <span th:text="${article.fin}">Fin</span>
+			</p>
+			<p>
+				<strong>Retrait:</strong> <span
+					th:text="${retrait.rue} + '  ' + ${retrait.codePostal} + ' ' + ${retrait.ville}">Vendeur</span>
+			</p>
+			<p sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
+				<strong>Vendeur:</strong> <a
+					data-th-href="@{/profilOther(noUtilisateur=${article.vendeur.noUtilisateur})}">
+					<span th:text="${article.vendeur.pseudo}">Vendeur</span>
+				</a>
+			</p>
+
+			<p sec:authorize="!hasRole('ROLE_MEMBRE') AND !hasRole('ROLE_ADMIN')">
+				<strong>Vendeur:</strong> <span th:text="${article.vendeur.pseudo}">Vendeur</span>
+			</p>
+
+
+
+			<th:block
+				sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
+				<div
+					th:with="startDate=${new java.util.Date(article.debut.time)}, endDate=${new java.util.Date(article.fin.time)}">
+					<div
+						th:if="${#dates.createNow().after(startDate) and #dates.createNow().before(endDate)}">
+						<form action="/encheres/ajouter" method="post">
+							<input type="hidden" id="noArticle" name="noArticle" th:value="${article.noArticle}" /> 
+							<input type="hidden" id="enchereMax" name="enchereMax" th:value="${enchere.Montant}" />
+							<input type="hidden" id="miseAPrix" name="miseAPrix" th:value="${article.miseAPrix}" />
+							<p>
+								<strong>Enchérir:</strong> <span><input type="number"
+									id="nouvelleEnchere" name="nouvelleEnchere" required
+									th:value="${enchere.Montant != 0 ? enchere.Montant + 1 : article.miseAPrix + 1}"></span>
+							</p>
+							<p class="info" th:if="${errorPrice}">Attention !  Vous devez enchérir à un montant au moins supérieur à l'enchère la plus haute</p>
+							<button type="submit">Enregistrer</button>
+						</form>
+					</div>
+					<div
+						th:unless="${#dates.createNow().after(startDate) and #dates.createNow().before(endDate)}">
+						<p class="info">La date ne vous permet pas d'enchérir !</p>
+					</div>
+				</div>
+			</th:block>
 		</div>
 	</main>
 </body>

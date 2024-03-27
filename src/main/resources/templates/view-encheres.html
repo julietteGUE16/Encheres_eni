@@ -17,7 +17,8 @@
 		<form action="encheresParCategorieEtNom" method="post">
 			<div>
 				<label for="searchInput">Recherche :</label> <input type="text"
-					id="searchInput" name="searchInput" th:placeholder="'Rechercher...'">
+					id="searchInput" name="searchInput"
+					th:placeholder="'Rechercher...'">
 			</div>
 			<div>
 				<label for="categorySelect">Catégorie :</label> <select
@@ -28,21 +29,46 @@
 						data-th-text="${category.libelle}"></option>
 				</select>
 			</div>
+			<th:block
+				sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
+				<input type="radio" id="achats" name="choix" value="achats">
+				<label for="achats">Achats</label>
+
+				<div id="achatsOptions" class="options">
+					<label><input type="checkbox" name="encheresOuvertes"> Enchères ouvertes</label> 
+					<label><input type="checkbox" name="enchèresEnCours"> Mes enchères en cours</label> 
+					<label><input type="checkbox" name="enchèresRemportées"> Mes enchères remportées</label>
+				</div>
+
+				<input type="radio" id="ventes" name="choix" value="ventes">
+				<label for="ventes">Mes Ventes</label>
+
+				<div id="ventesOptions" class="options">
+					<label><input type="checkbox" name="mesVentesEnCours"> Mes ventes en cours</label>
+					<label><input type="checkbox" name= "ventesNonDebutees"> Mes ventes non débutées</label>
+					<label><input type="checkbox" name= "ventesTerminees"> Mes ventes terminées</label>
+				</div>
+			</th:block>
 			<div>
 				<button type="submit">Enregistrer</button>
 			</div>
 		</form>
 		<div class="cards">
-			<a th:each="item : ${articles}" class="card" data-th-href="@{/encheres/detail(noArticle=${item.noArticle})}">
+			<a th:each="item : ${articles}" class="card"
+				data-th-href="@{/encheres/detail(noArticle=${item.noArticle})}">
 				<h2 th:text="${item.nom}">Nom Article</h2>
 				<p>
 					<strong>Prix:</strong> <span th:text="${item.miseAPrix} + ' €'">Prix</span>
 				</p>
 				<p>
+					<strong>Debut de l'enchère:</strong> <span th:text="${item.debut}">Fin</span>
+				</p>
+				<p>
 					<strong>Fin de l'enchère:</strong> <span th:text="${item.fin}">Fin</span>
 				</p>
 				<p>
-					<strong>Vendeur:</strong> <span th:text="${item.vendeur.pseudo}">Vendeur</span>
+				<strong>Vendeur:</strong> 
+					<span th:text="${item.vendeur.pseudo}">Vendeur</span>					
 				</p>
 				<p>
 					<strong>Categorie:</strong> <span th:text="${item.categorie.libelle}">Categorie</span>
