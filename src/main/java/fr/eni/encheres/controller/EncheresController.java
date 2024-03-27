@@ -260,11 +260,7 @@ public class EncheresController {
 		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
 		utilisateur.setCredit(utilisateur.getCredit()+montantRembouse);
 		utilisateurService.updateUser(utilisateur);
-		
-		
-		
 		//crédité l'ancien encherrisseur
-		
 		Enchere ancienneEnchere = enchereService.consulterBestEnchereByIdArticle(no_article);
 		if(ancienneEnchere != null) {
 			Optional<Utilisateur>  ancienEncherriseur = utilisateurService.getUserById(ancienneEnchere.getUtilisateur().getNoUtilisateur());
@@ -273,14 +269,27 @@ public class EncheresController {
 				user.setCredit(user.getCredit()-ancienneEnchere.getMontant());
 				utilisateurService.updateUser(user);
 				articlesService.changerPrixVente(no_article,ancienneEnchere.getMontant());
+			}else {
+				articlesService.changerPrixVente(no_article,0);
 			}
-		}
-		
+		} 
 		
 		return "redirect:/encheres/detail?noArticle=" + no_article;
-		
-		
-		
+	
+	}
+	
+	@GetMapping("/encheres/retrait") 
+	public String retraitEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montant") int montant ) {
+		Article article = articlesService.consulterArticleByIdArticle(no_article);
+		Optional<Utilisateur> vendeurOpt = utilisateurService.getUserById(article.getVendeur().getNoUtilisateur());
+		Utilisateur vendeur = vendeurOpt.get();
+		//on rembourse le vendeur
+		vendeur.setCredit(vendeur.getCredit()+montant);
+		utilisateurService.updateUser(vendeur);
+		//on change le prix de vente pour pouvoir ne plus afficher le retrait
+		articlesService.changerPrixVente(no_article,-1);
+		return "redirect:/encheres/detail?noArticle=" + no_article;
+	
 	}
 		
 	

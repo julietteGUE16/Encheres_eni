@@ -137,7 +137,16 @@
 			<div
 				th:with="now=${#dates.createNow()}, startDate=${new java.util.Date(article.debut.time)}, endDate=${new java.util.Date(article.fin.time)}">
 				<div th:if="${now.after(endDate) and enchere.utilisateur.pseudo ne pseudoUser}">
-						    <button>Retrait effectué </button>
+				<th:block th:if="${article.prixVente != -1 && article.prixVente != 0}">
+				<a data-th-href="@{/encheres/retrait(noArticle=${article.noArticle}, montant=${enchere.Montant})}">
+						    <button>Retrait effectué </button></a>	  
+				</th:block>
+				<th:block th:if="${article.prixVente == -1}">
+				<p class="info">retrait déjà effectué</p>
+				</th:block>
+				<th:block th:if="${article.prixVente == 0}">
+				<p class="info">retrait impossible aucune offre</p>
+				</th:block>
 					</div>
 				</div>
 			</div>
