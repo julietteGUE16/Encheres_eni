@@ -77,7 +77,8 @@
 
 
 				<th:block
-					sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
+					sec:authorize="(hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN'))">
+					<th:block th:if="${#authentication.getPrincipal().getNoUtilisateur()} != ${article.vendeur.noUtilisateur}">
 					<div
 						th:with="startDate=${new java.util.Date(article.debut.time)}, endDate=${new java.util.Date(article.fin.time)}">
 						<div
@@ -96,6 +97,7 @@
 								<p class="info" th:if="${errorPrice}">Attention ! Vous devez
 									enchérir à un montant au moins supérieur à l'enchère la plus
 									haute</p>
+									<p class="info" th:if="${noMoney}">Attention ! Vous n'avez pas assez de crédit pour enchérir</p>
 								<button type="submit">Enregistrer</button>
 							</form>
 						</div>
@@ -105,7 +107,8 @@
 						</div>
 					</div>
 				</th:block>
-			</div>
+			</th:block>
+		</div>
 	</main>
 </body>
 </html>

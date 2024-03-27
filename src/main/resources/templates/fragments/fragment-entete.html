@@ -2,8 +2,7 @@
 	<h1 id="nav-title">
 		<a href="/"><img src="https://zupimages.net/up/24/12/mys5.png" alt="Logo Enchères" style="width: 140px; height: auto;"></a>
 		<th:block sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
-		<label><span th:text="${utilisateurService.getUserById(#authentication.getPrincipal().getNoUtilisateur()).get().getNom()+' '+utilisateurService.getUserById(#authentication.getPrincipal().getNoUtilisateur()).get().getPrenom()+' ('+utilisateurService.getUserById(#authentication.getPrincipal().getNoUtilisateur()).get().getPseudo()+') role : '+#authentication.getPrincipal().isAdmin()+' | credit : '+utilisateurService.getUserById(#authentication.getPrincipal().getNoUtilisateur()).get().getCredit()}"></span></label>
-			</th:block>
+<label><span th:text="${#authentication.getPrincipal().getNom()+' '+#authentication.getPrincipal().getPrenom()+' ('+#authentication.getPrincipal().getUsername()+') role : '+#authentication.getPrincipal().isAdmin()+' | credit : '+#authentication.getPrincipal().getCredit()}"></span></label>			</th:block>
 			
 		
 	</h1>

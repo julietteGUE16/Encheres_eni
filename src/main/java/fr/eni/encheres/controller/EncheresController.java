@@ -40,6 +40,7 @@ public class EncheresController {
 	private UtilisateurService utilisateurService;
 	private EnchereService enchereService;
 	private boolean errorPrice;
+	private boolean noMoney;
 
 	public EncheresController(ArticlesService articlesService, CategorieService categorieService, UtilisateurService utilisateurService,
 			EnchereService encheresService) {
@@ -205,6 +206,7 @@ public class EncheresController {
 			@RequestParam(name = "enchereMax")int enchereMax, @RequestParam(name = "miseAPrix") int miseAPrix, Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
 		errorPrice = false;
+		noMoney = false;
 		if (enchereMax == 0) {
 			if (nouvelleEnchereNumber <= miseAPrix) {
 				errorPrice = true;
@@ -215,6 +217,10 @@ public class EncheresController {
 				errorPrice = true;
 				return "redirect:/encheres/detail?noArticle=" + noArticle;
 			}
+		}
+		if(nouvelleEnchereNumber > utilisateurService.getUserById(getIdUser()).get().getCredit()) {
+			noMoney = true;
+			return "redirect:/encheres/detail?noArticle=" + noArticle;
 		}
 		LocalDateTime now = LocalDateTime.now();
 		Utilisateur utilisateur = new Utilisateur();
