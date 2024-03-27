@@ -183,6 +183,9 @@ public class EncheresController {
 
 	@GetMapping("/encheres/detail")
 	public String AfficherUnArticle(@RequestParam(name = "noArticle") int no_article, Model model) {
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		String name = authentication.getName();
+		model.addAttribute("pseudoUser", name); 
 		Article article = articlesService.consulterArticleByIdArticle(no_article);
 		Retrait retrait = articlesService.consulterRetraitByIDArticle(no_article);
 		Enchere enchere = enchereService.consulterBestEnchereByIdArticle(no_article);
