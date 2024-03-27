@@ -123,25 +123,44 @@ public class ArticlesServiceImpl implements ArticlesService{
 	}
 
 	@Override
-	public List<Article> consulterArticlesEnModeConnecte(int idUser) {
-		return articleDAO.findArticlesEnModeConnecte(idUser);
+	public List<Article> consulterArticlesByIdVendeurAyantEncheriAndCategorieAndNomArticle(int idVendeur, int id,
+			String mot) {
+		return articleDAO.findAllArticlesByIdVendeurAyantEncheriAndCategorieAndNomArticle(idVendeur, id, mot);
 	}
 
 	@Override
-	public List<Article> consulterArticlesConnecteByCategorie(int idUser, int idCategorie) {
-		return articleDAO.findAllConnecteByCategorie(idUser, idCategorie);
+	public List<Article> consulterArticlesByIdVendeurAyantEncheriAndCategorie(int idVendeur, int id) {
+		return articleDAO.findAllArticlesByIdVendeurAyantEncheriAndCategorie(idVendeur, id);
 	}
 
 	@Override
-	public List<Article> consulterArticlesConnecteByNomArticle(int idUser, String nomArticle) {
-		return articleDAO.findAllConnecteByNomArticle(idUser, nomArticle);
+	public List<Article> consulterArticlesByIdVendeurAyantEncheriAndRecherche(int idVendeur, String mot) {
+		return articleDAO.findAllArticlesByIdVendeurAyantEncheriAndRecherche(idVendeur, mot);
 	}
 
 	@Override
-	public List<Article> consulterArticlesConnecteByNomArticleAndCategory(int idUser, String nomArticle,
-			int idCategorie) {
-		return articleDAO.findAllConnecteByNomArticleAndCategory(idUser, nomArticle, idCategorie);
+	public List<Article> consulterArticlesByIdVendeurAyantEncheri(int idVendeur) {
+		return articleDAO.findAllArticlesByIdVendeurAyantEncheri(idVendeur);
 	}
-	
-	
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVendeurAyantRemporteAndCategorieAndNomArticle(int idVendeur,
+			int idCategorie, String mot) {
+		return articleDAO.findAllArticlesByIdVendeurAyantRemporteAndCategorieAndNomArticle(idVendeur, idCategorie, mot);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVendeurAyantRemporteAndCategorie(int idVendeur, int idCategorie) {
+		return articleDAO.findAllArticlesByIdVendeurAyantRemporteAndCategorie(idVendeur, idCategorie);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVendeurAyantRemporteAndRecherche(int idVendeur, String mot) {
+		return articleDAO.findAllArticlesByIdVendeurAyantRemporteAndRecherche(idVendeur, mot);
+	}
+
+	@Override
+	public List<Article> ConsulterArticlesByIdVendeurAyantRemporte(int idVendeur) {
+		return articleDAO.findAllArticlesByIdVendeurAyantRemporte(idVendeur);
+	}
 }

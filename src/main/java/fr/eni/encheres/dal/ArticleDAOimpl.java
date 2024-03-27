@@ -19,7 +19,7 @@ import fr.eni.encheres.dal.mapper.RetraitMapper;
  
 @Repository
 public class ArticleDAOimpl implements ArticleDAO{
-	private final String FIND_ALL = "SELECT "
+	private final String FIND_ALL = "SELECT DISTINCT "
 			+ "    A.no_article, "
 		    + "    A.nom_article, "
 		    + "    A.description, "
@@ -40,16 +40,10 @@ public class ArticleDAOimpl implements ArticleDAO{
 		    + "    INNER JOIN UTILISATEURS U ON A.no_utilisateur = U.no_utilisateur ";
 	
 	private final String FIND_ALL_EN_COURS = FIND_ALL + " WHERE A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()";
-	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER = FIND_ALL + " WHERE ((A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()) OR A.no_utilisateur = ?)";
 	
 	private final String FIND_ALL_BY_CATEGORY = FIND_ALL_EN_COURS + " AND A.no_categorie = ?";
 	private final String FIND_ALL_BY_NOM_ARTICLE = FIND_ALL_EN_COURS +" AND A.nom_article LIKE '%' + ? + '%'";
 	private final String FIND_ALL_BY_NOM_ARTICLE_AND_CATEGORY = FIND_ALL_EN_COURS + " AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%'";
-	
-	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER_BY_CATEGORY = FIND_ALL_EN_COURS_ET_ALL_DU_USER + " AND A.no_categorie = ?";
-	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER_BY_NOM_ARTICLE = FIND_ALL_EN_COURS_ET_ALL_DU_USER +" AND A.nom_article LIKE '%' + ? + '%'";
-	private final String FIND_ALL_EN_COURS_ET_ALL_DU_USER_NOM_ARTICLE_AND_CATEGORY = FIND_ALL_EN_COURS_ET_ALL_DU_USER + " AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%'";
-	
 	
 	private final String FIND_ARTICLE_BY_ID = FIND_ALL + " WHERE A.no_article = ?";
 	
@@ -68,6 +62,45 @@ public class ArticleDAOimpl implements ArticleDAO{
 	private final String FIND_ARTICLES_BY_ID_VENDEUR_AND_CATEGORIE_AND_NOM_ARTICLE = FIND_ARTICLES_BY_ID_VENDEUR_AND_CATEGORIE  + " AND A.nom_article LIKE '%' + ? + '%'" ;
 	private final String FIND_ARTICLES_BY_VENTE_NON_DEBUTE_AND_CATEGORIE_AND_NOM_ARTICLE = FIND_ARTICLES_BY_VENTE_NON_DEBUTE_AND_CATEGORIE + " AND A.nom_article LIKE '%' + ? + '%'";
 	private final String FIND_ARTICLES_BY_VENTE_TERMINEE_AND_CATEGORIE_AND_NOM_ARTICLE = FIND_ARTICLES_BY_VENTE_TERMINEE_AND_CATEGORIE + " AND A.nom_article LIKE '%' + ? + '%'";
+	
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.date_fin_encheres >= GETDATE()";
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_CATEGORIE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ?  AND A.no_categorie = ? AND A.date_fin_encheres >= GETDATE()";
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_RECHERCHE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.nom_article LIKE '%' + ? + '%' AND A.date_fin_encheres >= GETDATE()";
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_CATEGORIE_AND_RECHERCHE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%' AND A.date_fin_encheres >= GETDATE()";
+	
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE = "SELECT DISTINCT " +
+		    "A.no_article, " +
+		    "A.nom_article, " +
+		    "A.description, " +
+		    "A.date_debut_encheres, " +
+		    "A.date_fin_encheres, " +
+		    "A.prix_initial, " +
+		    "A.prix_vente, " +
+		    "C.libelle AS categorie, " +
+		    "U.pseudo AS vendeur_pseudo, " +
+		    "U.nom AS vendeur_nom, " +
+		    "U.prenom AS vendeur_prenom, " +
+		    "U.email AS vendeur_email, " +
+		    "U.telephone AS vendeur_telephone, " +
+		    "U.no_utilisateur AS vendeur_noUtilisateur, " +
+		    "E.date_enchere, " +
+		    "E.montant_enchere " +
+		    "FROM " +
+		    "ARTICLES_VENDUS A " +
+		    "INNER JOIN CATEGORIES C ON A.no_categorie = C.no_categorie " +
+		    "INNER JOIN UTILISATEURS U ON A.no_utilisateur = U.no_utilisateur " +
+		    "INNER JOIN ENCHERES E ON A.no_article = E.no_article " +
+		    "WHERE " +
+		    "A.date_fin_encheres < GETDATE() " +
+		    "AND E.no_utilisateur = ? " +
+		    "AND E.montant_enchere = ( " +
+		    "SELECT MAX(montant_enchere) " +
+		    "FROM ENCHERES " +
+		    "WHERE no_article = A.no_article " +
+		    ")";
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE_AND_CATEGORIE = FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE + " AND A.no_categorie = ?";
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE_AND_RECHERCHE = FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE + " AND A.nom_article LIKE '%' + ? + '%'";
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE_AND_CATEGORIE_AND_RECHERCHE = FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE + " AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%'";
 	
 	private final String FIND_RETRAIT_BY_ID = "SELECT "
 			+ "r.ville, r.code_postal, r.rue "
@@ -90,11 +123,6 @@ public class ArticleDAOimpl implements ArticleDAO{
 	public List<Article> findAll() {
 		return namedParameterJdbcTemplate.query(FIND_ALL_EN_COURS, new ArticleMapper());
 	}
-	
-	@Override
-	public List<Article> findArticlesEnModeConnecte(int idUser) {
-		return jdbcTemplate.query(FIND_ALL_EN_COURS_ET_ALL_DU_USER, new ArticleMapper(), idUser);
-	}
  
 	@Override
 	public List<Article> findAllByCategorie(int idCategorie) {
@@ -109,21 +137,6 @@ public class ArticleDAOimpl implements ArticleDAO{
 	@Override
 	public List<Article> findAllByNomArticleAndCategory(String nomArticle, int idCategorie) {
 		return jdbcTemplate.query(FIND_ALL_BY_NOM_ARTICLE_AND_CATEGORY, new ArticleMapper(),idCategorie, nomArticle);
-	}
- 
-	@Override
-	public List<Article> findAllConnecteByCategorie(int idUser, int idCategorie) {
-		return jdbcTemplate.query(FIND_ALL_EN_COURS_ET_ALL_DU_USER_BY_CATEGORY, new ArticleMapper(), idUser, idCategorie);
-	}
- 
-	@Override
-	public List<Article> findAllConnecteByNomArticle(int idUser, String nomArticle) {
-		return jdbcTemplate.query(FIND_ALL_EN_COURS_ET_ALL_DU_USER_BY_NOM_ARTICLE, new ArticleMapper(), idUser,  nomArticle);
-	}
- 
-	@Override
-	public List<Article> findAllConnecteByNomArticleAndCategory(int idUser,String nomArticle, int idCategorie) {
-		return jdbcTemplate.query(FIND_ALL_EN_COURS_ET_ALL_DU_USER_NOM_ARTICLE_AND_CATEGORY, new ArticleMapper(), idUser, idCategorie, nomArticle);
 	}
  
 	@Override
@@ -216,6 +229,48 @@ public class ArticleDAOimpl implements ArticleDAO{
 	@Override
 	public List<Article> findAllByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot) {
 		return jdbcTemplate.query(FIND_ARTICLES_BY_VENTE_TERMINEE_AND_CATEGORIE_AND_NOM_ARTICLE, new ArticleMapper(), idVendeur, idCategorie, mot);
+	}
+
+	@Override
+	public List<Article> findAllArticlesByIdVendeurAyantEncheriAndCategorieAndNomArticle(int idVendeur, int id,
+			String mot) {
+		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_CATEGORIE_AND_RECHERCHE, new ArticleMapper(), idVendeur, id, mot);
+	}
+
+	@Override
+	public List<Article> findAllArticlesByIdVendeurAyantEncheriAndCategorie(int idVendeur, int id) {
+		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_CATEGORIE, new ArticleMapper(), idVendeur, id);
+	}
+
+	@Override
+	public List<Article> findAllArticlesByIdVendeurAyantEncheriAndRecherche(int idVendeur, String mot) {
+		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_RECHERCHE, new ArticleMapper(), idVendeur, mot);
+	}
+
+	@Override
+	public List<Article> findAllArticlesByIdVendeurAyantEncheri(int idVendeur) {
+		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI, new ArticleMapper(), idVendeur);
+	}
+
+	@Override
+	public List<Article> findAllArticlesByIdVendeurAyantRemporteAndCategorieAndNomArticle(int idVendeur,
+			int idCategorie, String mot) {
+		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE_AND_CATEGORIE_AND_RECHERCHE, new ArticleMapper(), idVendeur, idCategorie, mot);
+	}
+
+	@Override
+	public List<Article> findAllArticlesByIdVendeurAyantRemporteAndCategorie(int idVendeur, int idCategorie) {
+		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE_AND_CATEGORIE, new ArticleMapper(), idVendeur, idCategorie);
+	}
+
+	@Override
+	public List<Article> findAllArticlesByIdVendeurAyantRemporteAndRecherche(int idVendeur, String mot) {
+		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE_AND_RECHERCHE, new ArticleMapper(), idVendeur, mot);
+	}
+
+	@Override
+	public List<Article> findAllArticlesByIdVendeurAyantRemporte(int idVendeur) {
+		return jdbcTemplate.query(FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE, new ArticleMapper(), idVendeur);
 	}
 
 }

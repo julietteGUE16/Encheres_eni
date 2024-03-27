@@ -10,19 +10,13 @@ import fr.eni.encheres.bo.Retrait;
 
 public interface ArticleDAO {
 	List<Article> findAll();
-	List<Article> findArticlesEnModeConnecte(int idUser);
 	
 	void ajoutArticle(Article article);
 	
 	List<Article> findAllByCategorie(int idCategorie);
 	List<Article> findAllByNomArticle(String nomArticle);
 	List<Article> findAllByNomArticleAndCategory(String nomArticle, int idCategorie);
-	
-	List<Article> findAllConnecteByCategorie(int idUser, int idCategorie);
-	List<Article> findAllConnecteByNomArticle(int idUser, String nomArticle);
-	List<Article> findAllConnecteByNomArticleAndCategory(int idUser, String nomArticle, int idCategorie);
 
-	
 	Article findArticleById(int idArticle);
 
 	Retrait findRetraitById(int no_article);
@@ -42,4 +36,14 @@ public interface ArticleDAO {
 	List<Article> findAllByIdVendeurAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 	List<Article> findAllByIdVenteNonDebuteeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 	List<Article> findAllByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
+	
+	List<Article> findAllArticlesByIdVendeurAyantEncheriAndCategorieAndNomArticle(int idVendeur, int id, String mot);
+	List<Article> findAllArticlesByIdVendeurAyantEncheriAndCategorie(int idVendeur, int id);
+	List<Article> findAllArticlesByIdVendeurAyantEncheriAndRecherche(int idVendeur, String mot);
+	List<Article> findAllArticlesByIdVendeurAyantEncheri(int idVendeur);
+	
+	List<Article> findAllArticlesByIdVendeurAyantRemporteAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
+	List<Article> findAllArticlesByIdVendeurAyantRemporteAndCategorie(int idVendeur, int idCategorie);
+	List<Article> findAllArticlesByIdVendeurAyantRemporteAndRecherche(int idVendeur, String mot);
+	List<Article> findAllArticlesByIdVendeurAyantRemporte(int idVendeur);
 }

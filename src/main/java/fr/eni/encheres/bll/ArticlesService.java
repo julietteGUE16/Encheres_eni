@@ -8,17 +8,12 @@ import fr.eni.encheres.bo.Retrait;
 
 public interface ArticlesService {
 	List<Article> consulterArticles();
-	List<Article> consulterArticlesEnModeConnecte(int idUser);
 	
 	void creerArticle(Article article);
 
 	List<Article> consulterArticlesByCategorie(int idCategorie);
 	List<Article> consulterArticlesByNomArticle(String nomArticle);
 	List<Article> consulterArticlesByNomArticleAndCategorie(String nomArticle, int idCategorie);
-	
-	List<Article> consulterArticlesConnecteByCategorie(int idUser, int idCategorie);
-	List<Article> consulterArticlesConnecteByNomArticle(int idUser, String nomArticle);
-	List<Article> consulterArticlesConnecteByNomArticleAndCategory(int idUser, String nomArticle, int idCategorie);
 	
 	Article consulterArticleByIdArticle(int idArticle);
 
@@ -39,5 +34,15 @@ public interface ArticlesService {
 	List<Article> consulterArticlesByIdVendeurAndCategorieAndNomArticle(int idVendeur, int id, String mot);
 	List<Article> ConsulterArticlesByIdVenteNonDebuteeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 	List<Article> ConsulterArticlesByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
+	
+	List<Article> consulterArticlesByIdVendeurAyantEncheriAndCategorieAndNomArticle(int idVendeur, int id, String mot);
+	List<Article> consulterArticlesByIdVendeurAyantEncheriAndCategorie(int idVendeur, int id);
+	List<Article> consulterArticlesByIdVendeurAyantEncheriAndRecherche(int idVendeur, String mot);
+	List<Article> consulterArticlesByIdVendeurAyantEncheri(int idVendeur);
+	
+	List<Article> ConsulterArticlesByIdVendeurAyantRemporteAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
+	List<Article> ConsulterArticlesByIdVendeurAyantRemporteAndCategorie(int idVendeur, int idCategorie);
+	List<Article> ConsulterArticlesByIdVendeurAyantRemporteAndRecherche(int idVendeur, String mot);
+	List<Article> ConsulterArticlesByIdVendeurAyantRemporte(int idVendeur);
 
 }

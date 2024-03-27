@@ -51,15 +51,17 @@ public class EncheresController {
 
 	@GetMapping({ "/", "/encheres" })
 	public String afficherArticles(Model model) {
-		authentication = SecurityContextHolder.getContext().getAuthentication();
-		String name = authentication.getName();
-		if (name.equals("anonymousUser")) {
-			List<Article> articles = articlesService.consulterArticles();
-			model.addAttribute("articles", articles);
-		}else {
-			List<Article> articles = articlesService.consulterArticlesEnModeConnecte(getIdUser());
-			model.addAttribute("articles", articles);
-		}
+//		authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String name = authentication.getName();
+//		if (name.equals("anonymousUser")) {
+//			List<Article> articles = articlesService.consulterArticles();
+//			model.addAttribute("articles", articles);
+//		}else {
+//			List<Article> articles = articlesService.consulterArticlesEnModeConnecte(getIdUser());
+//			model.addAttribute("articles", articles);
+//		}
+		List<Article> articles = articlesService.consulterArticles();
+		model.addAttribute("articles", articles);
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("categories", categories);
 
@@ -72,44 +74,39 @@ public class EncheresController {
 			@RequestParam(name = "mesVentesEnCours", required = false) boolean enCours,
 			@RequestParam(name = "ventesNonDebutees", required = false) boolean nonDebutee,
 			@RequestParam(name = "ventesTerminees", required = false) boolean terminee,
-			@RequestParam(name = "encheresOuvertes", required = false) boolean ouvertes,
 			@RequestParam(name = "enchèresEnCours", required = false) boolean achatsEnCours,
-			@RequestParam(name = "enchèresRemportées", required = false) boolean remportees, Model model) {
+			@RequestParam(name = "enchèresRemportées", required = false) boolean remportees,
+			@RequestParam(name = "choix", required = false) String choix, Model model) {
+		//System.out.println("id:" + id + " nom:" + nom + " enCours:" + enCours + " nonDebutee:" + nonDebutee + " terminee:" + terminee +  " achatsEnCours:" + achatsEnCours + " remportees:" + remportees + " choix:" + choix);
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("categories", categories);
 		
-		authentication = SecurityContextHolder.getContext().getAuthentication();
-		String name = authentication.getName();
+		if (choix == null) {
+			choix = "ventes";
+		}
 		
-		if (id != -1 && nom.trim() == "" && enCours == false && nonDebutee == false && terminee == false ) { // seule la categorie est selectionnée
-			if (name.equals("anonymousUser")) {
+		if (id == -1 && nom.trim() == "" && ((enCours == false && nonDebutee == true && terminee == false && achatsEnCours == false && remportees == false) & choix.equals("achats") || ((enCours == false && nonDebutee == false && terminee == false && achatsEnCours == false && remportees == false) & choix.equals("ventes")))) { // rien de selectionné
+			return "redirect:/encheres";
+	}
+		
+		if (id != -1 && nom.trim() == "" && ((enCours == false && nonDebutee == true && terminee == false && achatsEnCours == false && remportees == false) & choix.equals("achats") || ((enCours == false && nonDebutee == false && terminee == false && achatsEnCours == false && remportees == false) & choix.equals("ventes")))) { // seule la categorie est selectionnée
 				List<Article> articles = articlesService.consulterArticlesByCategorie(id);
 				model.addAttribute("articles", articles);
-			}else {
-				List<Article> articles = articlesService.consulterArticlesConnecteByCategorie(getIdUser(), id);
-				model.addAttribute("articles", articles);
-			}
+				return "view-encheres";
 		}
-		if (nom != "" && id == -1 && id == -1 && enCours == false && nonDebutee == false && terminee == false ) {// seule la recherche est selectionnée
-			if (name.equals("anonymousUser")) {
+		if (nom != "" && id == -1 && ((enCours == false && nonDebutee == true && terminee == false && achatsEnCours == false && remportees == false) & choix.equals("achats") || ((enCours == false && nonDebutee == false && terminee == false && achatsEnCours == false && remportees == false) & choix.equals("ventes")))) {// seule la recherche est selectionnée
 				List<Article> articles = articlesService.consulterArticlesByNomArticle(nom);
 				model.addAttribute("articles", articles);
-			}else {
-				List<Article> articles = articlesService.consulterArticlesConnecteByNomArticle(getIdUser(), nom);
-				model.addAttribute("articles", articles);
-			}
+				return "view-encheres";
 		}
-		if (nom != "" && id != -1 && enCours == false && nonDebutee == false && terminee == false ) { //recherche & categorie selectionnées
-			if (name.equals("anonymousUser")) {
+		if (nom != "" && id != -1 && ((enCours == false && nonDebutee == true && terminee == false && achatsEnCours == false && remportees == false) & choix.equals("achats") || ((enCours == false && nonDebutee == false && terminee == false && achatsEnCours == false && remportees == false) & choix.equals("ventes")))) { //recherche & categorie selectionnées
 				List<Article> articles = articlesService.consulterArticlesByNomArticleAndCategorie(nom, id);
 				model.addAttribute("articles", articles);
-			} else {
-				List<Article> articles = articlesService.consulterArticlesConnecteByNomArticleAndCategory(getIdUser(), nom, id);
-				model.addAttribute("articles", articles);
-			}
+				return "view-encheres";
 		}
-		if (nom.trim() == "" && id == -1 && (enCours != false || nonDebutee != false || terminee != false || ouvertes != false || achatsEnCours != false || remportees != false)) { // seules les checkbox sont cochées
+		if (nom.trim() == "" && id == -1 ) { // seules les checkbox sont cochées
 			List<Article> articles = new ArrayList<Article>();
+			if (choix.equals("ventes")) {
 			if (enCours ==  true) {
 				articles.addAll(articlesService.consulterArticlesByIdVendeur(getIdUser()));
 			};
@@ -119,19 +116,41 @@ public class EncheresController {
 			if (terminee ==  true) {
 				articles.addAll(articlesService.ConsulterArticlesByIdVenteTerminee(getIdUser()));
 			};
-			if (ouvertes ==  true) {
-				//
-			};
+			} else {
 			if (achatsEnCours ==  true) {
-				
+				articles.addAll(articlesService.consulterArticlesByIdVendeurAyantEncheri(getIdUser()));
 			};
 			if (remportees ==  true) {
-				//
+				articles.addAll(articlesService.ConsulterArticlesByIdVendeurAyantRemporte(getIdUser()));
 			};
+			}
 			model.addAttribute("articles", articles);
 		}
-		if (nom.trim() == "" && id != -1 && (enCours != false || nonDebutee != false || terminee != false || ouvertes != false || achatsEnCours != false || remportees != false)) { // les checkbox sont cochées et la categorie
+		if (nom.trim() != "" && id == -1) { // seules les checkbox sont cochées et la recherche
 			List<Article> articles = new ArrayList<Article>();
+			if (choix.equals("ventes")) {
+			if (enCours ==  true) {
+				articles.addAll(articlesService.consulterArticlesByIdVendeurAndNomArticle(getIdUser(), nom));
+			};
+			if (nonDebutee ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVenteNonDebuteeAndNomArticle(getIdUser(), nom));
+			};
+			if (terminee ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVenteTermineeAndNomArticle(getIdUser(), nom));
+			};
+			} else {
+			if (achatsEnCours ==  true) {
+				articles.addAll(articlesService.consulterArticlesByIdVendeurAyantEncheriAndRecherche(getIdUser(), nom));
+			};
+			if (remportees ==  true) {
+				articles.addAll(articlesService.ConsulterArticlesByIdVendeurAyantRemporteAndRecherche(getIdUser(), nom));
+			};
+			}
+			model.addAttribute("articles", articles);
+		}
+		if (nom.trim() == "" && id != -1 ) { // les checkbox sont cochées et la categorie
+			List<Article> articles = new ArrayList<Article>();
+			if (choix.equals("ventes")) {
 			if (enCours ==  true) {
 				articles.addAll(articlesService.consulterArticlesByIdVendeurAndCategorie(getIdUser(), id));
 			};
@@ -141,19 +160,19 @@ public class EncheresController {
 			if (terminee ==  true) {
 				articles.addAll(articlesService.ConsulterArticlesByIdVenteTermineeAndCategorie(getIdUser(), id));
 			};
-			if (ouvertes ==  true) {
-				//
-			};
+			} else {
 			if (achatsEnCours ==  true) {
-				//
+				articles.addAll(articlesService.consulterArticlesByIdVendeurAyantEncheriAndCategorie(getIdUser(), id));
 			};
 			if (remportees ==  true) {
-				//
+				articles.addAll(articlesService.ConsulterArticlesByIdVendeurAyantRemporteAndCategorie(getIdUser(), id));
 			};
+			}
 			model.addAttribute("articles", articles);
 		}
-		if (nom.trim() != "" && id != -1 && (enCours != false || nonDebutee != false || terminee != false || ouvertes != false || achatsEnCours != false || remportees != false)) { // les checkbox sont cochées, la categorie et la recherche
+		if (nom.trim() != "" && id != -1 ) { // les checkbox sont cochées, la categorie et la recherche
 			List<Article> articles = new ArrayList<Article>();
+			if (choix.equals("ventes")) {
 			if (enCours ==  true) {
 				articles.addAll(articlesService.consulterArticlesByIdVendeurAndCategorieAndNomArticle(getIdUser(), id, nom));
 			};
@@ -163,21 +182,16 @@ public class EncheresController {
 			if (terminee ==  true) {
 				articles.addAll(articlesService.ConsulterArticlesByIdVenteTermineeAndCategorieAndNomArticle(getIdUser(), id, nom));
 			};
-			if (ouvertes ==  true) {
-				//
-			};
+			} else {
 			if (achatsEnCours ==  true) {
-				//
+				articles.addAll(articlesService.consulterArticlesByIdVendeurAyantEncheriAndCategorieAndNomArticle(getIdUser(), id, nom));
 			};
 			if (remportees ==  true) {
-				//
+				articles.addAll(articlesService.ConsulterArticlesByIdVendeurAyantRemporteAndCategorieAndNomArticle(getIdUser(), id, nom));
 			};
+			}
 			model.addAttribute("articles", articles);
 		}
-		if (nom.trim() == "" && id == -1 && enCours == false && nonDebutee == false && terminee == false && ouvertes == false && achatsEnCours == false && remportees == false) {
-			return "redirect:/encheres";
-		}
-		System.out.println("id: " + id + " nom: " + nom + " enCours: " + enCours + " nonDebutee: " + nonDebutee + " terminee: " + terminee);
 		return "view-encheres";
 	}
 
