@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>credite</title>
+</head>
+<body>
+	<a href="/profil">
+		<button>RETOUR</button>
+	</a>
+	<br>
+	<br>
+	<br>
+	<form id="formReset" action="/crediterAccount" method="post">
+	<div>
+		<label>Credit que vous voulez ajouter: <br>	
+		<br>
+		<input type="text" name="credit" id="credit" placeHolder="credit (ex = 20)" />
+		</label>
+		<input type="submit" value="CREDITER">
+		</div>
+	</form>
+</body>
+</html>
