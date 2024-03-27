@@ -81,7 +81,6 @@ public class EncheresController {
 			@RequestParam(name = "enchèresRemportées", required = false) boolean remportees,
 			@RequestParam(name = "choix", required = false) String choix, Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
-		//System.out.println("id:" + id + " nom:" + nom + " enCours:" + enCours + " nonDebutee:" + nonDebutee + " terminee:" + terminee +  " achatsEnCours:" + achatsEnCours + " remportees:" + remportees + " choix:" + choix);
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("categories", categories);
 		

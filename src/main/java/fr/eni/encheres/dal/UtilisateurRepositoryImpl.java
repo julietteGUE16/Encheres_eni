@@ -36,7 +36,6 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
 	@Override
 	public void updateUser(Utilisateur user) {
-		System.out.println("mot de passe = "+ user.getMotDePasse());
 		 String sql = "UPDATE utilisateurs SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?,"
 				 		+ "rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? , credit = ? WHERE no_utilisateur = ?";
 
@@ -93,10 +92,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
 	@Override
 	public boolean emailExisteDeja(String email,int id) {
-		System.out.println("l'id = "+id);
 		if(id != -1) {
-			System.out.println("email = "+email);
-			System.out.println("id = "+id);
 			 String sql = "SELECT COUNT(*) FROM UTILISATEURS WHERE email = ? AND no_utilisateur <> ?";
 		        int count = jdbcTemplate.queryForObject(sql, Integer.class, email, id);
 		        return count > 0;

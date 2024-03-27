@@ -142,7 +142,6 @@ public class ArticleDAOimpl implements ArticleDAO{
  
 	@Override
 	public Article findArticleById(int idArticle) {
-		System.out.println("idArticle = "+idArticle);
 		return jdbcTemplate.queryForObject(FIND_ARTICLE_BY_ID, new ArticleMapper(),idArticle);
 	}
  
