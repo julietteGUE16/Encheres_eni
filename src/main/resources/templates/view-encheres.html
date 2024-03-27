@@ -31,11 +31,11 @@
 			</div>
 			<th:block
 				sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
-				<input type="radio" id="achats" name="choix" value="achats">
+				<input type="radio" id="achats" name="choix" value="achats" checked>
 				<label for="achats">Achats</label>
 
 				<div id="achatsOptions" class="options">
-					<label><input type="checkbox" name="encheresOuvertes"> Enchères ouvertes</label> 
+					<label><input type="checkbox" name="encheresOuvertes" checked disabled> Enchères ouvertes</label> 
 					<label><input type="checkbox" name="enchèresEnCours"> Mes enchères en cours</label> 
 					<label><input type="checkbox" name="enchèresRemportées"> Mes enchères remportées</label>
 				</div>
@@ -45,7 +45,7 @@
 
 				<div id="ventesOptions" class="options">
 					<label><input type="checkbox" name="mesVentesEnCours"> Mes ventes en cours</label>
-					<label><input type="checkbox" name= "ventesNonDebutees"> Mes ventes non débutées</label>
+					<label><input type="checkbox" name= "ventesNonDebutees" checked> Mes ventes non débutées</label>
 					<label><input type="checkbox" name= "ventesTerminees"> Mes ventes terminées</label>
 				</div>
 			</th:block>
