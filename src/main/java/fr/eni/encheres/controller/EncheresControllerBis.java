@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.eni.encheres.bll.ArticlesService;
 import fr.eni.encheres.bll.CategorieService;
+import fr.eni.encheres.bll.RetraitService;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Article;
 import fr.eni.encheres.bo.Categorie;
@@ -38,12 +39,16 @@ public class EncheresControllerBis {
 	
 	private CategorieService categorieService;
 	private ArticlesService articleService;
+	private RetraitService retraitService;
 	private UtilisateurService utilisateurService;
 	
-	public EncheresControllerBis(CategorieService categorieService, ArticlesService articleService, UtilisateurService utilisateurService) {
+	public EncheresControllerBis(CategorieService categorieService, ArticlesService articleService, 
+				UtilisateurService utilisateurService, RetraitService retraitService) {
+		
 		this.categorieService = categorieService;
 		this.articleService = articleService;
 		this.utilisateurService = utilisateurService;
+		this.retraitService = retraitService;
 	}
 	
 	private Utilisateur getUser() {
@@ -87,22 +92,30 @@ public class EncheresControllerBis {
 	
 	
 	@PostMapping("/ajout-vente-valider")
-	public String ajoutVente(@Valid @ModelAttribute("article") Article article, @ModelAttribute("retrait") Retrait retrait, BindingResult result, Model model) {
+	public String ajoutVente(@Valid @ModelAttribute("article") Article article, @RequestParam String rue,
+			@RequestParam String code_postal, @RequestParam String ville,
+			 BindingResult result, Model model) {
+		System.out.println("rue = " + rue);
+	
 		if (result.hasErrors()) {
-			model.addAttribute("article", article);
-			model.addAttribute("retrait",  retrait);
+			/*model.addAttribute("article", article);
+			
 			model.addAttribute("categories", categorieService.consulterCategories());
 			
 			model.addAttribute("rue", retrait.getRue());
 			model.addAttribute("code_postal", retrait.getCodePostal());
 			model.addAttribute("ville", retrait.getVille());
-			
+			System.out.println("rue = " + retrait.getRue());*/
 			model.addAttribute("errorResult", result);
 			return "ajoutVente";
 		}
 		
 		article.setVendeur(this.getUser());
-		articleService.creerArticle(article);
+		int cle = articleService.creerArticle(article);
+		
+		Retrait retrait = new Retrait(cle, rue, code_postal, ville);
+		retraitService.creerRetrait(retrait);
+		
 		return "redirect:/encheres";
 	}
 	

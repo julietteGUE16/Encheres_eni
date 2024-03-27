@@ -10,7 +10,7 @@ public interface ArticlesService {
 	List<Article> consulterArticles();
 	List<Article> consulterArticlesEnModeConnecte(int idUser);
 	
-	void creerArticle(Article article);
+	int creerArticle(Article article);
 
 	List<Article> consulterArticlesByCategorie(int idCategorie);
 	List<Article> consulterArticlesByNomArticle(String nomArticle);
