@@ -230,7 +230,6 @@ public class EncheresController {
 		LocalDateTime now = LocalDateTime.now();
 		//crédité le nouvel encherisseur
 		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
-		utilisateur.setNoUtilisateur(getIdUser());
 		utilisateur.setCredit(utilisateur.getCredit()-nouvelleEnchereNumber);
 		utilisateurService.updateUser(utilisateur);
 		
@@ -245,6 +244,9 @@ public class EncheresController {
 		
 		Article article = new Article();
 		//set prix vente du plus grand encherrisseur 
+		articlesService.changerPrixVente(noArticle, nouvelleEnchereNumber);
+		
+		
 		article.setNoArticle(noArticle);
 		Enchere nouvelleEnchere = new Enchere(now,nouvelleEnchereNumber, article, utilisateur);
 		
@@ -256,10 +258,29 @@ public class EncheresController {
 	public String deleteEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montantRembouse") int montantRembouse ) {
 		enchereService.deleteEnchere(no_article,getIdUser());
 		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
-		utilisateur.setNoUtilisateur(getIdUser());
 		utilisateur.setCredit(utilisateur.getCredit()+montantRembouse);
 		utilisateurService.updateUser(utilisateur);
+		
+		
+		
+		//crédité l'ancien encherrisseur
+		
+		Enchere ancienneEnchere = enchereService.consulterBestEnchereByIdArticle(no_article);
+		if(ancienneEnchere != null) {
+			Optional<Utilisateur>  ancienEncherriseur = utilisateurService.getUserById(ancienneEnchere.getUtilisateur().getNoUtilisateur());
+			if(ancienEncherriseur.isPresent()) {
+				Utilisateur user = ancienEncherriseur.get();
+				user.setCredit(user.getCredit()-ancienneEnchere.getMontant());
+				utilisateurService.updateUser(user);
+				articlesService.changerPrixVente(no_article,ancienneEnchere.getMontant());
+			}
+		}
+		
+		
 		return "redirect:/encheres/detail?noArticle=" + no_article;
+		
+		
+		
 	}
 		
 	

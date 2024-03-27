@@ -225,4 +225,20 @@ public class ArticleDAOimpl implements ArticleDAO{
 		return jdbcTemplate.query(FIND_ARTICLES_BY_VENTE_TERMINEE_AND_CATEGORIE_AND_NOM_ARTICLE, new ArticleMapper(), idVendeur, idCategorie, mot);
 	}
 
+	@Override
+	public void changerPrixVente(int noArticle, int nouvelleEnchereNumber) {
+		String sql = "UPDATE ARTICLES_VENDUS " +
+                "SET prix_vente = ? " +
+                "WHERE no_article = ?";
+		jdbcTemplate.update(sql,nouvelleEnchereNumber,noArticle);
+	}
+
+	@Override
+	public int getPrixVente(int no_article) {
+		String sql = "SELECT prix_vente " +
+                "FROM ARTICLES_VENDUS " +
+                "WHERE no_article = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, no_article) ;
+	}
+
 }

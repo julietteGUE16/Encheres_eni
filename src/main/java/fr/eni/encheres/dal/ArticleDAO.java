@@ -42,4 +42,6 @@ public interface ArticleDAO {
 	List<Article> findAllByIdVendeurAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 	List<Article> findAllByIdVenteNonDebuteeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 	List<Article> findAllByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
+	void changerPrixVente(int noArticle, int nouvelleEnchereNumber);
+	int getPrixVente(int no_article);
 }

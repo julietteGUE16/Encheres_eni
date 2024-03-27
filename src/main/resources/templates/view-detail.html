@@ -49,12 +49,21 @@
 					<strong>Meilleure offre:</strong> <span
 						th:text="${enchere.Montant} + ' € (' + ${enchere.utilisateur.pseudo} + ')'">MeilleureOffre</span>
 						
+						
+						
+			
+						
+						<th:block
+				th:with="now=${#dates.createNow()}, startDate=${new java.util.Date(article.debut.time)}, endDate=${new java.util.Date(article.fin.time)}">
 						<th:block
 						sec:authorize="(hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN'))">
 						<th:block th:if="${#authentication.getPrincipal().getNoUtilisateur()} == ${enchere.utilisateur.noUtilisateur}">
-							<a data-th-href="@{/encheres/delete(noArticle=${article.noArticle}, montantRembouse=${enchere.Montant})}">
-								<button>annuler votre enchere</button></a></p>
+							<th:block th:if="${now.before(endDate)}">
+								<a data-th-href="@{/encheres/delete(noArticle=${article.noArticle}, montantRembouse=${enchere.Montant})}">
+									<button>annuler votre enchere</button></a></p>
+							</th:block>
 						</th:block>
+					</th:block>
 					</th:block>
 				<th:block
 					sec:authorize="not (hasRole('ROLE_MEMBRE') or hasRole('ROLE_ADMIN'))">

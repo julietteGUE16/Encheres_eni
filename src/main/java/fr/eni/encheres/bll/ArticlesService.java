@@ -39,5 +39,7 @@ public interface ArticlesService {
 	List<Article> consulterArticlesByIdVendeurAndCategorieAndNomArticle(int idVendeur, int id, String mot);
 	List<Article> ConsulterArticlesByIdVenteNonDebuteeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 	List<Article> ConsulterArticlesByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
+	void changerPrixVente(int noArticle, int nouvelleEnchereNumber);
+	int getPrixVente(int no_article);
 
 }
