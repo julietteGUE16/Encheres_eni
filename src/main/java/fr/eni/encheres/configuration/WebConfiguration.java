@@ -59,13 +59,13 @@ public class WebConfiguration implements WebMvcConfigurer {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.ignoringRequestMatchers("**")).authorizeHttpRequests((requests) -> requests
 
-				.requestMatchers("/css/**", "/js/**", "/images/**", "/", "/encheres", "/register", "register",
+				.requestMatchers("/css/**", "/js/**", "/images/**", "/", "/encheres", "/register",
 						"/registerValid", "/resetPasswordValid", "/resetPassword", "/newPasswordValid", "/newPassword",
 						"/encheres/*", "/encheresParCategorieEtNom")
 				.permitAll()
 
 				.requestMatchers("/profil", "/modifierProfil", "/ajout-vente", "ajout", "/logout", "register",
-						"ajout-vente", "/ajout-vente-valider")
+						"ajout-vente", "/ajout-vente-valider", "/modifier-vente-valider","/modifier-vente")
 				.hasAnyRole("MEMBRE", "ADMINISTRATEUR").anyRequest().authenticated())
 				.formLogin((form) -> form.loginPage("/login").permitAll())
 				.logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
