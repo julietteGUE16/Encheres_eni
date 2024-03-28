@@ -130,10 +130,7 @@ public class ArticleDAOImpl implements ArticleDAO{
 	private final String INSERT_ENCHERE = "INSERT INTO ARTICLES_VENDUS(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie) "
 			+ " VALUES(:nom_article, :description, :date_debut, :date_fin, :prix_initial, :prix_vente, :id_utilisateur, :id_categorie )";
 	
-	/*private final String UPDATE_VENTE_ARTICLE = "UPDATE ARTICLES_VENDUS"
-							+ " SET nom_article = :nom_article, description = :description, date_debut_encheres = :date_debut, date_fin_encheres = :date_fin, prix_initial = :prix_initial,"
-							+ " prix_vente = :prix_vente, no_utilisateur = :id_utilisateur, no_categorie = :id_categorie"
-								+ " WHERE no_article = :no_article";*/
+	
 	
 	private final String UPDATE_VENTE_ARTICLE = 
 			"UPDATE ARTICLES_VENDUS SET nom_article = ?, description = ?, date_debut_encheres = ?, date_fin_encheres = ?, prix_initial = ?,"
@@ -207,22 +204,12 @@ public class ArticleDAOImpl implements ArticleDAO{
 			idGenere = newPrimaryKey.intValue();
 			
 		}
+		return idGenere;
+		}
 	
 	@Override
-	public Object modifierArticle(Article article) {
-		var namedParameters = new MapSqlParameterSource();
-		System.out.println("no_article (modifierArticle) = " + article.getNoArticle());
-		/*namedParameters.addValue("nom_article", article.getNom());
-		namedParameters.addValue("description", article.getDescription());
-		namedParameters.addValue("date_debut", article.getDebut());
-		namedParameters.addValue("date_fin", article.getFin());
-		namedParameters.addValue("prix_initial", article.getMiseAPrix());
-		namedParameters.addValue("prix_vente", article.getPrixVente());
-		namedParameters.addValue("id_utilisateur", article.getVendeur().getNoUtilisateur());
-		namedParameters.addValue("id_categorie", article.getCategorie().getNoCategorie());*/
-		
-			System.out.println(article.toString());
-		return jdbcTemplate.update(UPDATE_VENTE_ARTICLE, article.getNom(), article.getDescription(), article.getDebut(), article.getFin(), article.getMiseAPrix(),
+	public void modifierArticle(Article article) {
+		jdbcTemplate.update(UPDATE_VENTE_ARTICLE, article.getNom(), article.getDescription(), article.getDebut(), article.getFin(), article.getMiseAPrix(),
 	    		article.getPrixVente(), article.getVendeur().getNoUtilisateur(), article.getCategorie().getNoCategorie(), article.getNoArticle());
 		
 	}
@@ -230,8 +217,7 @@ public class ArticleDAOImpl implements ArticleDAO{
 	
 	
 
-		return idGenere;
-	}
+	
 
 	@Override
 	public List<Article> findAllByIdVendeur(int idVendeur) {
