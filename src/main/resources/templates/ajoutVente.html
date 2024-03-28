@@ -1,4 +1,4 @@
-
+<!-- Entête - Logo et options -->
 <html xmlns:th="http://www.thymeleaf.org"
 	data-th-replace="~{layouts/layout :: layout-filmotheque( 
 					titrePage=~{:: title},
@@ -22,24 +22,29 @@
 				</p>
 			</div>
 		</div>
+		
+<!-- Formulaire -->
 		<form  method="post" action="/ajout-vente-valider" th:object="${article}" >
 		<div class="infos">
+				<!-- Entrée pour le nom de  l'article -->
 				<label for="nomArticle">Article : </label> 
-					<input name="nom" th:type="text" id="nom" th:value="${article.nom}" th:maxlength="30">
+					<input name="nom" th:type="text" id="nom" th:value="${article.nom}" th:field="*{nom}" th:maxlength="30">
 					<div class="error-message">
 						<p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"
 							class="erreur">Erreur de validation</p>
 					</div>
 				
 				<br/><br/>
+				<!-- Entrée pour la description de l'article -->
 				<label for="description">Description : </label>
-					<textarea name="description" id="description" th:value="${article.description}" th:maxlength="300"></textarea>
+					<textarea name="description" id="description" th:value="${article.description}" th:field="*{description}"  th:maxlength="300"></textarea>
 					<div class="error-message">
 					<p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
 						class="erreur">Erreur de validation</p>
 						</div>
 						
 				<br/><br/>
+				<!-- Menu déroulant pour la catégorie de l'article vendu -->
 				<label for="categorie">Catégorie : </label>
 			    	<select th:field="*{categorie.noCategorie}" id="categorie" required>
 							<option value="-1" disabled>Toutes les catégories</option>
@@ -57,19 +62,25 @@
 					<input type="file" id="image_article" name="image_article" accept="image/*"
 						 th:onchange="upload()">
 				<br/><br/>
-				
+				<!-- Prix de départ de l'article vendu -->
 				<label for="prix_initial">Mise à prix : </label>
 					<input name="miseAPrix" type="number" id="miseAPrix"  th:value="${article.miseAPrix}" >
 				
 				<br/><br/>
+				<!-- Entrée de la date du début d'enchère -->
 				<label for="date_debut">Début de l'enchère : </label>
 					<input type="date" name="debut" id="debut" th:value="${article.debut}" th:onclick="minDebutDate(); minFinDate();" 
 					th:onchange="minFinDate()" min=""  required>
 
 				
 				<br/><br/>
+				<!-- Entrée de la date de la fin de l'enchère -->
 				<label for="date_fin">Fin de l'enchère : </label>
 					<input type="date" name="fin" id="fin"  th:value="${article.fin}" required disabled>
+				<!-- <div class="error-message">
+					<p th:if="${article.}" th:errors="*{categorie}"
+						class="erreur">Erreur de validation</p>
+						</div>	 -->
 
 				<fieldset>
 					<legend>Retrait</legend> 
@@ -80,12 +91,15 @@
 						</table>
 				</fieldset>
 				
+				
 				<div class="button">
-					<button type="submit" value="save">Enregistrer</button> <button type="submit" th:onclick="backButton()" value="cancel">Annuler</button>
+					<button th:type="submit" value="save">Enregistrer</button> 
+					<button type="button"   th:onclick="backButton()" value="cancel"><a href="/encheres">Annuler</a></button>
 				</div>
 					
 			</div>
 		</form>
+<!-- Fin du formulaire -->
 		</div>
 	
 	</main>
