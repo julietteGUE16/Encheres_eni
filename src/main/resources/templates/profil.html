@@ -8,7 +8,7 @@
 <head>
 <title>Profil</title>
 <th:block id="ressources-css">
-	<link rel="stylesheet" data-th-href="@{/css/tp-detail.css}">
+	<link rel="stylesheet" data-th-href="@{/css/tp-detail.css}" type="text/css" >
 </th:block>
 <body>
 	<main>
@@ -41,15 +41,22 @@
 						<strong>Ville: </strong><span th:text="${user.getVille()}"></span>
 					</p>
 					<br>
-					<p>
-						<strong>Credit: </strong><span th:text="${user.getCredit()}"></span>
-					</p>
+					
 				</div>
 			</div>
 				<th:block sec:authorize="hasRole('ROLE_MEMBRE')">
 					<th:block th:if="${user.noUtilisateur == userSession}">
-					    <a href="/modifierProfil">
+					 <a href="/modifierProfil">
 					        <button>MODIFIER</button>
+					    </a>
+					    <br><br>
+					<p>
+						<strong>Credit: </strong><span th:text="${user.getCredit()}"></span>
+					</p>
+					   
+					    <br>
+					    <a href="/crediter">
+					        <button>CREDITER</button>
 					    </a>
 					</th:block>
 				</th:block>

@@ -19,7 +19,7 @@ public class EnchereMapper implements RowMapper<Enchere> {
     public Enchere mapRow(ResultSet rs, int rowNum) throws SQLException {
         var e = new Enchere();
         e.setMontant(rs.getInt("meilleure_offre"));
-        Utilisateur encherisseur = new Utilisateur (rs.getString("pseudo_encherisseur"));
+        Utilisateur encherisseur = new Utilisateur (rs.getInt("id_encherisseur"),rs.getString("pseudo_encherisseur"));
         e.setUtilisateur(encherisseur);
         return e;
     }

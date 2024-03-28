@@ -78,6 +78,11 @@ main h1 {
 	margin: auto;
 }
 
+span {
+    color: #808080;
+    font-weight: 600;
+}
+
 .center-section {
 	margin: auto;
 	text-align: center;

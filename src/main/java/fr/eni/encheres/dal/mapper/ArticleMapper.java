@@ -23,6 +23,7 @@ public class ArticleMapper implements RowMapper<Article> {
         a.setDebut(rs.getDate("date_debut_encheres"));
         a.setFin(rs.getDate("date_fin_encheres"));
         a.setMiseAPrix(rs.getInt("prix_initial"));
+        a.setPrixVente(rs.getInt("prix_vente"));
         Categorie categorie = new Categorie(rs.getString("categorie"));
         a.setCategorie(categorie);
         Utilisateur vendeur = new Utilisateur(rs.getInt("vendeur_noUtilisateur"),rs.getString("vendeur_pseudo"),rs.getString("vendeur_nom"), rs.getString("vendeur_prenom"), rs.getString("vendeur_email"), rs.getString("vendeur_telephone"));

@@ -9,23 +9,24 @@ import fr.eni.encheres.dal.RetraitDAO;
 
 @Service
 @Primary
-public class RetraitServiceImpl implements RetraitService{
+public class RetraitServiceImpl implements RetraitService {
 
 	@Autowired
 	private RetraitDAO retraitDAO;
-	
+
 	public RetraitServiceImpl(RetraitDAO retraitDAO) {
 		this.retraitDAO = retraitDAO;
 	}
-	
+
 	@Override
-	public Object creerRetrait(Retrait retrait) {
-		return retraitDAO.ajoutRetrait(retrait);
+	public void creerRetrait(Retrait retrait) {
+		retraitDAO.ajoutRetrait(retrait);
 	}
-	
+
 	@Override
-	public Object modifierRetrait(Retrait retrait) {
-		return retraitDAO.modifierRetrait(retrait);
+	public void deleteByArticleId(int no_article) {
+		retraitDAO.deleteByArticleId(no_article);
+
 	}
-	
+
 }

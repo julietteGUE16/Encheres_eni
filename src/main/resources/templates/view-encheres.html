@@ -18,11 +18,11 @@
 			<div>
 				<label for="searchInput">Recherche :</label> <input type="text"
 					id="searchInput" name="searchInput"
-					th:placeholder="'Rechercher...'">
+					th:placeholder="'Rechercher...'" class= "recherchandcategorie">
 			</div>
 			<div>
 				<label for="categorySelect">Catégorie :</label> <select
-					id="categorySelect" name="categorySelect">
+					id="categorySelect" name="categorySelect" class="recherchandcategorie">
 					<option value="-1">Toutes les catégories</option>
 					<option data-th-each="category : ${categories}"
 						data-th-value="${category.noCategorie}"
@@ -31,22 +31,22 @@
 			</div>
 			<th:block
 				sec:authorize="hasRole('ROLE_MEMBRE') OR hasRole('ROLE_ADMIN')">
-				<input type="radio" id="achats" name="choix" value="achats">
+				<input type="radio" id="achats" name="choix" value="achats" class="checkmark" checked>
 				<label for="achats">Achats</label>
 
 				<div id="achatsOptions" class="options">
-					<label><input type="checkbox" name="encheresOuvertes"> Enchères ouvertes</label> 
-					<label><input type="checkbox" name="enchèresEnCours"> Mes enchères en cours</label> 
-					<label><input type="checkbox" name="enchèresRemportées"> Mes enchères remportées</label>
+					<label><input type="checkbox" name="encheresOuvertes" class="custom-checkbox" checked disabled> Enchères ouvertes</label> 
+					<label><input type="checkbox" name="enchèresEnCours" class="custom-checkbox"> Mes enchères en cours</label> 
+					<label><input type="checkbox" name="enchèresRemportées" class="custom-checkbox"> Mes enchères remportées</label>
 				</div>
 
-				<input type="radio" id="ventes" name="choix" value="ventes">
+				<input type="radio" id="ventes" name="choix" value="ventes" class="checkmark">
 				<label for="ventes">Mes Ventes</label>
 
 				<div id="ventesOptions" class="options">
-					<label><input type="checkbox" name="mesVentesEnCours"> Mes ventes en cours</label>
-					<label><input type="checkbox" name= "ventesNonDebutees"> Mes ventes non débutées</label>
-					<label><input type="checkbox" name= "ventesTerminees"> Mes ventes terminées</label>
+					<label><input type="checkbox" name="mesVentesEnCours" class="custom-checkbox"> Mes ventes en cours</label>
+					<label><input type="checkbox" name= "ventesNonDebutees" class="custom-checkbox" checked> Mes ventes non débutées</label>
+					<label><input type="checkbox" name= "ventesTerminees" class="custom-checkbox"> Mes ventes terminées</label>
 				</div>
 			</th:block>
 			<div>

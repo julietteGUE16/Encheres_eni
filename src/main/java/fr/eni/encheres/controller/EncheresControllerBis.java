@@ -68,6 +68,7 @@ public class EncheresControllerBis {
 	@GetMapping("/ajout-vente")
 	public String pageAjoutVente(Model model, 
 			@ModelAttribute("userSession") Utilisateur userSession) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		//Si l'user est connecté
 		//if(userSession != null && userSession.getNoUtilisateur() >= 1) {
 			//Instanciation du formulaire 
@@ -85,51 +86,29 @@ public class EncheresControllerBis {
 		return "ajoutVente";*/
 	}
 	
-	@GetMapping("/modifier-vente") 
-	public String pageModifierVente(@Valid @RequestParam(name="noArticle") int no_article, 
-			Model model) {
-		Article article = articleService.consulterArticleByIdArticle(no_article);
-		Retrait retrait = articleService.consulterRetraitByIDArticle(no_article);
-		
-		model.addAttribute("article", article);
-		model.addAttribute("retrait", retrait);
-		model.addAttribute("categories", categorieService.consulterCategories());
-		
-		return "modifierVente";
+
+
+	@RequestMapping(value="/ajout-vente", method = RequestMethod.POST, params = "cancel")
+	public String annuler(@Valid @ModelAttribute("article") Article article, BindingResult result, Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
+		model.addAttribute("message", "Redirection...");
+		return "view-encheres";
 	}
-	
-	@PostMapping("/modifier-vente-valider")
-	public String modifierVente(@Valid @RequestParam(name="noArticle") int no_article, 
-			@ModelAttribute("article") Article article, @ModelAttribute("retrait") Retrait retrait,
-				BindingResult result, @RequestParam String rue,
-					@RequestParam String code_postal, @RequestParam String ville, Model model) {	
-		
-		if (result.hasErrors()) {
-			model.addAttribute("article", article);
-			model.addAttribute("retrait", retrait);
-			model.addAttribute("categories", categorieService.consulterCategories());
-			model.addAttribute("errorResult", result);
-			return "modifierVente";
-		}
-		
-		System.out.println("no_article = " + no_article);
-		retrait.setRue(rue);
-		retrait.setCodePostal(code_postal);
-		retrait.setVille(ville);
-		retrait.setNoRetrait(no_article);
-		article.setVendeur(this.getUser());
-		articleService.modifierArticle(article);
-		retraitService.modifierRetrait(retrait);
-		return "redirect:/encheres";
-	}
-	
-	
+
+
 	
 	@PostMapping("/ajout-vente-valider")
 	public String ajoutVente(@Valid @ModelAttribute("article") Article article, BindingResult result, @RequestParam String rue,
 			@RequestParam String code_postal, @RequestParam String ville
 			 , Model model) {
 		System.out.println("rue = " + rue);
+
+	model.addAttribute("utilisateurService", utilisateurService);
+
+
+		
+
+	
 		if (result.hasErrors()) {
 			/*model.addAttribute("article", article);
 			model.addAttribute("categories", categorieService.consulterCategories());*/
@@ -153,8 +132,24 @@ public class EncheresControllerBis {
 		return "redirect:/encheres";
 	}
 
-
-
+	@GetMapping("/modifier-vente") 
+	public String pageModifierVente(@Valid @ModelAttribute("article") Article article, BindingResult result, @RequestParam String rue,
+			@RequestParam String code_postal, @RequestParam String ville
+			 , Model model) {
+		
+		model.addAttribute(article);	
+		model.addAttribute("noArticle", article.getNoArticle());
+		model.addAttribute("nom_article", article.getNom());
+		model.addAttribute("description", article.getDescription());
+		model.addAttribute("miseAprix", article.getMiseAPrix());
+		model.addAttribute("debut", article.getDebut());
+		model.addAttribute("fin", article.getFin());
+		
+		return "modifierVente";
+		
+	}
+	
+	
 	
 	@PostMapping("/supprimer-vente")
 	public String supprimerVente() {

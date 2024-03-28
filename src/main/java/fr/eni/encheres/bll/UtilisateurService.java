@@ -6,11 +6,11 @@ import fr.eni.encheres.bo.Utilisateur;
 import jakarta.validation.Valid;
 
 public interface UtilisateurService {
-	
+
 	public abstract Optional<Utilisateur> getUserById(int id);
 
-	public abstract void updateUser(@Valid Utilisateur user); 
-	
+	public abstract void updateUser(Utilisateur user);
+
 	public abstract String getUserPasswordById(int id);
 
 	public abstract Optional<Utilisateur> findUtilisateurByPseudo(String username);
@@ -26,6 +26,5 @@ public interface UtilisateurService {
 	public abstract Utilisateur findUtilisateurByEmail(String email);
 
 	public abstract int findEmail(String email);
-
 
 }
