@@ -133,20 +133,41 @@ public class EncheresControllerBis {
 	}
 
 	@GetMapping("/modifier-vente") 
-	public String pageModifierVente(@Valid @ModelAttribute("article") Article article, BindingResult result, @RequestParam String rue,
-			@RequestParam String code_postal, @RequestParam String ville
-			 , Model model) {
+	public String pageModifierVente(@Valid @RequestParam(name="noArticle") int no_article, 
+			Model model) {
+		Article article = articleService.consulterArticleByIdArticle(no_article);
+		Retrait retrait = articleService.consulterRetraitByIDArticle(no_article);
 		
-		model.addAttribute(article);	
-		model.addAttribute("noArticle", article.getNoArticle());
-		model.addAttribute("nom_article", article.getNom());
-		model.addAttribute("description", article.getDescription());
-		model.addAttribute("miseAprix", article.getMiseAPrix());
-		model.addAttribute("debut", article.getDebut());
-		model.addAttribute("fin", article.getFin());
+		model.addAttribute("article", article);
+		model.addAttribute("retrait", retrait);
+		model.addAttribute("categories", categorieService.consulterCategories());
 		
 		return "modifierVente";
+	}
+	
+	@PostMapping("/modifier-vente-valider")
+	public String modifierVente(@Valid @RequestParam(name="noArticle") int no_article, 
+			@ModelAttribute("article") Article article, @ModelAttribute("retrait") Retrait retrait,
+				BindingResult result, @RequestParam String rue,
+					@RequestParam String code_postal, @RequestParam String ville, Model model) {	
 		
+		if (result.hasErrors()) {
+			model.addAttribute("article", article);
+			model.addAttribute("retrait", retrait);
+			model.addAttribute("categories", categorieService.consulterCategories());
+			model.addAttribute("errorResult", result);
+			return "modifierVente";
+		}
+		
+		System.out.println("no_article = " + no_article);
+		retrait.setRue(rue);
+		retrait.setCodePostal(code_postal);
+		retrait.setVille(ville);
+		retrait.setNoRetrait(no_article);
+		article.setVendeur(this.getUser());
+		articleService.modifierArticle(article);
+		retraitService.modifierRetrait(retrait);
+		return "redirect:/encheres";
 	}
 	
 	
