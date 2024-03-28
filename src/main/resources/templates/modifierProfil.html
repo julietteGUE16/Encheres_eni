@@ -1,130 +1,120 @@
-<!DOCTYPE html>
-<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="https://www.thymeleaf.org">
+<!-- Entête - Logo et options -->
+<html xmlns:th="http://www.thymeleaf.org"
+	data-th-replace="~{layouts/layout :: layout-filmotheque( 
+					titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{:: #ressources-css})}">
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="design.css">
-<title>Modification Profil</title>
+<title>Modifier Profil</title>
+<th:block id="ressources-css">
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+</th:block>
 </head>
 <body>
-	<div class="title-container">
-		<h2>ENI - NOM DU SITE</h2>
-	</div>
-	<br>
-	<h3>MODIFIER VOS INFORMATIONS :</h3>
-	<form action="/validerModifProfil" method="post" th:object="${user}">
-		<div class="container">
+	<main>
+		<div class="conteneur">
+			<h2>Modifier votre profil</h2>
+			<a href="/profil" class="bouton-retour">
+				<button class="bouton-retour">RETOUR</button>
+			</a>
+		</div>
+		<form action="/validerModifProfil" method="post" th:object="${user}">
+			<div class="form-container">
+				<div class="infos">
+					<label>Pseudo* :</label><input class="elementPseudo" type="hidden"
+						th:field="*{pseudo}" id="pseudo"> <span class="element"
+						type="text" th:text="*{pseudo}" id="pseudo">*{pseudo}</span>
+					<div class="error-message">
+						<p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}"
+							class="erreur">Erreur de validation</p>
+					</div>
+					<label>Prénom* :</label><input class="element" type="text"
+						th:field="*{prenom}" id="prenom">
+					<div class="error-message">
+						<p th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"
+							class="erreur">Erreur de validation</p>
+					</div>
+					<label>Téléphone* :</label><input class="element" type="number"
+						th:field="*{telephone}" id="telephone"
+						oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+						maxlength="10">
+					<div class="error-message">
+						<p th:if="${#fields.hasErrors('telephone')}"
+							th:errors="*{telephone}" class="erreur">Erreur de validation</p>
+					</div>
+					<label>Code Postal* :</label><input class="element" type="number"
+						th:field="*{CodePostal}" id="codePostal"
+						oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+						maxlength="5">
+					<div class="error-message">
+						<p th:if="${#fields.hasErrors('codePostal')}"
+							th:errors="*{codePostal}" class="erreur">Erreur de validation</p>
+					</div>
+					<input class="element" type="hidden" th:field="*{noUtilisateur}"
+						id="noUtilisateur"> <input class="element" type="hidden"
+						th:field="*{credit}" id="credit"> <input class="element"
+						type="hidden" th:field="*{administrateur}" id="administrateur">
+					<label>Ancien mot de passe :</label><input class="element"
+						type="password" id="ancienMdp" name="ancienMdp"><span class="toggle-password" onclick="togglePasswordVisibility(this)"></span>
+					<div class="error-message">
+						<p th:if="${oldPswWrong}" class="erreur">mauvais mot de passe</p>
+					</div>
+					<label>Nouveau mot de passe :</label><input class="element"
+						type="password" id="nouveauMdp" name="nouveauMdp">
+					<div class="error-message">
+						<p th:if="${pswBlank}" class="erreur">Les cases nouveau, ancien et
+							confirmation doivent être complétées</p>
+						<p th:if="${passwordTooShort}" class="erreur">le mot de passe doit faire
+							minimum 5 caractères</p>
+					</div>
+				</div>
 
-			<div class="container-titre">
-				<p>Pseudo* :</p>
-				<p>Prénom* :</p>
-				<p>Téléphone* :</p>
-				<p>Code Postal* :</p>
-				<p>Ancien mot de passe :</p>
-				<p>Nouveau mot de passe :</p>
-				<br>
-				<p th:text="${'Crédit : '+user.getCredit()}"></p>
-				<br>
+				<div class="container-value">
 				<p>* (champs obligatoires)</p>
-
-			</div>
-			<div class="container-value">
-				<input class="elementPseudo" type="hidden" th:field="*{pseudo}" id="pseudo">
-				<p class="element" type="text" th:text="*{pseudo}" id="pseudo">*{pseudo}</p>
-				<div class="error-message">
-					<p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}"
-						class="erreur">Erreur de validation</p>
-				</div>
-				<input class="element" type="text" th:field="*{prenom}" id="prenom">
-				<div class="error-message">
-					<p th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"
-						class="erreur">Erreur de validation</p>
-				</div>
-				<input class="element" type="number" th:field="*{telephone}"
-					id="telephone" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10">
-				<div class="error-message">
-					<p th:if="${#fields.hasErrors('telephone')}"
-						th:errors="*{telephone}" class="erreur">Erreur de validation</p>
-				</div>
-				<input class="element" type="number" th:field="*{CodePostal}"
-					id="codePostal" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
-				<div class="error-message">
-					<p th:if="${#fields.hasErrors('codePostal')}"
-						th:errors="*{codePostal}" class="erreur">Erreur de validation</p>
-				</div>
-				<input class="element" type="hidden" th:field="*{noUtilisateur}" id="noUtilisateur">
-				<input class="element" type="hidden" th:field="*{credit}" id="credit">
-				<input class="element" type="hidden" th:field="*{administrateur}" id="administrateur">
-				 
-					<input class="element" type="password" id="ancienMdp" name="ancienMdp">
-				<div class="error-message" >
-	      			<p th:if="${oldPswWrong}" >mauvais mot de passe</p>	
-	    		</div>
-				<input class="element" type="password" id="nouveauMdp" name="nouveauMdp">
-				<div class="error-message">
-	      			<p th:if="${pswBlank}" >Les cases nouveau, ancien et confirmation doivent être complétées</p>	
-	      				<p th:if="${passwordTooShort}">le mot de passe doit faire minimum 5 caractères</p>
-	    		</div>
-			</div>
-
-			<div class="container-titre-2">
-				<p>Nom* :</p>
-				<p>Email* :</p>
-				<p>Rue* :</p>
-				<p>Ville* :</p>
 				<br>
-				<p>Confirmation :</p>
-			</div>
-			<div class="container-value">
-				<input class="element" type="text" th:field="*{nom}" id="nom">
-				<div class="error-message">
-					<p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"
-						class="erreur">Erreur de validation</p>
-				</div>
-				<input class="element" type="text" th:field="*{email}" id="email">
-				<div class="error-message">
-					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-						class="erreur">Erreur de validation</p>
+				<label>Nom* :</label><input class="element"
+						type="text" th:field="*{nom}" id="nom">
+					<div class="error-message">
+						<p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"
+							class="erreur">Erreur de validation</p>
+					</div>
+					<label>Email* :</label><input class="element" type="text"
+						th:field="*{email}" id="email">
+					<div class="error-message">
+						<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+							class="erreur">Erreur de validation</p>
 						<p th:if="${emailExists}">l'email est déjà utilisé</p>
+					</div>
+					<label>Rue* :</label><input class="element" type="text"
+						th:field="*{rue}" id="rue">
+					<div class="error-message">
+						<p th:if="${#fields.hasErrors('rue')}" th:errors="*{rue}"
+							class="erreur">Erreur de validation</p>
+					</div>
+					<label>Ville* :</label><input class="element" type="text"
+						th:field="*{ville}" id="ville">
+					<div class="error-message">
+						<p th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}"
+							class="erreur">Erreur de validation</p>
+					</div>
+					<label>Confirmation :</label><input class="elementConfirm"
+						type="password" id="confirmationMdp" name="confirmationMdp">
+					<div class="error-message">
+						<p th:if="${pswNotTheSame}" class="erreur">nouveau mot de passe et
+							confirmation différent</p>
+					</div>
 				</div>
-				<input class="element" type="text" th:field="*{rue}" id="rue">
-				<div class="error-message">
-					<p th:if="${#fields.hasErrors('rue')}" th:errors="*{rue}"
-						class="erreur">Erreur de validation</p>
-				</div>
-				<input class="element" type="text" th:field="*{ville}" id="ville">
-				<div class="error-message">
-					<p th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}"
-						class="erreur">Erreur de validation</p>
-				</div>
-				<input class="elementConfirm" type="password" id="confirmationMdp" name="confirmationMdp">
-				<div class="error-message" >
-	      			<p th:if="${pswNotTheSame}" >nouveau mot de passe et confirmation différent</p>	
-	    		</div>
-
 			</div>
-
-
-		</div>
-		<div>
-			<!-- <div class="bouton" sec:authorize="hasRole('ROLE_USER')">  -->
-			<!-- todo : role user et user.getId == sessionUser.getId -->
-			<button>ENREGISTRER</button>
-		</div>
-	</form>
-	<br>
-	<div class="bouton">
-		<a href="/profil">
-			<button>RETOUR</button>
-		</a>
-		<div class="boutonDeleteContainer">
-		<a href="/deleteProfil">
-			<button  class="boutonDelete">DELETE ACCOUNT</button>
-		</a>
-	</div>
-
-
-
-
+			<br>
+			<div class="bouton">
+				<!-- <div class="bouton" sec:authorize="hasRole('ROLE_USER')">  -->
+				<!-- todo : role user et user.getId == sessionUser.getId -->
+				<button>ENREGISTRER</button>
+				<a href="/deleteProfil">
+					<button class="boutonDelete">DELETE ACCOUNT</button>
+				</a>
+			</div>
+		</form>
+	</main>
 </body>
 </html>

@@ -70,24 +70,25 @@ label {
 
 /* Style des champs de texte */
 input[type="text"] {
-	border: none;
-	background-color: rgba(255, 255, 255, 0.6);
-	border-radius: 15px;
-	padding: 5px, 5px;
+	padding: 10px 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.6);
+    font-weight: bold;
+    box-shadow: 0 1px 8px rgb(201, 201, 201);
 }
 
 input[type="text"]::after {
 	border: none;
 }
 
-select, input {
-	background-color: transparent;
-	padding: 10px 10px;
-	border: none;
-	border-radius: 15px;
-	background-color: rgba(255, 255, 255, 0.6);
-	font-weight: bold;
-	box-shadow: 0 1px 8px rgb(201, 201, 201);
+select{
+    padding: 10px 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.6);
+    font-weight: bold;
+    box-shadow: 0 1px 8px rgb(201, 201, 201);
 }
 
 /* Lorsque les éléments sont en focus */
@@ -143,4 +144,11 @@ span {
 
 #ventes:checked ~ #ventesOptions {
 	display: block;
+}
+
+/* Style du bouton radio personnalisé */
+.checkmark {
+  top: 0;
+  left: 0;
+  height: 25px;
 }
