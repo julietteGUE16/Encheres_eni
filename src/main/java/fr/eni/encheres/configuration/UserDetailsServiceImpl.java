@@ -11,28 +11,24 @@ import org.springframework.stereotype.Component;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
 
-
 @Component("userDetailsService")
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private UtilisateurService utilisateurService;
 
-	
 	public UserDetailsServiceImpl(UtilisateurService utilisateurService) {
 		this.utilisateurService = utilisateurService;
 
 	}
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<Utilisateur> optUser = utilisateurService.findUtilisateurByPseudo(username);
-		if(optUser.isEmpty()) {
+		if (optUser.isEmpty()) {
 			throw new UsernameNotFoundException(username);
 		}
 		return new UtilisateurDetails(optUser.get());
 
-
 	}
 
-	
 }

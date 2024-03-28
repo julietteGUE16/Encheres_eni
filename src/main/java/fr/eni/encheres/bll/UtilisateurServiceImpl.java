@@ -13,8 +13,6 @@ import fr.eni.encheres.dal.ArticleDAO;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
-import fr.eni.encheres.dal.UtilisateurDAOImpl;
-import jakarta.validation.Valid;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
@@ -32,27 +30,55 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		this.articleDAO = articleDAO;
 	}
 
+	/**
+	 * Retourne un utilisateur à partir de son identifiant.
+	 * 
+	 * @param id L'identifiant de l'utilisateur.
+	 * @return L'utilisateur trouvé, s'il existe.
+	 */
 	@Override
 	public Optional<Utilisateur> getUserById(int id) {
 		return utilisateurDAO.getUserById(id);
 	}
 
+	/**
+	 * Met à jour les données d'un utilisateur.
+	 * 
+	 * @param user L'utilisateur à mettre à jour.
+	 */
 	@Override
 	public void updateUser(Utilisateur user) {
 		utilisateurDAO.updateUser(user);
 
 	}
 
+	/**
+	 * Retourne le mot de passe d'un utilisateur à partir de son id.
+	 * 
+	 * @param id L'identifiant de l'utilisateur.
+	 * @return Le mot de passe de l'utilisateur.
+	 */
 	@Override
 	public String getUserPasswordById(int id) {
 		return utilisateurDAO.getUserPasswordById(id);
 	}
 
+	/**
+	 * Recherche un utilisateur par son pseudo.
+	 * 
+	 * @param pseudo Le pseudo de l'utilisateur à rechercher.
+	 * @return L'utilisateur trouvé, s'il existe.
+	 */
 	@Override
 	public Optional<Utilisateur> findUtilisateurByPseudo(String pseudo) {
 		return utilisateurDAO.findUtilisateurByPseudo(pseudo);
 	}
 
+	/**
+	 * Supprime un utilisateur et toutes ses informations associées.
+	 * 
+	 * @param idUser L'identifiant de l'utilisateur à supprimer.
+	 */
 	@Transactional
 	@Override
 	public void deleteUser(int idUser) {
@@ -101,27 +127,58 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		utilisateurDAO.deleteUser(idUser);
 	}
 
+	/**
+	 * Vérifie si un pseudo existe déjà dans la base de données.
+	 * 
+	 * @param pseudo Le pseudo à vérifier.
+	 * @return true si le pseudo existe déjà, sinon false.
+	 */
 	@Override
 	public boolean pseudoExisteDeja(String pseudo) {
 		return utilisateurDAO.pseudoExisteDeja(pseudo);
 	}
 
+	/**
+	 * Enregistre un nouvel utilisateur dans la base de données.
+	 * 
+	 * @param utilisateur L'utilisateur à enregistrer.
+	 */
 	@Override
 	public void save(Utilisateur utilisateur) {
 		utilisateurDAO.save(utilisateur);
 
 	}
 
+	/**
+	 * Vérifie si une adresse email existe déjà dans la base de données.
+	 * 
+	 * @param email L'adresse email à vérifier.
+	 * @param id    L'identifiant de l'utilisateur (à exclure de la vérification).
+	 * @return true si l'adresse email existe déjà, sinon false.
+	 */
 	@Override
 	public boolean emailExisteDeja(String email, int id) {
 		return utilisateurDAO.emailExisteDeja(email, id);
 	}
 
+	/**
+	 * Recherche un utilisateur par son adresse email.
+	 * 
+	 * @param email L'adresse email de l'utilisateur à rechercher.
+	 * @return L'utilisateur trouvé, s'il existe.
+	 */
 	@Override
 	public Utilisateur findUtilisateurByEmail(String email) {
 		return utilisateurDAO.findUtilisateurByEmail(email);
 	}
 
+	/**
+	 * Recherche le nombre d'occurrences d'une adresse e-mail dans la base de
+	 * données.
+	 * 
+	 * @param email L'adresse e-mail à rechercher.
+	 * @return Le nombre d'occurrences de l'adresse e-mail.
+	 */
 	@Override
 	public int findEmail(String email) {
 		return utilisateurDAO.findEmail(email);

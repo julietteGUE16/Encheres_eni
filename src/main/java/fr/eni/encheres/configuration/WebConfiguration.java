@@ -32,11 +32,10 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 @EnableWebSecurity
 public class WebConfiguration implements WebMvcConfigurer {
-	
+
 	@Autowired
-    private UserDetailsService userDetailsService;
-	
-	
+	private UserDetailsService userDetailsService;
+
 	@Bean
 	LocaleResolver localeResolver() {
 		SessionLocaleResolver slr = new SessionLocaleResolver();
@@ -55,43 +54,29 @@ public class WebConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
-	
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-		.csrf(csrf ->csrf.ignoringRequestMatchers("**"))
-			.authorizeHttpRequests((requests) -> requests
+		http.csrf(csrf -> csrf.ignoringRequestMatchers("**")).authorizeHttpRequests((requests) -> requests
 
+				.requestMatchers("/css/**", "/js/**", "/images/**", "/", "/encheres", "/register", "register",
+						"/registerValid", "/resetPasswordValid", "/resetPassword", "/newPasswordValid", "/newPassword",
+						"/encheres/*", "/encheresParCategorieEtNom")
+				.permitAll()
 
-				.requestMatchers("/css/**","/js/**","/images/**","/", "/encheres","/register","register","/registerValid","/resetPasswordValid","/resetPassword","/newPasswordValid","/newPassword", "/encheres/*", "/encheresParCategorieEtNom").permitAll()
-
-
-				
-				.requestMatchers("/profil","/modifierProfil","/ajout-vente","ajout","/logout","register","ajout-vente","/ajout-vente-valider").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
-				.anyRequest().authenticated()
-			)
-			.formLogin((form) -> form
-				    .loginPage("/login")
-				    .permitAll()
-				)
-			 .logout((logout) -> logout
-					 	.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) 
-		                .logoutSuccessUrl("/login")
-		                .invalidateHttpSession(true)
-		                .clearAuthentication(true)
-		                .permitAll()
-		            );
+				.requestMatchers("/profil", "/modifierProfil", "/ajout-vente", "ajout", "/logout", "register",
+						"ajout-vente", "/ajout-vente-valider")
+				.hasAnyRole("MEMBRE", "ADMINISTRATEUR").anyRequest().authenticated())
+				.formLogin((form) -> form.loginPage("/login").permitAll())
+				.logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+						.logoutSuccessUrl("/login").invalidateHttpSession(true).clearAuthentication(true).permitAll());
 
 		return http.build();
 	}
 
-	
-	
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 }

@@ -19,29 +19,29 @@ import java.util.List;
 
 @Service
 @Primary
-public class ArticlesServiceImpl implements ArticlesService{
-	
+public class ArticlesServiceImpl implements ArticlesService {
+
 	@Autowired
-    private ArticleDAO articleDAO;
+	private ArticleDAO articleDAO;
 	private RetraitDAO retraitDAO;
 	private EnchereDAO enchereDAO;
 
-    public ArticlesServiceImpl(ArticleDAO articleDAO, RetraitDAO retraitDAO, EnchereDAO enchereDAO) {
-        this.articleDAO = articleDAO;
-        this.retraitDAO = retraitDAO;
-        this.enchereDAO = enchereDAO;
-    }
+	public ArticlesServiceImpl(ArticleDAO articleDAO, RetraitDAO retraitDAO, EnchereDAO enchereDAO) {
+		this.articleDAO = articleDAO;
+		this.retraitDAO = retraitDAO;
+		this.enchereDAO = enchereDAO;
+	}
 
 	@Override
 	public List<Article> consulterArticles() {
 		return articleDAO.findAll();
 	}
-	
+
 	@Override
-	public int creerArticle(Article article){
-		return articleDAO.ajoutArticle(article);		
+	public int creerArticle(Article article) {
+		return articleDAO.ajoutArticle(article);
 	}
-	
+
 	@Override
 	public List<Article> consulterArticlesByCategorie(int idCategorie) {
 		return articleDAO.findAllByCategorie(idCategorie);
@@ -61,7 +61,7 @@ public class ArticlesServiceImpl implements ArticlesService{
 	public Article consulterArticleByIdArticle(int idArticle) {
 		return articleDAO.findArticleById(idArticle);
 	}
-	
+
 	@Override
 	public Retrait consulterRetraitByIDArticle(int no_article) {
 		return articleDAO.findRetraitById(no_article);
@@ -81,7 +81,7 @@ public class ArticlesServiceImpl implements ArticlesService{
 	public List<Article> ConsulterArticlesByIdVenteTerminee(int idVendeur) {
 		return articleDAO.findAllByIdVenteTerminee(idVendeur);
 	}
-	
+
 	@Override
 	public List<Article> consulterArticlesByIdVendeurAndNomArticle(int idVendeur, String mot) {
 		return articleDAO.findAllByIdVendeurAndNomArticle(idVendeur, mot);
@@ -170,11 +170,11 @@ public class ArticlesServiceImpl implements ArticlesService{
 	public List<Article> ConsulterArticlesByIdVendeurAyantRemporte(int idVendeur) {
 		return articleDAO.findAllArticlesByIdVendeurAyantRemporte(idVendeur);
 	}
-	
+
 	@Override
 	public void changerPrixVente(int noArticle, int nouvelleEnchereNumber) {
 		articleDAO.changerPrixVente(noArticle, nouvelleEnchereNumber);
-		
+
 	}
 
 	@Override
@@ -185,11 +185,10 @@ public class ArticlesServiceImpl implements ArticlesService{
 	@Override
 	@Transactional
 	public void deleteArticleById(int no_article) {
-		//supression d'un retrait puis des encheres et des articles
+		// supression d'un retrait puis des encheres et des articles
 		retraitDAO.deleteByArticleId(no_article);
 		enchereDAO.deleteAllEnchereByArticleId(no_article);
 		articleDAO.deleteArticleById(no_article);
-		
-		
+
 	}
 }

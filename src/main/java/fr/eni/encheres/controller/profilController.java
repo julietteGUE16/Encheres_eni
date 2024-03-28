@@ -140,9 +140,8 @@ public class profilController {
 
 	@GetMapping("/login")
 	public String afficherLogin(HttpServletRequest request) {
-		    return "login";
-		}
-
+		return "login";
+	}
 
 	@GetMapping("/register")
 	public String displayRegister(Model model) {
@@ -270,9 +269,7 @@ public class profilController {
 	@GetMapping("/deleteProfil")
 	public String deleteProfil(Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
-		
 		utilisateurService.deleteUser(getIdUser());
-		
 		return "redirect:/logout";
 	}
 
