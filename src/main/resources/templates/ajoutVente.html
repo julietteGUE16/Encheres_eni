@@ -14,7 +14,7 @@
 	<main>
 		<script type="application/javascript" th:src="@{/js/script.js}"></script>
 		<div>
-			<h2>Nouvelle vente</h2 >
+			<h2>Nouvelle vente</h2>
 		</div>
 		<form method="post" action="/ajout-vente-valider"
 			th:object="${article}">
@@ -99,14 +99,15 @@
 
 						<div class="button">
 							<button th:type="submit" value="save">Enregistrer</button>
-							<button type="button" href="/encheres" th:onclick="backButton()" value="cancel">
-								<a href="/encheres">Annuler</a>
-							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
+		<button type="button" href="/encheres" th:onclick="backButton()"
+			value="cancel">
+			<a href="/encheres">Annuler</a>
+		</button>
 	</main>
 </body>
 </html>
