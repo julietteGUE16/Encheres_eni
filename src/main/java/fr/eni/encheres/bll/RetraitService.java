@@ -4,5 +4,7 @@ import fr.eni.encheres.bo.Retrait;
 
 public interface RetraitService {
 	Object creerRetrait(Retrait retrait);
+
+	Object modifierRetrait(Retrait retrait);
 }
  

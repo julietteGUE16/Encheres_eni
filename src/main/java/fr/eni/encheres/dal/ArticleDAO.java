@@ -13,6 +13,7 @@ public interface ArticleDAO {
 	List<Article> findArticlesEnModeConnecte(int idUser);
 	
 	int ajoutArticle(Article article);
+	Object modifierArticle(Article article);
 	
 	List<Article> findAllByCategorie(int idCategorie);
 	List<Article> findAllByNomArticle(String nomArticle);
@@ -42,4 +43,5 @@ public interface ArticleDAO {
 	List<Article> findAllByIdVendeurAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 	List<Article> findAllByIdVenteNonDebuteeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
 	List<Article> findAllByIdVenteTermineeAndCategorieAndNomArticle(int idVendeur, int idCategorie, String mot);
+	
 }

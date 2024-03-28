@@ -36,6 +36,12 @@ public class ArticlesServiceImpl implements ArticlesService{
 	}
 	
 	@Override
+	public Object modifierArticle(Article article) {
+		return articleDAO.modifierArticle(article);
+	}
+	
+	
+	@Override
 	public List<Article> consulterArticlesByCategorie(int idCategorie) {
 		return articleDAO.findAllByCategorie(idCategorie);
 	}
@@ -142,6 +148,6 @@ public class ArticlesServiceImpl implements ArticlesService{
 			int idCategorie) {
 		return articleDAO.findAllConnecteByNomArticleAndCategory(idUser, nomArticle, idCategorie);
 	}
-	
+
 	
 }

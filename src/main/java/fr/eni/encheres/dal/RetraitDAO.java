@@ -4,4 +4,5 @@ import fr.eni.encheres.bo.Retrait;
 
 public interface RetraitDAO {
 	Object ajoutRetrait(Retrait retrait);
+	Object modifierRetrait(Retrait retrait);
 }

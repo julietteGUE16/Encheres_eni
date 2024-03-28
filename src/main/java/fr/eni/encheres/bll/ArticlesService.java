@@ -11,6 +11,8 @@ public interface ArticlesService {
 	List<Article> consulterArticlesEnModeConnecte(int idUser);
 	
 	int creerArticle(Article article);
+	Object modifierArticle(Article article);
+
 
 	List<Article> consulterArticlesByCategorie(int idCategorie);
 	List<Article> consulterArticlesByNomArticle(String nomArticle);
