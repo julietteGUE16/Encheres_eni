@@ -56,7 +56,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	@Transactional
 	@Override
 	public void deleteUser(int idUser) {
-
 		// vente non débuté
 		List<Article> articlesNonDebute = articleDAO.findAllByIdVenteNonDebutee(idUser);
 		if (articlesNonDebute.size() > 0) {
