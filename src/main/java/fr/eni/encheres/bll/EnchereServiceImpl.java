@@ -6,10 +6,10 @@ import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.dal.EnchereDAO;
 
 @Service
-public class EnchereServiceImpl implements EnchereService{
-	
+public class EnchereServiceImpl implements EnchereService {
+
 	private EnchereDAO encheredao;
-	
+
 	public EnchereServiceImpl(EnchereDAO encheredao) {
 		this.encheredao = encheredao;
 	}
@@ -27,6 +27,6 @@ public class EnchereServiceImpl implements EnchereService{
 	@Override
 	public void deleteBestEnchere(int no_article, int idUser) {
 		encheredao.deleteBestEnchere(no_article, idUser);
-		
+
 	}
 }

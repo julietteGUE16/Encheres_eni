@@ -11,14 +11,14 @@ import fr.eni.encheres.dal.CategorieDAO;
 
 @Service
 public class CategorieServiceImpl implements CategorieService {
-	
+
 	@Autowired
 	private CategorieDAO categorieDAO;
-	
+
 	public CategorieServiceImpl(CategorieDAO categorieDAO) {
-        this.categorieDAO = categorieDAO;
-    }
-	
+		this.categorieDAO = categorieDAO;
+	}
+
 	@Override
 	public List<Categorie> consulterCategories() {
 		return categorieDAO.findAll();
