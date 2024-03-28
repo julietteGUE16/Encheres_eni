@@ -87,6 +87,7 @@ public class EncheresControllerBis {
 	}
 	
 
+
 	@RequestMapping(value="/ajout-vente", method = RequestMethod.POST, params = "cancel")
 	public String annuler(@Valid @ModelAttribute("article") Article article, BindingResult result, Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
@@ -94,13 +95,18 @@ public class EncheresControllerBis {
 		return "view-encheres";
 	}
 
+
 	
 	@PostMapping("/ajout-vente-valider")
 	public String ajoutVente(@Valid @ModelAttribute("article") Article article, BindingResult result, @RequestParam String rue,
 			@RequestParam String code_postal, @RequestParam String ville
 			 , Model model) {
 		System.out.println("rue = " + rue);
-		model.addAttribute("utilisateurService", utilisateurService);
+
+	model.addAttribute("utilisateurService", utilisateurService);
+
+
+		
 
 	
 		if (result.hasErrors()) {
