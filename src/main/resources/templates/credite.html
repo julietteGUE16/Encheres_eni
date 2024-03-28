@@ -13,14 +13,19 @@
 <body>
 	<main>
 		<div class="conteneur">
-			<a class="bouton-retour"><button class="bouton-retour" onclick="history.go(-1);">RETOUR</button></a>
+			<a class="bouton-retour"><button class="bouton-retour"
+					onclick="history.go(-1);">RETOUR</button></a>
 		</div>
 		<form id="formReset" action="/crediterAccount" method="post">
 			<div class="form-container">
-				<label>Credit que vous voulez ajouter: <br> <br> <input
-					type="text" name="credit" id="credit"
-					placeHolder="credit (ex = 20)" />
-				</label> <button>CREDITER</button>
+				<div>
+					<label>Credit que vous voulez ajouter: <input type="text"
+						name="credit" id="credit" placeHolder="credit (ex = 20)" />
+					</label>
+					<br>
+					<br>
+					<button>CREDITER</button>
+				</div>
 			</div>
 		</form>
 	</main>

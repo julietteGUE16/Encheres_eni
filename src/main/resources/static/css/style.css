@@ -103,6 +103,7 @@ a {
 
 /* Style du conteneur du formulaire */
 .form-container {
+	min-height: 60vh;
 	display: flex;
 	justify-content: space-around; /* Ajustez selon votre préférence */
 	align-items: flex-start; /* Alignement en haut */
