@@ -74,7 +74,6 @@ public class EnchereDAOImpl implements EnchereDAO {
 		namedParameters.addValue("no_article", enchere.getArticle().getNoArticle());
 		namedParameters.addValue("date_enchere", enchere.getDate());
 		namedParameters.addValue("montant_enchere", enchere.getMontant());
-		System.out.println(namedParameters);
 		namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters);
 	}
 
