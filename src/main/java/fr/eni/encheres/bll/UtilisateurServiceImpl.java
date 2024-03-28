@@ -13,8 +13,7 @@ import fr.eni.encheres.dal.ArticleDAO;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
-import fr.eni.encheres.dal.UtilisateurDAOImpl;
-import jakarta.validation.Valid;
+
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
