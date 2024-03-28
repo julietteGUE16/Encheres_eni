@@ -5,16 +5,16 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.UtilisateurRepository;
-import fr.eni.encheres.dal.UtilisateurRepositoryImpl;
+import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.dal.UtilisateurDAOImpl;
 import jakarta.validation.Valid;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
 	
-	private UtilisateurRepository utilisateurRepository;
+	private UtilisateurDAO utilisateurRepository;
 	
-	public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository) {
+	public UtilisateurServiceImpl(UtilisateurDAO utilisateurRepository) {
 		this.utilisateurRepository = utilisateurRepository;
 	}
 	

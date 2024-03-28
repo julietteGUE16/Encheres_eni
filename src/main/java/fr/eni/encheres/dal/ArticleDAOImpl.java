@@ -21,7 +21,7 @@ import fr.eni.encheres.dal.mapper.ArticleMapper;
 import fr.eni.encheres.dal.mapper.RetraitMapper;
  
 @Repository
-public class ArticleDAOimpl implements ArticleDAO{
+public class ArticleDAOImpl implements ArticleDAO{
 	private final String FIND_ALL = "SELECT DISTINCT "
 			+ "    A.no_article, "
 		    + "    A.nom_article, "
