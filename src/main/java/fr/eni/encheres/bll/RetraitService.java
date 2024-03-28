@@ -7,4 +7,3 @@ public interface RetraitService {
 
 	void deleteByArticleId(int no_article);
 }
- 

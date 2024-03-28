@@ -12,10 +12,10 @@ import jakarta.validation.constraints.NotBlank;
  * */
 public class Article {
 	private int noArticle;
-	
+
 	@NotBlank(message = "Le nom de l`article ne peut pas être vide")
 	private String nom;
-	
+
 	@NotBlank(message = "La description ne peut pas être vide")
 	private String description;
 	private Date debut;
@@ -24,11 +24,10 @@ public class Article {
 	private int prixVente;
 	private Utilisateur vendeur;
 	private Categorie categorie;
-	
+
 	public Article() {
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return "Article [noArticle=" + noArticle + ", nom=" + nom + ", description=" + description + ", debut=" + debut
@@ -36,21 +35,20 @@ public class Article {
 				+ ", categorie=" + categorie + "]";
 	}
 
-
 	public Article(int noArticle, String nom, String description, Date debut, Date fin, int miseAPrix, int prixVente,
-		Utilisateur vendeur, Categorie categorie) {
-	super();
-	this.noArticle = noArticle;
-	this.nom = nom;
-	this.description = description;
-	this.debut = debut;
-	this.fin = fin;
-	this.miseAPrix = miseAPrix;
-	this.prixVente = prixVente;
-	this.vendeur = vendeur;
-	this.categorie = categorie;
-}
-	
+			Utilisateur vendeur, Categorie categorie) {
+		super();
+		this.noArticle = noArticle;
+		this.nom = nom;
+		this.description = description;
+		this.debut = debut;
+		this.fin = fin;
+		this.miseAPrix = miseAPrix;
+		this.prixVente = prixVente;
+		this.vendeur = vendeur;
+		this.categorie = categorie;
+	}
+
 	public Article(String nom, String description, Date debut, Date fin, int miseAprix, int prixVente,
 			Utilisateur vendeur, Categorie categorie) {
 		super();
@@ -63,61 +61,76 @@ public class Article {
 		this.vendeur = vendeur;
 		this.categorie = categorie;
 	}
-	
+
 	public int getNoArticle() {
 		return noArticle;
 	}
+
 	public void setNoArticle(int noArticle) {
 		this.noArticle = noArticle;
 	}
+
 	public String getNom() {
 		return nom;
 	}
+
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public Date getDebut() {
 		return debut;
 	}
+
 	public void setDebut(Date debut) {
 		this.debut = debut;
 	}
+
 	public Date getFin() {
 		return fin;
 	}
+
 	public void setFin(Date fin) {
 		this.fin = fin;
 	}
+
 	public int getMiseAPrix() {
 		return miseAPrix;
 	}
+
 	public void setMiseAPrix(int miseAPrix) {
 		this.miseAPrix = miseAPrix;
 	}
+
 	public int getPrixVente() {
 		return prixVente;
 	}
+
 	public void setPrixVente(int prixVente) {
 		this.prixVente = prixVente;
 	}
+
 	public Utilisateur getVendeur() {
 		return vendeur;
 	}
+
 	public void setVendeur(Utilisateur vendeur) {
 		this.vendeur = vendeur;
 	}
+
 	public Categorie getCategorie() {
 		return categorie;
 	}
+
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
 }
-
-

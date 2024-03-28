@@ -140,9 +140,8 @@ public class profilController {
 
 	@GetMapping("/login")
 	public String afficherLogin(HttpServletRequest request) {
-		    return "login";
-		}
-
+		return "login";
+	}
 
 	@GetMapping("/register")
 	public String displayRegister(Model model) {
