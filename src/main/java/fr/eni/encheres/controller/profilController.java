@@ -34,7 +34,7 @@ public class profilController {
 	private boolean passwordTooShort = false;
 	private boolean emailExists = false;
 	private String emailForReset = "";
-    private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	public profilController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
 		this.utilisateurService = utilisateurService;
@@ -61,10 +61,11 @@ public class profilController {
 	}
 
 	@GetMapping("/profilOther")
-	public String afficherProfilOther(@RequestParam(name = "noUtilisateur") int noUtilisateur, Model modele) throws UserNotFound {
+	public String afficherProfilOther(@RequestParam(name = "noUtilisateur") int noUtilisateur, Model modele)
+			throws UserNotFound {
 		modele.addAttribute("utilisateurService", utilisateurService);
 		Optional<Utilisateur> user = Optional.empty();
-		user = utilisateurService.getUserById(noUtilisateur); 
+		user = utilisateurService.getUserById(noUtilisateur);
 		modele.addAttribute("user", user.get());
 		modele.addAttribute("userSession", getIdUser());
 		return "profil";
@@ -122,28 +123,26 @@ public class profilController {
 			emailExists = true;
 
 		}
-		
+
 		if (!result.hasErrors() && !pswBlank && !oldPswWrong && !pswNotTheSame && !passwordTooShort && !emailExists) {
 			if (!nouveauMdp.isEmpty()) {
 				mdp = nouveauMdp;
 				String motDePasseCrypte = passwordEncoder.encode(mdp);
 				user.setMotDePasse(motDePasseCrypte);
-			}else {
+			} else {
 				user.setMotDePasse(utilisateurService.getUserById(getIdUser()).get().getMotDePasse());
 			}
 			utilisateurService.updateUser(user);
 			return "redirect:/profil";
 		}
-
 		return "modifierProfil";
-
 	}
 
 	@GetMapping("/login")
 	public String afficherLogin(HttpServletRequest request) {
-		// String rememberMe = request.getParameter("remember-me");
-		return "login";
-	}
+		    return "login";
+		}
+
 
 	@GetMapping("/register")
 	public String displayRegister(Model model) {
@@ -180,7 +179,7 @@ public class profilController {
 			model.addAttribute("pseudoExists", true);
 			pseudoExists = true;
 		}
-		if (utilisateurService.emailExisteDeja(utilisateur.getEmail(),-1)) {
+		if (utilisateurService.emailExisteDeja(utilisateur.getEmail(), -1)) {
 			model.addAttribute("emailExists", true);
 			emailExists = true;
 		}
@@ -188,27 +187,22 @@ public class profilController {
 			model.addAttribute("passwordTooShort", true);
 			passwordTooShort = true;
 		}
-	
+
 		if (!result.hasErrors() && !pswBlank && !pswNotTheSame && !pseudoExists && !passwordTooShort && !emailExists) {
 			String motDePasseCrypte = passwordEncoder.encode(mdp);
-	        utilisateur.setMotDePasse(motDePasseCrypte);
+			utilisateur.setMotDePasse(motDePasseCrypte);
 			utilisateurService.save(utilisateur);
 			return "redirect:/login";
 		}
-
 		return "register";
-
-
 	}
-	
-	
-	
+
 	@GetMapping("/crediter")
 	public String crediterAccount(Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
 		return "credite";
 	}
-	
+
 	@PostMapping("/crediterAccount")
 	public String crediterAccount(@RequestParam int credit, Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
@@ -217,15 +211,13 @@ public class profilController {
 		utilisateurService.updateUser(user);
 		return "redirect:/profil";
 	}
-	
-	
 
 	@GetMapping("/resetPassword")
 	public String resetPassword(Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
 		return "resetPassword";
 	}
-	
+
 	@GetMapping("/newPassword")
 	public String newPassword(Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
@@ -234,13 +226,14 @@ public class profilController {
 		emailForReset = "";
 		return "newPassword";
 	}
-	
+
 	@PostMapping("/newPasswordValid")
-	public String newPasswordForm(Model modele, @RequestParam String email, @RequestParam String mdp, @RequestParam String mdpConfirm) {
+	public String newPasswordForm(Model modele, @RequestParam String email, @RequestParam String mdp,
+			@RequestParam String mdpConfirm) {
 		modele.addAttribute("utilisateurService", utilisateurService);
 		modele.addAttribute("mdpError", false);
 		modele.addAttribute("mdpOk", false);
-		if(mdp.length()>=5 && mdp.equals(mdpConfirm)) {
+		if (mdp.length() >= 5 && mdp.equals(mdpConfirm)) {
 			modele.addAttribute("mdpOk", true);
 			Utilisateur user = utilisateurService.findUtilisateurByEmail(email);
 			String motDePasseCrypte = passwordEncoder.encode(mdp);
@@ -257,14 +250,14 @@ public class profilController {
 		modele.addAttribute("utilisateurService", utilisateurService);
 		int emailExiste = utilisateurService.findEmail(email);
 		if (!email.isBlank() && email.contains("@")) {
-			if(emailExiste > 0) {
+			if (emailExiste > 0) {
 				modele.addAttribute("message", true);
 				modele.addAttribute("noEmail", false);
 			} else {
 				modele.addAttribute("noEmail", true);
 				modele.addAttribute("message", false);
 			}
-		
+
 			modele.addAttribute("messageAlert", false);
 		} else {
 			modele.addAttribute("message", false);
@@ -277,8 +270,10 @@ public class profilController {
 	@GetMapping("/deleteProfil")
 	public String deleteProfil(Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
+		int no_utilisateur = getIdUser();
+		
 		utilisateurService.deleteUser(getIdUser());
-
+		
 		return "redirect:/logout";
 	}
 

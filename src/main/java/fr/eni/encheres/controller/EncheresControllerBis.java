@@ -137,12 +137,13 @@ public class EncheresControllerBis {
 			@RequestParam String code_postal, @RequestParam String ville
 			 , Model model) {
 		
-		model.addAttribute(article);
-		
+		model.addAttribute(article);	
 		model.addAttribute("noArticle", article.getNoArticle());
 		model.addAttribute("nom_article", article.getNom());
 		model.addAttribute("description", article.getDescription());
 		model.addAttribute("miseAprix", article.getMiseAPrix());
+		model.addAttribute("debut", article.getDebut());
+		model.addAttribute("fin", article.getFin());
 		
 		return "modifierVente";
 		

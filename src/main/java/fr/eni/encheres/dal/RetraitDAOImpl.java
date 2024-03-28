@@ -1,6 +1,6 @@
 package fr.eni.encheres.dal;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -10,15 +10,21 @@ import fr.eni.encheres.bo.Retrait;
 
 @Repository
 public class RetraitDAOImpl implements RetraitDAO{
+		
+	private JdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	public RetraitDAOImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+		this.jdbcTemplate = this.namedParameterJdbcTemplate.getJdbcTemplate();
+	}
+	
 	private final String INSERT_RETRAIT = "INSERT INTO RETRAITS(no_article, rue, code_postal, ville) " 
 			+ " VALUES(:no_article, :rue, :code_postal, :ville)";
-	
-    @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     
+	private final String DELETE_RETRAIT = "DELETE FROM RETRAITS WHERE no_article = ?";
+	
     @Override
 	public Object ajoutRetrait(Retrait retrait) {
 		var namedParameters = new MapSqlParameterSource();
@@ -26,17 +32,12 @@ public class RetraitDAOImpl implements RetraitDAO{
 		namedParameters.addValue("rue", retrait.getRue());
 		namedParameters.addValue("code_postal", retrait.getCodePostal());
 		namedParameters.addValue("ville", retrait.getVille());
-		
 		return namedParameterJdbcTemplate.update(INSERT_RETRAIT, namedParameters);
-		
-		
 	}
 
 
 	@Override
 	public void deleteByArticleId(int no_article) {
-		String sql = "DELETE FROM RETRAITS WHERE no_article = ?";
-		jdbcTemplate.update(sql, no_article);
-		
+		jdbcTemplate.update(DELETE_RETRAIT, no_article);		
 	}
 }

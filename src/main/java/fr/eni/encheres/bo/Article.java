@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 
 /*
  * class objet de 
- * Un ....
+ * Article
  * 
  * */
 public class Article {

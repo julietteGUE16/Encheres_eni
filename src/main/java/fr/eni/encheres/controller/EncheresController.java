@@ -57,20 +57,10 @@ public class EncheresController {
 	@GetMapping({ "/", "/encheres" })
 	public String afficherArticles(Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
-//		authentication = SecurityContextHolder.getContext().getAuthentication();
-//		String name = authentication.getName();
-//		if (name.equals("anonymousUser")) {
-//			List<Article> articles = articlesService.consulterArticles();
-//			model.addAttribute("articles", articles);
-//		}else {
-//			List<Article> articles = articlesService.consulterArticlesEnModeConnecte(getIdUser());
-//			model.addAttribute("articles", articles);
-//		}
 		List<Article> articles = articlesService.consulterArticles();
 		model.addAttribute("articles", articles);
 		List<Categorie> categories = categorieService.consulterCategories();
 		model.addAttribute("categories", categories);
-
 		return "view-encheres";
 	}
 
@@ -279,7 +269,7 @@ public class EncheresController {
 	
 	@GetMapping("/encheres/delete") 
 	public String deleteEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montantRembourse") int montantRembourse ) {
-		enchereService.deleteEnchere(no_article,getIdUser());
+		enchereService.deleteBestEnchere(no_article,getIdUser());
 		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
 		utilisateur.setCredit(utilisateur.getCredit()+montantRembourse);
 		utilisateurService.updateUser(utilisateur);
@@ -298,11 +288,9 @@ public class EncheresController {
 				articlesService.changerPrixVente(no_article,0);
 			}
 		}
-		
-		 
-		
+
 		return "redirect:/encheres/detail?noArticle=" + no_article;
-			
+		
 		}
 	
 	
@@ -334,7 +322,6 @@ public class EncheresController {
 		//on change le prix de vente pour pouvoir ne plus afficher le retrait
 		articlesService.changerPrixVente(no_article,-1);
 		return "redirect:/encheres/detail?noArticle=" + no_article;
-	
 	}
 	
 	private int getIdUser() {

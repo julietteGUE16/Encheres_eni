@@ -30,6 +30,7 @@
 					<br> <div class="sesouvenir"><div><label for="remember-me">Se souvenir de moi</label></div><div><input type="checkbox" id="remember-me" name="remember-me"></div></div>
 					<br>
 					<p th:if="${param.error}">Invalid username or password.</p>
+					<p th:if="${erreurPseudo}" class="erreur-message" style="color: red;">Votre compte n'existe plus</p>
 					<button type="submit" value="Sign In">SE CONNECTER</button>
 				</form>
 				<a href="/register">

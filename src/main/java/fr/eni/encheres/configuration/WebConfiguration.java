@@ -64,21 +64,17 @@ public class WebConfiguration implements WebMvcConfigurer {
 			.authorizeHttpRequests((requests) -> requests
 
 
-				.requestMatchers("/css/**","/js/**","/images/**","/", "/encheres","/logout","/register","register","/registerValid" ,"/**","/resetPasswordValid","/resetPassword","ajout-vente","/ajout-vente-valider", "/encheres/*", "/encheresParCategorieEtNom").permitAll()
+				.requestMatchers("/css/**","/js/**","/images/**","/", "/encheres","/register","register","/registerValid","/resetPasswordValid","/resetPassword","/newPasswordValid","/newPassword", "/encheres/*", "/encheresParCategorieEtNom").permitAll()
 
 
 				
-				.requestMatchers("/profil","/modifierProfil","ajout-vente","ajout").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
+				.requestMatchers("/profil","/modifierProfil","/ajout-vente","ajout","/logout","register","ajout-vente","/ajout-vente-valider").hasAnyRole("MEMBRE", "ADMINISTRATEUR")
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form
 				    .loginPage("/login")
 				    .permitAll()
 				)
-			 .rememberMe((rememberMe) -> rememberMe
-		                .key("yourSecretKey")
-		                .tokenValiditySeconds(2) // Durée de validité du cookie de rappel en secondes (ici, 24 heures)
-		                .userDetailsService(userDetailsService))
 			 .logout((logout) -> logout
 					 	.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) 
 		                .logoutSuccessUrl("/login")

@@ -25,8 +25,8 @@ public class EnchereServiceImpl implements EnchereService{
 	}
 
 	@Override
-	public void deleteEnchere(int no_article, int idUser) {
-		encheredao.deleteEnchere(no_article, idUser);
+	public void deleteBestEnchere(int no_article, int idUser) {
+		encheredao.deleteBestEnchere(no_article, idUser);
 		
 	}
 }
