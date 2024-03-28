@@ -186,7 +186,7 @@ public class ArticleDAOImpl implements ArticleDAO{
 		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 		namedParameterJdbcTemplate.update(INSERT_ENCHERE, namedParameters, keyHolder);
 		Number newPrimaryKey = keyHolder.getKey();
-		int idGenere  = 0;
+		int idGenere  = 0; 
 		if(newPrimaryKey != null) {
 			idGenere = newPrimaryKey.intValue();
 			

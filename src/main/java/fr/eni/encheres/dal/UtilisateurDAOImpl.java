@@ -84,11 +84,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
 	@Override
 	public void deleteUser(int idUser) {
-		// todo :
-		//
-		String sql = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
-		jdbcTemplate.update(sql, idUser);
-
+		Utilisateur user = new Utilisateur(idUser, "utilisateur supprimé", "nom","prenom","email", "0", "rue", "codePostal", "ville", "password", 0, false);
+		this.updateUser(user);
 	}
 
 	@Override
