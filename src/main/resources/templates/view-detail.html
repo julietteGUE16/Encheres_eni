@@ -156,7 +156,7 @@
 						    <button>supprimer article</button></a>
 						    <br><br> 
 						<div th:if="${now.before(startDate)}">
-						<a data-th-href="@{/article/modifier(noArticle=${article.noArticle}, montant=${enchere.Montant})}">
+						<a data-th-href="@{/modifier-vente(noArticle=${article.noArticle}, montant=${enchere.Montant})}">
 						    <button>modifier</button></a>	
 						</div>
 					</div>

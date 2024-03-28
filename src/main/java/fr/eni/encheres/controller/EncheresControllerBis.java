@@ -135,6 +135,7 @@ public class EncheresControllerBis {
 	@GetMapping("/modifier-vente") 
 	public String pageModifierVente(@Valid @RequestParam(name="noArticle") int no_article, 
 			Model model) {
+		model.addAttribute("utilisateurService", utilisateurService);
 		Article article = articleService.consulterArticleByIdArticle(no_article);
 		Retrait retrait = articleService.consulterRetraitByIDArticle(no_article);
 		
@@ -150,6 +151,7 @@ public class EncheresControllerBis {
 			@ModelAttribute("article") Article article, @ModelAttribute("retrait") Retrait retrait,
 				BindingResult result, @RequestParam String rue,
 					@RequestParam String code_postal, @RequestParam String ville, Model model) {	
+		model.addAttribute("utilisateurService", utilisateurService);
 		
 		if (result.hasErrors()) {
 			model.addAttribute("article", article);
@@ -172,11 +174,7 @@ public class EncheresControllerBis {
 	
 	
 	
-	@PostMapping("/supprimer-vente")
-	public String supprimerVente() {
-		
-		return "redirect:/encheres";
-	}
+	
 
 	
 

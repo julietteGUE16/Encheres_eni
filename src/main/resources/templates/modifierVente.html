@@ -5,7 +5,7 @@
 					contenuPage=~{:: main},
 					ressourcesSupp=~{:: #ressources-css})}">
 <head>
-<title>ENIEnchères - Nouvelle vente</title>
+<title>ENIEnchères - Modifier vente</title>
 <th:block id="ressources-css">
 	<link th:href="@{/css/vendre-article.css}" rel="stylesheet" type="text/css" />
 </th:block>
@@ -13,7 +13,7 @@
 <body>
 <main>
 <script type="application/javascript" th:src="@{/js/script.js}"></script>
-	<div class="title"><h1>Nouvelle vente</h1></div>
+	<div class="title"><h1>Modifier vente</h1></div>
 	<div class="main">
 		<div class="infos">
 			<div class="canvas">
@@ -92,7 +92,7 @@
 				<div class="button">
 					<button th:type="submit" value="save">Enregistrer</button> 
 					<button type="button" th:onclick="backButton()" value="cancel"><a href="/encheres">Annuler</a></button>
-					<button type="button" th:onclick="backButton()" value="cancel"><a href="/supprimer-vente">supprimer la vente</a></button>
+					<button type="button" th:onclick="backButton()" value="cancel"><a th:href="@{/article/delete(noArticle=${article.noArticle}, montant=${0})}">supprimer la vente</a></button>
 				</div>
 					
 			</div>
