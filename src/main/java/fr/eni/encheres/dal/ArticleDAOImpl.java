@@ -21,7 +21,6 @@ import fr.eni.encheres.dal.mapper.ArticleMapper;
 import fr.eni.encheres.dal.mapper.RetraitMapper;
  
 @Repository
-
 public class ArticleDAOImpl implements ArticleDAO{
 	
 	private JdbcTemplate jdbcTemplate;
@@ -208,12 +207,22 @@ public class ArticleDAOImpl implements ArticleDAO{
 			idGenere = newPrimaryKey.intValue();
 			
 		}
-		return idGenere;
-		}
 	
 	@Override
-	public void modifierArticle(Article article) {
-		 jdbcTemplate.update(UPDATE_VENTE_ARTICLE, article.getNom(), article.getDescription(), article.getDebut(), article.getFin(), article.getMiseAPrix(),
+	public Object modifierArticle(Article article) {
+		var namedParameters = new MapSqlParameterSource();
+		System.out.println("no_article (modifierArticle) = " + article.getNoArticle());
+		/*namedParameters.addValue("nom_article", article.getNom());
+		namedParameters.addValue("description", article.getDescription());
+		namedParameters.addValue("date_debut", article.getDebut());
+		namedParameters.addValue("date_fin", article.getFin());
+		namedParameters.addValue("prix_initial", article.getMiseAPrix());
+		namedParameters.addValue("prix_vente", article.getPrixVente());
+		namedParameters.addValue("id_utilisateur", article.getVendeur().getNoUtilisateur());
+		namedParameters.addValue("id_categorie", article.getCategorie().getNoCategorie());*/
+		
+			System.out.println(article.toString());
+		return jdbcTemplate.update(UPDATE_VENTE_ARTICLE, article.getNom(), article.getDescription(), article.getDebut(), article.getFin(), article.getMiseAPrix(),
 	    		article.getPrixVente(), article.getVendeur().getNoUtilisateur(), article.getCategorie().getNoCategorie(), article.getNoArticle());
 		
 	}
@@ -221,7 +230,8 @@ public class ArticleDAOImpl implements ArticleDAO{
 	
 	
 
-	
+		return idGenere;
+	}
 
 	@Override
 	public List<Article> findAllByIdVendeur(int idVendeur) {
@@ -338,11 +348,11 @@ public class ArticleDAOImpl implements ArticleDAO{
 
 	@Override
 	public void deleteArticleById(int no_article) {
-		String sql = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 		jdbcTemplate.update(DELETE_ARTICLE, no_article);
 		
 		
 	}
+	
 
 
 }

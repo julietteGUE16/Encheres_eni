@@ -7,6 +7,4 @@ public interface RetraitDAO {
 	void ajoutRetrait(Retrait retrait);
 
 	void deleteByArticleId(int no_article);
-
-	Object modifierRetrait(Retrait retrait);
 }

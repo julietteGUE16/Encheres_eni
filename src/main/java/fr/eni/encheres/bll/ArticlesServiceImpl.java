@@ -191,9 +191,4 @@ public class ArticlesServiceImpl implements ArticlesService {
 		articleDAO.deleteArticleById(no_article);
 
 	}
-
-	@Override
-	public void modifierArticle(Article article) {
-		articleDAO.modifierArticle(article);
-	}
 }

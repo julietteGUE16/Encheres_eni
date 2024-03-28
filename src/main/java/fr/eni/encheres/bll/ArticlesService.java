@@ -9,7 +9,7 @@ public interface ArticlesService {
 	List<Article> consulterArticles();
 
 	int creerArticle(Article article);
-	void modifierArticle(Article article);
+	Object modifierArticle(Article article);
 
 
 	List<Article> consulterArticlesByCategorie(int idCategorie);
