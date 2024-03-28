@@ -20,27 +20,27 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		this.jdbcTemplate = this.namedParameterJdbcTemplate.getJdbcTemplate();
 	}
 
-	String GET_USER_BY_ID = "SELECT * FROM utilisateurs where no_utilisateur = ?";
+	private final String GET_USER_BY_ID = "SELECT * FROM utilisateurs where no_utilisateur = ?";
 	
-	String UPDATE_USER = "UPDATE utilisateurs SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?,"
+	private final String UPDATE_USER = "UPDATE utilisateurs SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?,"
 			+ "rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? , credit = ? WHERE no_utilisateur = ?";
 	
-	String GET_USER_PASSWORD_BY_ID  = "SELECT mot_de_passe FROM utilisateurs where no_utilisateur = ?";
+	private final String GET_USER_PASSWORD_BY_ID  = "SELECT mot_de_passe FROM utilisateurs where no_utilisateur = ?";
 	
-	String FIND_USER_BY_PSEUDO = "select * from utilisateurs where pseudo = ?";
+	private final String FIND_USER_BY_PSEUDO = "select * from utilisateurs where pseudo = ?";
 	
-	String PSEUSO_EXIST = "SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?";
+	private final String PSEUSO_EXIST = "SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?";
 	
-	String SAVE_USER = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
+	private final String SAVE_USER = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-	String MODIFIER_EMAIL_EXIST = "SELECT COUNT(*) FROM UTILISATEURS WHERE email = ? AND no_utilisateur <> ?";
+	private final String MODIFIER_EMAIL_EXIST = "SELECT COUNT(*) FROM UTILISATEURS WHERE email = ? AND no_utilisateur <> ?";
 	
-	String EMAIL_EXIST = "SELECT COUNT(*) FROM UTILISATEURS WHERE email = ?";
+	private final String EMAIL_EXIST = "SELECT COUNT(*) FROM UTILISATEURS WHERE email = ?";
 	
-	String FIND_EMAIL_BY_PSEUDO = "select * from utilisateurs where email = ?";
+	private final String FIND_EMAIL_BY_PSEUDO = "select * from utilisateurs where email = ?";
 	
-	String FIND_EMAIL = "SELECT COUNT(*) FROM utilisateurs WHERE email = ?";
+	private final String FIND_EMAIL = "SELECT COUNT(*) FROM utilisateurs WHERE email = ?";
 	
 	@Override
 	public Optional<Utilisateur> getUserById(int id) {

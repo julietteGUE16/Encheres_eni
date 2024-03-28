@@ -21,6 +21,16 @@ import fr.eni.encheres.dal.mapper.EnchereMapper;
 
 @Repository
 public class EnchereRepositoryImpl implements EnchereDAO {
+	
+	
+	private JdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	public EnchereRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+		this.jdbcTemplate = this.namedParameterJdbcTemplate.getJdbcTemplate();
+	}
+	
 
 	private final String FIND_BEST_ENCHERE_BY_ID_Article = "SELECT "
 			+ "COALESCE(e.montant_enchere, 0) AS meilleure_offre, "
@@ -46,11 +56,7 @@ public class EnchereRepositoryImpl implements EnchereDAO {
 	
 	private final String INSERT_ENCHERE = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) "
 			+ "VALUES (:no_utilisateur, :no_article, :date_enchere, :montant_enchere)";
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
 
 	@Override
 	public Enchere findBestEnchereByIdArticle(int no_article) {

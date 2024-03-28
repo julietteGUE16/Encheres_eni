@@ -12,16 +12,26 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
  
-import fr.eni.encheres.bll.ArticlesService;
+
 import fr.eni.encheres.bo.Article;
-import fr.eni.encheres.bo.Categorie;
+
 import fr.eni.encheres.bo.Retrait;
-import fr.eni.encheres.bo.Utilisateur;
+
 import fr.eni.encheres.dal.mapper.ArticleMapper;
 import fr.eni.encheres.dal.mapper.RetraitMapper;
  
 @Repository
 public class ArticleDAOImpl implements ArticleDAO{
+	
+	private JdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	public ArticleDAOImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+		this.jdbcTemplate = this.namedParameterJdbcTemplate.getJdbcTemplate();
+	}
+	
+	
 	private final String FIND_ALL = "SELECT DISTINCT "
 			+ "    A.no_article, "
 		    + "    A.nom_article, "
@@ -117,11 +127,18 @@ public class ArticleDAOImpl implements ArticleDAO{
 			+ " VALUES(:nom_article, :description, :date_debut, :date_fin, :prix_initial, :prix_vente, :id_utilisateur, :id_categorie )";
 	
  
-    @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
- 
+	
+	private final String CHANGE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS " +
+            "SET prix_vente = ? " +
+            "WHERE no_article = ?";
+	
+	private final String GET_PRIX_VENTE = "SELECT prix_vente " +
+            "FROM ARTICLES_VENDUS " +
+            "WHERE no_article = ?";
+	
+	private final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+	
+  
 	@Override
 	public List<Article> findAll() {
 		return namedParameterJdbcTemplate.query(FIND_ALL_EN_COURS, new ArticleMapper());
@@ -286,24 +303,17 @@ public class ArticleDAOImpl implements ArticleDAO{
 	
 	@Override
 	public void changerPrixVente(int noArticle, int nouvelleEnchereNumber) {
-		String sql = "UPDATE ARTICLES_VENDUS " +
-                "SET prix_vente = ? " +
-                "WHERE no_article = ?";
-		jdbcTemplate.update(sql,nouvelleEnchereNumber,noArticle);
+		jdbcTemplate.update(CHANGE_PRIX_VENTE,nouvelleEnchereNumber,noArticle);
 	}
 
 	@Override
 	public int getPrixVente(int no_article) {
-		String sql = "SELECT prix_vente " +
-                "FROM ARTICLES_VENDUS " +
-                "WHERE no_article = ?";
-		return jdbcTemplate.queryForObject(sql, Integer.class, no_article) ;
+		return jdbcTemplate.queryForObject(GET_PRIX_VENTE, Integer.class, no_article) ;
 	}
 
 	@Override
 	public void deleteArticleById(int no_article) {
-		String sql = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
-		jdbcTemplate.update(sql, no_article);
+		jdbcTemplate.update(DELETE_ARTICLE, no_article);
 		
 		
 	}
