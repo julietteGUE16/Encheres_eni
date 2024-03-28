@@ -3,8 +3,8 @@ package fr.eni.encheres.bo;
 import java.time.LocalDateTime;
 
 /*
- * class objet de 
- * Un ....
+ * class objet d'une enchere 
+ * 
  * 
  * */
 public class Enchere {

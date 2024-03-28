@@ -1,7 +1,7 @@
 package fr.eni.encheres.bo;
 /*
  * class objet de 
- * Un ....
+ * Catégorie
  * 
  * */
 public class Categorie {
