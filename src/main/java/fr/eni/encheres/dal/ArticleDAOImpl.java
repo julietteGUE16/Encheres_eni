@@ -21,6 +21,7 @@ import fr.eni.encheres.dal.mapper.ArticleMapper;
 import fr.eni.encheres.dal.mapper.RetraitMapper;
  
 @Repository
+
 public class ArticleDAOImpl implements ArticleDAO{
 	
 	private JdbcTemplate jdbcTemplate;
@@ -30,6 +31,10 @@ public class ArticleDAOImpl implements ArticleDAO{
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 		this.jdbcTemplate = this.namedParameterJdbcTemplate.getJdbcTemplate();
 	}
+
+	private String date = "CURRENT_DATE";
+	//private String date = "GETDATE()";
+
 	
 	
 	private final String FIND_ALL = "SELECT DISTINCT "
@@ -52,7 +57,7 @@ public class ArticleDAOImpl implements ArticleDAO{
 		    + "    INNER JOIN CATEGORIES C ON A.no_categorie = C.no_categorie "
 		    + "    INNER JOIN UTILISATEURS U ON A.no_utilisateur = U.no_utilisateur ";
 	
-	private final String FIND_ALL_EN_COURS = FIND_ALL + " WHERE A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()";
+	private final String FIND_ALL_EN_COURS = FIND_ALL + " WHERE A.date_debut_encheres <= "+date+" AND A.date_fin_encheres >= "+date;
 	
 	private final String FIND_ALL_BY_CATEGORY = FIND_ALL_EN_COURS + " AND A.no_categorie = ?";
 	private final String FIND_ALL_BY_NOM_ARTICLE = FIND_ALL_EN_COURS +" AND A.nom_article LIKE '%' + ? + '%'";
@@ -60,9 +65,9 @@ public class ArticleDAOImpl implements ArticleDAO{
 	
 	private final String FIND_ARTICLE_BY_ID = FIND_ALL + " WHERE A.no_article = ?";
 	
-	private final String FIND_ARTICLES_BY_ID_VENDEUR_AND_VENTE_EN_COURS = FIND_ALL + " WHERE A.no_utilisateur = ? AND A.date_debut_encheres <= GETDATE() AND A.date_fin_encheres >= GETDATE()";
-	private final String FIND_ARTICLES_BY_VENTE_NON_DEBUTE = FIND_ALL + " WHERE A.no_utilisateur = ? AND A.date_debut_encheres > GETDATE()";
-	private final String FIND_ARTICLES_BY_VENTE_TERMINEE = FIND_ALL + " WHERE A.no_utilisateur = ? AND A.date_fin_encheres < GETDATE()";
+	private final String FIND_ARTICLES_BY_ID_VENDEUR_AND_VENTE_EN_COURS = FIND_ALL + " WHERE A.no_utilisateur = ? AND A.date_debut_encheres <= "+date+" AND A.date_fin_encheres >= "+date;
+	private final String FIND_ARTICLES_BY_VENTE_NON_DEBUTE = FIND_ALL + " WHERE A.no_utilisateur = ? AND A.date_debut_encheres > "+date;
+	private final String FIND_ARTICLES_BY_VENTE_TERMINEE = FIND_ALL + " WHERE A.no_utilisateur = ? AND A.date_fin_encheres < "+date;
 	
 	private final String FIND_ARTICLES_BY_ID_VENDEUR_AND_VENTE_EN_COURS_AND_MOT = FIND_ARTICLES_BY_ID_VENDEUR_AND_VENTE_EN_COURS + " AND A.nom_article LIKE '%' + ? + '%'" ;
 	private final String FIND_ARTICLES_BY_VENTE_NON_DEBUTE_AND_MOT = FIND_ARTICLES_BY_VENTE_NON_DEBUTE + " AND A.nom_article LIKE '%' + ? + '%'";
@@ -76,10 +81,10 @@ public class ArticleDAOImpl implements ArticleDAO{
 	private final String FIND_ARTICLES_BY_VENTE_NON_DEBUTE_AND_CATEGORIE_AND_NOM_ARTICLE = FIND_ARTICLES_BY_VENTE_NON_DEBUTE_AND_CATEGORIE + " AND A.nom_article LIKE '%' + ? + '%'";
 	private final String FIND_ARTICLES_BY_VENTE_TERMINEE_AND_CATEGORIE_AND_NOM_ARTICLE = FIND_ARTICLES_BY_VENTE_TERMINEE_AND_CATEGORIE + " AND A.nom_article LIKE '%' + ? + '%'";
 	
-	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.date_fin_encheres >= GETDATE()";
-	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_CATEGORIE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ?  AND A.no_categorie = ? AND A.date_fin_encheres >= GETDATE()";
-	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_RECHERCHE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.nom_article LIKE '%' + ? + '%' AND A.date_fin_encheres >= GETDATE()";
-	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_CATEGORIE_AND_RECHERCHE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%' AND A.date_fin_encheres >= GETDATE()";
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.date_fin_encheres >= "+date;
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_CATEGORIE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ?  AND A.no_categorie = ? AND A.date_fin_encheres >= "+date;
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_RECHERCHE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.nom_article LIKE '%' + ? + '%' AND A.date_fin_encheres >= "+date;
+	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_ENCHERI_AND_CATEGORIE_AND_RECHERCHE = FIND_ALL + " INNER JOIN ENCHERES E ON A.no_article = E.no_article WHERE E.no_utilisateur = ? AND A.no_categorie = ? AND A.nom_article LIKE '%' + ? + '%' AND A.date_fin_encheres >= "+date;
 	
 	private final String FIND_ARTICLES_WHERE_ID_VENDEUR_REMPORTE = "SELECT DISTINCT " +
 		    "A.no_article, " +
@@ -104,7 +109,7 @@ public class ArticleDAOImpl implements ArticleDAO{
 		    "INNER JOIN UTILISATEURS U ON A.no_utilisateur = U.no_utilisateur " +
 		    "INNER JOIN ENCHERES E ON A.no_article = E.no_article " +
 		    "WHERE " +
-		    "A.date_fin_encheres < GETDATE() " +
+		    "A.date_fin_encheres < "+date+" " +
 		    "AND E.no_utilisateur = ? " +
 		    "AND E.montant_enchere = ( " +
 		    "SELECT MAX(montant_enchere) " +
@@ -203,22 +208,12 @@ public class ArticleDAOImpl implements ArticleDAO{
 			idGenere = newPrimaryKey.intValue();
 			
 		}
+		return idGenere;
+		}
 	
 	@Override
-	public Object modifierArticle(Article article) {
-		var namedParameters = new MapSqlParameterSource();
-		System.out.println("no_article (modifierArticle) = " + article.getNoArticle());
-		/*namedParameters.addValue("nom_article", article.getNom());
-		namedParameters.addValue("description", article.getDescription());
-		namedParameters.addValue("date_debut", article.getDebut());
-		namedParameters.addValue("date_fin", article.getFin());
-		namedParameters.addValue("prix_initial", article.getMiseAPrix());
-		namedParameters.addValue("prix_vente", article.getPrixVente());
-		namedParameters.addValue("id_utilisateur", article.getVendeur().getNoUtilisateur());
-		namedParameters.addValue("id_categorie", article.getCategorie().getNoCategorie());*/
-		
-			System.out.println(article.toString());
-		return jdbcTemplate.update(UPDATE_VENTE_ARTICLE, article.getNom(), article.getDescription(), article.getDebut(), article.getFin(), article.getMiseAPrix(),
+	public void modifierArticle(Article article) {
+		 jdbcTemplate.update(UPDATE_VENTE_ARTICLE, article.getNom(), article.getDescription(), article.getDebut(), article.getFin(), article.getMiseAPrix(),
 	    		article.getPrixVente(), article.getVendeur().getNoUtilisateur(), article.getCategorie().getNoCategorie(), article.getNoArticle());
 		
 	}
@@ -226,8 +221,7 @@ public class ArticleDAOImpl implements ArticleDAO{
 	
 	
 
-		return idGenere;
-	}
+	
 
 	@Override
 	public List<Article> findAllByIdVendeur(int idVendeur) {
@@ -344,11 +338,11 @@ public class ArticleDAOImpl implements ArticleDAO{
 
 	@Override
 	public void deleteArticleById(int no_article) {
+		String sql = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 		jdbcTemplate.update(DELETE_ARTICLE, no_article);
 		
 		
 	}
-	
 
 
 }

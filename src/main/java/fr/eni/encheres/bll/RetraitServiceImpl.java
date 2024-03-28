@@ -29,4 +29,9 @@ public class RetraitServiceImpl implements RetraitService {
 
 	}
 
+	@Override
+	public void modifierRetrait(Retrait retrait) {
+		retraitDAO.modifierRetrait(retrait);
+	}
+
 }

@@ -69,4 +69,6 @@ public interface ArticleDAO {
 	int getPrixVente(int no_article);
 
 	void deleteArticleById(int no_article);
+
+	void modifierArticle(Article article);
 }
