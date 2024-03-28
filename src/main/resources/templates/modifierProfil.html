@@ -18,6 +18,7 @@
 				<button class="bouton-retour">RETOUR</button>
 			</a>
 		</div>
+		<div class="ensemble">
 		<form action="/validerModifProfil" method="post" th:object="${user}">
 			<div class="form-container">
 				<div class="infos">
@@ -55,25 +56,25 @@
 						th:field="*{credit}" id="credit"> <input class="element"
 						type="hidden" th:field="*{administrateur}" id="administrateur">
 					<label>Ancien mot de passe :</label><input class="element"
-						type="password" id="ancienMdp" name="ancienMdp"><span class="toggle-password" onclick="togglePasswordVisibility(this)"></span>
+						type="password" id="ancienMdp" name="ancienMdp"><span
+						class="toggle-password" onclick="togglePasswordVisibility(this)"></span>
 					<div class="error-message">
 						<p th:if="${oldPswWrong}" class="erreur">mauvais mot de passe</p>
 					</div>
 					<label>Nouveau mot de passe :</label><input class="element"
 						type="password" id="nouveauMdp" name="nouveauMdp">
 					<div class="error-message">
-						<p th:if="${pswBlank}" class="erreur">Les cases nouveau, ancien et
-							confirmation doivent être complétées</p>
-						<p th:if="${passwordTooShort}" class="erreur">le mot de passe doit faire
-							minimum 5 caractères</p>
+						<p th:if="${pswBlank}" class="erreur">Les cases nouveau,
+							ancien et confirmation doivent être complétées</p>
+						<p th:if="${passwordTooShort}" class="erreur">le mot de passe
+							doit faire minimum 5 caractères</p>
 					</div>
 				</div>
 
 				<div class="container-value">
-				<p>* (champs obligatoires)</p>
-				<br>
-				<label>Nom* :</label><input class="element"
-						type="text" th:field="*{nom}" id="nom">
+					<p>* (champs obligatoires)</p>
+					<br> <label>Nom* :</label><input class="element" type="text"
+						th:field="*{nom}" id="nom">
 					<div class="error-message">
 						<p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"
 							class="erreur">Erreur de validation</p>
@@ -100,8 +101,8 @@
 					<label>Confirmation :</label><input class="elementConfirm"
 						type="password" id="confirmationMdp" name="confirmationMdp">
 					<div class="error-message">
-						<p th:if="${pswNotTheSame}" class="erreur">nouveau mot de passe et
-							confirmation différent</p>
+						<p th:if="${pswNotTheSame}" class="erreur">nouveau mot de
+							passe et confirmation différent</p>
 					</div>
 				</div>
 			</div>
@@ -109,9 +110,10 @@
 			<div class="bouton">
 				<!-- <div class="bouton" sec:authorize="hasRole('ROLE_USER')">  -->
 				<!-- todo : role user et user.getId == sessionUser.getId -->
-				<button>ENREGISTRER</button>
+				<button type="submit">ENREGISTRER</button>
 			</div>
 		</form>
+		</div>
 		<a href="/deleteProfil">
 			<button class="boutonDelete">DELETE ACCOUNT</button>
 		</a>
