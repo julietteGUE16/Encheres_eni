@@ -19,8 +19,8 @@ public class RetraitServiceImpl implements RetraitService{
 	}
 	
 	@Override
-	public Object creerRetrait(Retrait retrait) {
-		return retraitDAO.ajoutRetrait(retrait);
+	public void creerRetrait(Retrait retrait) {
+		retraitDAO.ajoutRetrait(retrait);
 	}
 
 	@Override

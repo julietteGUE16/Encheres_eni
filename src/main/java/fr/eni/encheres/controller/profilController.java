@@ -270,9 +270,7 @@ public class profilController {
 	@GetMapping("/deleteProfil")
 	public String deleteProfil(Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
-		
 		utilisateurService.deleteUser(getIdUser());
-		
 		return "redirect:/logout";
 	}
 

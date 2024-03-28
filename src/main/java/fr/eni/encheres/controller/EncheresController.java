@@ -41,14 +41,12 @@ public class EncheresController {
 	private CategorieService categorieService;
 	private UtilisateurService utilisateurService;
 	private EnchereService enchereService;
-	private RetraitService retraitService;
 	private boolean errorPrice;
 	private boolean noMoney;
 
 	public EncheresController(ArticlesService articlesService, CategorieService categorieService, UtilisateurService utilisateurService,
-			EnchereService encheresService, RetraitService retraitService) {
+			EnchereService encheresService) {
 		this.articlesService = articlesService;
-		this.retraitService = retraitService;
 		this.categorieService = categorieService;
 		this.utilisateurService = utilisateurService;
 		this.enchereService = encheresService;

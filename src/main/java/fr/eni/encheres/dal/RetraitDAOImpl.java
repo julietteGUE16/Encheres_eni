@@ -26,13 +26,13 @@ public class RetraitDAOImpl implements RetraitDAO{
 	private final String DELETE_RETRAIT = "DELETE FROM RETRAITS WHERE no_article = ?";
 	
     @Override
-	public Object ajoutRetrait(Retrait retrait) {
+	public void ajoutRetrait(Retrait retrait) {
 		var namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("no_article", retrait.getNoRetrait());
 		namedParameters.addValue("rue", retrait.getRue());
 		namedParameters.addValue("code_postal", retrait.getCodePostal());
 		namedParameters.addValue("ville", retrait.getVille());
-		return namedParameterJdbcTemplate.update(INSERT_RETRAIT, namedParameters);
+		namedParameterJdbcTemplate.update(INSERT_RETRAIT, namedParameters);
 	}
 
 
