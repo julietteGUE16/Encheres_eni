@@ -2,12 +2,14 @@ package fr.eni.encheres.dal;
  
 import java.sql.Date;
 import java.util.List;
- 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
  
 import fr.eni.encheres.bll.ArticlesService;
@@ -297,5 +299,15 @@ public class ArticleDAOimpl implements ArticleDAO{
                 "WHERE no_article = ?";
 		return jdbcTemplate.queryForObject(sql, Integer.class, no_article) ;
 	}
+
+	@Override
+	public void deleteArticleById(int no_article) {
+		String sql = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+		jdbcTemplate.update(sql, no_article);
+		
+		
+	}
+	
+
 
 }
