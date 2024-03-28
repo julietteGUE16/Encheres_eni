@@ -270,7 +270,6 @@ public class profilController {
 	@GetMapping("/deleteProfil")
 	public String deleteProfil(Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
-		int no_utilisateur = getIdUser();
 		
 		utilisateurService.deleteUser(getIdUser());
 		
