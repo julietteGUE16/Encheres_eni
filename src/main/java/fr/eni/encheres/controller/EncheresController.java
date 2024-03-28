@@ -269,7 +269,7 @@ public class EncheresController {
 	
 	@GetMapping("/encheres/delete") 
 	public String deleteEnchere(@RequestParam(name = "noArticle") int no_article,@RequestParam(name = "montantRembourse") int montantRembourse ) {
-		enchereService.deleteEnchere(no_article,getIdUser());
+		enchereService.deleteBestEnchere(no_article,getIdUser());
 		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
 		utilisateur.setCredit(utilisateur.getCredit()+montantRembourse);
 		utilisateurService.updateUser(utilisateur);

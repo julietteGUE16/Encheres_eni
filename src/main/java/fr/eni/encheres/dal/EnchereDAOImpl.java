@@ -20,13 +20,13 @@ import fr.eni.encheres.dal.mapper.ArticleMapper;
 import fr.eni.encheres.dal.mapper.EnchereMapper;
 
 @Repository
-public class EnchereRepositoryImpl implements EnchereDAO {
+public class EnchereDAOImpl implements EnchereDAO {
 	
 	
 	private JdbcTemplate jdbcTemplate;
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	public EnchereRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+	public EnchereDAOImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 		this.jdbcTemplate = this.namedParameterJdbcTemplate.getJdbcTemplate();
 	}
@@ -41,7 +41,7 @@ public class EnchereRepositoryImpl implements EnchereDAO {
 			+ "AND (e.montant_enchere IS NULL OR e.montant_enchere = (SELECT MAX(montant_enchere) " + "FROM ENCHERES "
 			+ "WHERE no_article = a.no_article))";
 	
-	private final String DELETE_ENCHERE = "DELETE FROM ENCHERES " +
+	private final String DELETE_ENCHERE_BEST = "DELETE FROM ENCHERES " +
             "WHERE no_article = ? " +
             "AND no_utilisateur = ? " +
             "AND date_enchere = ( " +
@@ -50,6 +50,10 @@ public class EnchereRepositoryImpl implements EnchereDAO {
             "    WHERE no_article = ? " +
             "    AND no_utilisateur = ? " +
             ")";
+	
+	private final String DELETE_ENCHERE = "DELETE FROM ENCHERES " +
+            "WHERE no_article = ? " +
+            "AND no_utilisateur = ? ";
 	
 	private final String DELETE_ALL_ENCHERE = "DELETE FROM ENCHERES " +
             "WHERE no_article = ? ";
@@ -75,14 +79,18 @@ public class EnchereRepositoryImpl implements EnchereDAO {
 	}
 
 	@Override
-	public void deleteEnchere(int no_article, int idUser) {
-		jdbcTemplate.update(DELETE_ENCHERE, no_article,idUser,no_article,idUser);
+	public void deleteBestEnchere(int no_article, int idUser) {
+		jdbcTemplate.update(DELETE_ENCHERE_BEST, no_article,idUser,no_article,idUser);
+	}
+	
+	@Override
+	public void deleteAllEnchereByArticleIdAndIdUser(int no_article, int idUser) {
+		jdbcTemplate.update(DELETE_ENCHERE, no_article, idUser);
 	}
 
 	@Override
 	public void deleteAllEnchereByArticleId(int no_article) {
 		jdbcTemplate.update(DELETE_ALL_ENCHERE, no_article);
-		
 	}
 
 }
