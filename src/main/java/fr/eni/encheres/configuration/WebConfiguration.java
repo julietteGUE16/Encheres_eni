@@ -75,10 +75,6 @@ public class WebConfiguration implements WebMvcConfigurer {
 				    .loginPage("/login")
 				    .permitAll()
 				)
-			 .rememberMe((rememberMe) -> rememberMe
-		                .key("yourSecretKey")
-		                .tokenValiditySeconds(2) // Durée de validité du cookie de rappel en secondes (ici, 24 heures)
-		                .userDetailsService(userDetailsService))
 			 .logout((logout) -> logout
 					 	.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) 
 		                .logoutSuccessUrl("/login")
