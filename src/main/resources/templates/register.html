@@ -22,7 +22,7 @@
 						<div class="error-message">
 							<p th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}"
 								class="erreur">Erreur de validation</p>
-							<p th:if="${pseudoExists}">le pseudo existe déjà</p>
+							<p th:if="${pseudoExists}" class="erreur">le pseudo existe déjà</p>
 						</div>
 						<label>Prénom* :</label><input class="element" type="text"
 							th:field="*{prenom}" id="prenom">

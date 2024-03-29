@@ -5,109 +5,127 @@
 					contenuPage=~{:: main},
 					ressourcesSupp=~{:: #ressources-css})}">
 <head>
-<title>ENIEnchères - Modifier vente</title>
+<title>Modifier Vente</title>
 <th:block id="ressources-css">
-	<link th:href="@{/css/vendre-article.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
 </th:block>
 </head>
 <body>
-<main>
-<script type="application/javascript" th:src="@{/js/script.js}"></script>
-	<div class="title"><h1>Modifier vente</h1></div>
-	<div class="main">
-		<div class="infos">
-			<div class="canvas">
-				<p>
-				<img id="display" width="400" height="250"></img>
-				</p>
-			</div>
+	<main>
+		<script type="application/javascript" th:src="@{/js/script.js}"></script>
+		<div>
+			<h2>Modifier la vente</h2>
 		</div>
-		
-<!-- Formulaire -->
-		<form  method="post" th:action="@{/modifier-vente-valider} + '?noArticle=' + ${param.noArticle}" th:object="${article}" th:if="${param.noArticle != null}">
-		<div class="infos">
-				<!-- Entrée pour le nom de  l'article -->
-				<label for="nom">Article : </label> 
-					<input name="nom" th:type="text" id="nom" th:value="${article.getNom()}" th:field="*{nom}" th:maxlength="30">
-					<div class="error-message">
-						<p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"
-							class="erreur">Erreur de validation</p>
-					</div>
-				
-				<br/><br/>
-				<!-- Entrée pour la description de l'article -->
-				<label for="description">Description : </label>
-					<textarea name="description" id="description"  th:value="${article.getDescription()}" th:field="*{description}"  th:maxlength="300"></textarea>
-					<div class="error-message">
-					<p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-						class="erreur">Erreur de validation</p>
-						</div>
-						
-				<br/><br/>
-				<!-- Menu déroulant pour la catégorie de l'article vendu -->
-				<label for="categorie">Catégorie : </label>
-			    	<select th:field="*{categorie.noCategorie}" id="categorie" required>
-							<option value="-1" disabled>Toutes les catégories</option>
-							<option th:each="category : ${categories}"
-								th:value="${category.noCategorie}"
-								th:text="${category.libelle}"></option>
-			    	</select>
-					<div class="error-message">
-					<p th:if="${#fields.hasErrors('categorie')}"  th:errors="*{categorie}"
-						class="erreur">Erreur de validation</p>
-						</div>
-						
-				<br/><br/> 
-				<label for="image_article">Photo de l'article : </label>
-					<input type="file" id="image_article" name="image_article" accept="image/*"
-						 th:onchange="upload()">
-				<br/><br/>
-				<!-- Prix de départ de l'article vendu -->
-				<label for="prix_initial">Mise à prix : </label>
-					<input name="miseAPrix" type="number" id="miseAPrix"  th:value="${article.getMiseAPrix()}" >
-				
-				<br/><br/>
-				<!-- Entrée de la date du début d'enchère -->
-				<label for="date_debut">Début de l'enchère : </label>
-					<input type="date" name="debut" id="debut" th:value="${article.getDebut()}"  th:onclick="minDebutDate(); minFinDate();" 
-					th:onchange="minFinDate();" min=""  required>
+		<div class="ensemble">
+			<form method="post"
+				th:action="@{/modifier-vente-valider} + '?noArticle=' + ${param.noArticle}"
+				th:object="${article}" th:if="${param.noArticle != null}">
+				<div class="form-container">
+					<div class="form-column">
+						<div class="infos">
+							<!-- Entrée pour le nom de  l'article -->
+							<label for="nom">Article : </label> <input name="nom"
+								th:type="text" id="nom" th:value="${article.getNom()}"
+								th:field="*{nom}" th:maxlength="30">
+							<div class="error-message">
+								<p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"
+									class="erreur">Erreur de validation</p>
+							</div>
 
-				
-				<br/><br/>
-				<!-- Entrée de la date de la fin de l'enchère -->
-				<label for="date_fin">Fin de l'enchère : </label>
-					<input type="date" name="fin" id="fin"  th:value="${article.getFin()}" required disabled>
-					<div class="error-message">
-						<p th:if="${errorDate}">la date de fin ne peut pas être avant la date du début</p>
-					</div>
-					<div class="error-message">
-									<p th:if="${errorDateNull}">la date de fin et de debut doivent être selectionnées</p>
-								</div>
+							<br /> <br />
+							<!-- Entrée pour la description de l'article -->
+							<label for="description">Description : </label>
+							<textarea name="description" id="description"
+								th:value="${article.getDescription()}" th:field="*{description}"
+								th:maxlength="300"></textarea>
+							<div class="error-message">
+								<p th:if="${#fields.hasErrors('description')}"
+									th:errors="*{description}" class="erreur">Erreur de
+									validation</p>
+							</div>
 
-				<!-- Formulaire du retrait -->
-				<fieldset>
-					<legend>Retrait</legend> 
-						<table>
-							<tr><td>Rue : </td><td><input name="rue" th:type="text" th:maxlength="30" th:value="${retrait.getRue()}" ></td></tr>
-							<tr><td>Code postal : </td><td><input name="code_postal" th:type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-							maxlength="5" th:value="${retrait.getCodePostal()}" ></td></tr>
-							<tr><td>Ville : </td><td><input name="ville" th:type="text" th:maxlength="30" th:value="${retrait.getVille()}" ></td></tr>
-						</table>
-				</fieldset>
-				
-				
-				<div class="button">
-					<button th:type="submit" value="save">Enregistrer</button> 
-					<button type="button" th:onclick="backButton()" value="cancel"><a href="/encheres">Annuler</a></button>
-					<button type="button" th:onclick="backButton()" value="cancel"><a th:href="@{/article/delete(noArticle=${article.noArticle}, montant=${0})}">supprimer la vente</a></button>
+							<br /> <br />
+							<!-- Menu déroulant pour la catégorie de l'article vendu -->
+							<label for="categorie">Catégorie : </label> <select
+								th:field="*{categorie.noCategorie}" id="categorie" required>
+								<option value="-1" disabled>Toutes les catégories</option>
+								<option th:each="category : ${categories}"
+									th:value="${category.noCategorie}"
+									th:text="${category.libelle}"></option>
+							</select>
+							<div class="error-message">
+								<p th:if="${#fields.hasErrors('categorie')}"
+									th:errors="*{categorie}" class="erreur">Erreur de
+									validation</p>
+							</div>
+							<!-- Prix de départ de l'article vendu -->
+							<label for="prix_initial">Mise à prix : </label> <input
+								name="miseAPrix" type="number" id="miseAPrix"
+								th:value="${article.getMiseAPrix()}"> <br /> <br />
+						</div>
+					</div>
+					<div class="form-column">
+						<div class="infos">
+							<!-- Entrée de la date du début d'enchère -->
+							<label for="date_debut">Début de l'enchère : </label> <input
+								type="date" name="debut" id="debut"
+								th:value="${article.getDebut()}"
+								th:onclick="minDebutDate(); minFinDate();"
+								th:onchange="minFinDate();" min="" required> <br /> <br />
+							<!-- Entrée de la date de la fin de l'enchère -->
+							<label for="date_fin">Fin de l'enchère : </label> <input
+								type="date" name="fin" id="fin" th:value="${article.getFin()}"
+								required disabled>
+							<div class="error-message">
+								<p th:if="${errorDate}" class="erreur">la date de fin ne
+									peut pas être avant la date du début</p>
+							</div>
+							<div class="error-message">
+								<p th:if="${errorDateNull}" class="erreur">la date de fin et
+									de debut doivent être selectionnées</p>
+							</div>
+
+							<!-- Formulaire du retrait -->
+							<fieldset>
+								<legend>Retrait</legend>
+								<table>
+									<tr>
+										<td>Rue :</td>
+										<td><input name="rue" th:type="text" th:maxlength="30"
+											th:value="${retrait.getRue()}"></td>
+									</tr>
+									<tr>
+										<td>Code postal :</td>
+										<td><input name="code_postal" th:type="number"
+											oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+											maxlength="5" th:value="${retrait.getCodePostal()}"></td>
+									</tr>
+									<tr>
+										<td>Ville :</td>
+										<td><input name="ville" th:type="text" th:maxlength="30"
+											th:value="${retrait.getVille()}"></td>
+									</tr>
+								</table>
+							</fieldset>
+
+
+							<div class="button">
+								<button th:type="submit" value="save">Enregistrer</button>
+							</div>
+						</div>
+					</div>
 				</div>
-					
-			</div>
-		</form>
-		
-<!-- Fin du formulaire -->
+			</form>
 		</div>
-	
+		<button type="button" th:onclick="backButton()" value="cancel">
+			<a href="/encheres">Annuler</a>
+		</button>
+		<button type="button" th:onclick="backButton()" value="cancel">
+			<a
+				th:href="@{/article/delete(noArticle=${article.noArticle}, montant=${0})}">supprimer
+				la vente</a>
+		</button>
+
 	</main>
 </body>
 </html>
