@@ -13,6 +13,7 @@ import fr.eni.encheres.dal.ArticleDAO;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.exceptions.UserNotFound;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
@@ -35,9 +36,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	 * 
 	 * @param id L'identifiant de l'utilisateur.
 	 * @return L'utilisateur trouvé, s'il existe.
+	 * @throws UserNotFound 
 	 */
 	@Override
-	public Optional<Utilisateur> getUserById(int id) {
+	public Optional<Utilisateur> getUserById(int id) throws UserNotFound {
 		return utilisateurDAO.getUserById(id);
 	}
 
@@ -104,11 +106,18 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 				// rembourser best enchere
 				Enchere bestEnchere = enchereDAO.findBestEnchereByIdArticle(article.getNoArticle());
 				int bestEncherisseurId = bestEnchere.getUtilisateur().getNoUtilisateur();
-				Optional<Utilisateur> user = this.getUserById(bestEncherisseurId);
-				if (user.isPresent()) {
-					user.get().setCredit(user.get().getCredit() + bestEnchere.getMontant());
-					this.updateUser(user.get());
+				Optional<Utilisateur> user;
+				try {
+					user = this.getUserById(bestEncherisseurId);
+					if (user.isPresent()) {
+						user.get().setCredit(user.get().getCredit() + bestEnchere.getMontant());
+						this.updateUser(user.get());
+					}
+				} catch (UserNotFound e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
 				// delete enchere
 				enchereDAO.deleteAllEnchereByArticleId(article.getNoArticle());
 				// delete mes vente en cours

@@ -30,6 +30,7 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.exceptions.UserNotFound;
 
 @Controller
 // Injection de la liste des attributs en session
@@ -282,25 +283,44 @@ public class EncheresController {
 				errorPrice = true;
 			}
 		}
-		if (nouvelleEnchereNumber > utilisateurService.getUserById(getIdUser()).get().getCredit()) {
-			noMoney = true;
+		try {
+			if (nouvelleEnchereNumber > utilisateurService.getUserById(getIdUser()).get().getCredit()) {
+				noMoney = true;
+			}
+		} catch (UserNotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		if (noMoney || errorPrice) {
 			return "redirect:/encheres/detail?noArticle=" + noArticle;
 		}
 		LocalDateTime now = LocalDateTime.now();
 		// crédité le nouvel encherisseur
-		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
-		utilisateur.setCredit(utilisateur.getCredit() - nouvelleEnchereNumber);
-		utilisateurService.updateUser(utilisateur);
+		Utilisateur utilisateur= null;
+		try {
+			utilisateur = utilisateurService.getUserById(getIdUser()).get();
+			utilisateur.setCredit(utilisateur.getCredit() - nouvelleEnchereNumber);
+			utilisateurService.updateUser(utilisateur);
 
-		// recrédité l'ancien encherisseur
-		Optional<Utilisateur> encherisseur = utilisateurService.getUserById(noEncherrisseur);
-		if (encherisseur.isPresent()) {
-			Utilisateur user = encherisseur.get();
-			user.setCredit(user.getCredit() + enchereEnCours);
-			utilisateurService.updateUser(user);
+		} catch (UserNotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		// recrédité l'ancien encherisseur
+		Optional<Utilisateur> encherisseur;
+		try {
+			encherisseur = utilisateurService.getUserById(noEncherrisseur);
+			if (encherisseur.isPresent()) {
+				Utilisateur user = encherisseur.get();
+				user.setCredit(user.getCredit() + enchereEnCours);
+				utilisateurService.updateUser(user);
+			}
+		} catch (UserNotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		Article article = new Article();
 		// set prix vente du plus grand encherrisseur
@@ -317,24 +337,38 @@ public class EncheresController {
 	public String deleteEnchere(@RequestParam(name = "noArticle") int no_article,
 			@RequestParam(name = "montantRembourse") int montantRembourse) {
 		enchereService.deleteBestEnchere(no_article, getIdUser());
-		Utilisateur utilisateur = utilisateurService.getUserById(getIdUser()).get();
-		utilisateur.setCredit(utilisateur.getCredit() + montantRembourse);
-		utilisateurService.updateUser(utilisateur);
+		Utilisateur utilisateur;
+		try {
+			utilisateur = utilisateurService.getUserById(getIdUser()).get();
+			utilisateur.setCredit(utilisateur.getCredit() + montantRembourse);
+			utilisateurService.updateUser(utilisateur);
+		} catch (UserNotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		// crédité l'ancien encherrisseur
 
 		Enchere ancienneEnchere = enchereService.consulterBestEnchereByIdArticle(no_article);
 		if (ancienneEnchere != null) {
-			Optional<Utilisateur> ancienEncherriseur = utilisateurService
-					.getUserById(ancienneEnchere.getUtilisateur().getNoUtilisateur());
-			if (ancienEncherriseur.isPresent()) {
-				Utilisateur user = ancienEncherriseur.get();
-				user.setCredit(user.getCredit() - ancienneEnchere.getMontant());
-				utilisateurService.updateUser(user);
-				articlesService.changerPrixVente(no_article, ancienneEnchere.getMontant());
-			} else {
-				articlesService.changerPrixVente(no_article, 0);
+			Optional<Utilisateur> ancienEncherriseur;
+			try {
+				ancienEncherriseur = utilisateurService
+						.getUserById(ancienneEnchere.getUtilisateur().getNoUtilisateur());
+				if (ancienEncherriseur.isPresent()) {
+					Utilisateur user = ancienEncherriseur.get();
+					user.setCredit(user.getCredit() - ancienneEnchere.getMontant());
+					utilisateurService.updateUser(user);
+					articlesService.changerPrixVente(no_article, ancienneEnchere.getMontant());
+				} else {
+					articlesService.changerPrixVente(no_article, 0);
+				}
+			} catch (UserNotFound e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			
 		}
 
 		return "redirect:/encheres/detail?noArticle=" + no_article;
@@ -347,13 +381,20 @@ public class EncheresController {
 		// rembourser best enchere
 		Enchere bestEnchere = enchereService.consulterBestEnchereByIdArticle(no_article);
 		if (bestEnchere != null) {
-			Optional<Utilisateur> bestEncherriseur = utilisateurService
-					.getUserById(bestEnchere.getUtilisateur().getNoUtilisateur());
-			if (bestEncherriseur.isPresent()) {
-				Utilisateur user = bestEncherriseur.get();
-				user.setCredit(user.getCredit() + montant);
-				utilisateurService.updateUser(user);
+			Optional<Utilisateur> bestEncherriseur;
+			try {
+				bestEncherriseur = utilisateurService
+						.getUserById(bestEnchere.getUtilisateur().getNoUtilisateur());
+				if (bestEncherriseur.isPresent()) {
+					Utilisateur user = bestEncherriseur.get();
+					user.setCredit(user.getCredit() + montant);
+					utilisateurService.updateUser(user);
+				}
+			} catch (UserNotFound e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			
 		}
 		// delete article (un retrait et les enchères
 		articlesService.deleteArticleById(no_article);
@@ -364,13 +405,21 @@ public class EncheresController {
 	public String retraitEnchere(@RequestParam(name = "noArticle") int no_article,
 			@RequestParam(name = "montant") int montant) {
 		Article article = articlesService.consulterArticleByIdArticle(no_article);
-		Optional<Utilisateur> vendeurOpt = utilisateurService.getUserById(article.getVendeur().getNoUtilisateur());
-		Utilisateur vendeur = vendeurOpt.get();
-		// on rembourse le vendeur
-		vendeur.setCredit(vendeur.getCredit() + montant);
-		utilisateurService.updateUser(vendeur);
-		// on change le prix de vente pour pouvoir ne plus afficher le retrait
-		articlesService.changerPrixVente(no_article, -1);
+		Optional<Utilisateur> vendeurOpt;
+		try {
+			vendeurOpt = utilisateurService.getUserById(article.getVendeur().getNoUtilisateur());
+			// on rembourse le vendeur
+			Utilisateur vendeur = vendeurOpt.get();
+			vendeur.setCredit(vendeur.getCredit() + montant);
+			utilisateurService.updateUser(vendeur);
+			// on change le prix de vente pour pouvoir ne plus afficher le retrait
+			articlesService.changerPrixVente(no_article, -1);
+		} catch (UserNotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+
 		return "redirect:/encheres/detail?noArticle=" + no_article;
 	}
 
