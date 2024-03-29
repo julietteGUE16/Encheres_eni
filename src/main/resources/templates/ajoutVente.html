@@ -88,8 +88,9 @@
 									</tr>
 									<tr>
 										<td>Code postal :</td>
-										<td><input name="code_postal" th:type="text"
-											th:maxlength="10" th:value="${user.getCodePostal()}"></td>
+										<td><input name="code_postal" th:type="number"
+											oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+							maxlength="5" th:value="${user.getCodePostal()}"></td>
 									</tr>
 									<tr>
 										<td>Ville :</td>

@@ -83,7 +83,8 @@
 					<legend>Retrait</legend> 
 						<table>
 							<tr><td>Rue : </td><td><input name="rue" th:type="text" th:maxlength="30" th:value="${retrait.getRue()}" ></td></tr>
-							<tr><td>Code postal : </td><td><input name="code_postal" th:type="text" th:maxlength="10" th:value="${retrait.getCodePostal()}" ></td></tr>
+							<tr><td>Code postal : </td><td><input name="code_postal" th:type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+							maxlength="5" th:value="${retrait.getCodePostal()}" ></td></tr>
 							<tr><td>Ville : </td><td><input name="ville" th:type="text" th:maxlength="30" th:value="${retrait.getVille()}" ></td></tr>
 						</table>
 				</fieldset>
