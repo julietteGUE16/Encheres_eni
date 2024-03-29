@@ -73,10 +73,12 @@
 							<label for="date_fin">Fin de l'enchère : </label> <input
 								type="date" name="fin" id="fin" th:value="${article.fin}"
 								required disabled>
-							<!-- <div class="error-message">
-					<p th:if="${article.}" th:errors="*{categorie}"
-						class="erreur">Erreur de validation</p>
-						</div>	 -->
+							<div class="error-message">
+									<p th:if="${errorDate}">la date de fin ne peut pas être avant la date du début</p>
+								</div>
+								<div class="error-message">
+									<p th:if="${errorDateNull}">la date de fin et de debut doivent être selectionnées</p>
+								</div>
 
 							<fieldset>
 								<legend>Retrait</legend>

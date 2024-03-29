@@ -97,20 +97,39 @@ public class EncheresControllerBis {
 	public String ajoutVente(@Valid @ModelAttribute("article") Article article, BindingResult result,
 			@RequestParam String rue, @RequestParam String code_postal, @RequestParam String ville, Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
+		model.addAttribute("errorDate", false);
+		model.addAttribute("errorDateNull", false);
+		if(article.getFin() == null || (article.getDebut() == null)) {
+			model.addAttribute("errorDateNull", true);
+		}
+		
+		if(article.getFin() != null && (article.getDebut() != null)) {
+			if(article.getFin().before(article.getDebut())) {
+				model.addAttribute("errorDate", true);
+			}
+		}
 
 		if (result.hasErrors()) {
-			/*
-			 * model.addAttribute("article", article); model.addAttribute("categories",
-			 * categorieService.consulterCategories());
-			 */
+			model.addAttribute("errorResult", result);
+			
+		}
+		
+		if(article.getFin() == null || (article.getDebut() == null)) {
 			Optional<Utilisateur> user = Optional.empty();
 			user = utilisateurService.getUserById(getIdUser());
 
 			model.addAttribute("user", user.get());
 
 			model.addAttribute("categories", categorieService.consulterCategories());
+			return "ajoutVente";
+		}
+		if(result.hasErrors() || article.getFin().before(article.getDebut())) {
+			Optional<Utilisateur> user = Optional.empty();
+			user = utilisateurService.getUserById(getIdUser());
 
-			model.addAttribute("errorResult", result);
+			model.addAttribute("user", user.get());
+
+			model.addAttribute("categories", categorieService.consulterCategories());
 			return "ajoutVente";
 		}
 
@@ -141,19 +160,56 @@ public class EncheresControllerBis {
 			@ModelAttribute("article") Article article, @ModelAttribute("retrait") Retrait retrait,
 			BindingResult result, @RequestParam String rue, @RequestParam String code_postal,
 			@RequestParam String ville, Model model) {
+		model.addAttribute("errorDate", true);
+		model.addAttribute("errorDateNull", false);
 		model.addAttribute("utilisateurService", utilisateurService);
+		retrait.setRue(rue);
+		retrait.setCodePostal(code_postal);
+		retrait.setVille(ville);
+		
+		
+		if(article.getFin() == null || (article.getDebut() == null)) {
+			model.addAttribute("errorDateNull", true);
+		}
+		
+		retrait.setNoRetrait(no_article);
+		
+		if(article.getFin() != null && (article.getDebut() != null)) {
+			if(article.getFin().before(article.getDebut())) {
+				model.addAttribute("errorDate", true);
+			}
+		}
+		
 
 		if (result.hasErrors()) {
+			model.addAttribute("errorResult", result);
+			
+		}
+		
+		if(article.getFin() == null || (article.getDebut() == null)) {
+			Optional<Utilisateur> user = Optional.empty();
+			user = utilisateurService.getUserById(getIdUser());
+
+			model.addAttribute("user", user.get());
+
+			model.addAttribute("categories", categorieService.consulterCategories());
+			return "ajoutVente";
+		}
+		
+		if(result.hasErrors() || article.getFin().before(article.getDebut())) {
+			Optional<Utilisateur> user = Optional.empty();
+			user = utilisateurService.getUserById(getIdUser());
+
+			model.addAttribute("user", user.get());
 			model.addAttribute("article", article);
 			model.addAttribute("retrait", retrait);
 			model.addAttribute("categories", categorieService.consulterCategories());
 			model.addAttribute("errorResult", result);
 			return "modifierVente";
 		}
-		retrait.setRue(rue);
-		retrait.setCodePostal(code_postal);
-		retrait.setVille(ville);
-		retrait.setNoRetrait(no_article);
+
+		
+		
 		article.setVendeur(this.getUser());
 		articleService.modifierArticle(article);
 		retraitService.modifierRetrait(retrait);
