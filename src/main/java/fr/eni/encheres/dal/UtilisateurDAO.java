@@ -3,10 +3,11 @@ package fr.eni.encheres.dal;
 import java.util.Optional;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.exceptions.UserNotFound;
 
 public interface UtilisateurDAO {
 	
-	public abstract Optional<Utilisateur> getUserById(int id);
+	public abstract Optional<Utilisateur> getUserById(int id) throws UserNotFound;
 
 	public abstract void updateUser(Utilisateur user);
 

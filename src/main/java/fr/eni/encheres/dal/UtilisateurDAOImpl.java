@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.exceptions.UserNotFound;
 
 @Repository
 public class UtilisateurDAOImpl implements UtilisateurDAO {
@@ -43,7 +44,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private final String FIND_EMAIL = "SELECT COUNT(*) FROM utilisateurs WHERE email = ?";
 	
 	@Override
-	public Optional<Utilisateur> getUserById(int id) {
+	public Optional<Utilisateur> getUserById(int id) throws UserNotFound   {
 		Utilisateur user = null;
 		Optional<Utilisateur> optUser = null;
 		try {

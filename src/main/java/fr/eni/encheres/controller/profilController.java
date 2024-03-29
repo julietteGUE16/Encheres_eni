@@ -130,7 +130,12 @@ public class profilController {
 				String motDePasseCrypte = passwordEncoder.encode(mdp);
 				user.setMotDePasse(motDePasseCrypte);
 			} else {
-				user.setMotDePasse(utilisateurService.getUserById(getIdUser()).get().getMotDePasse());
+				try {
+					user.setMotDePasse(utilisateurService.getUserById(getIdUser()).get().getMotDePasse());
+				} catch (UserNotFound e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			utilisateurService.updateUser(user);
 			return "redirect:/profil";
@@ -205,9 +210,16 @@ public class profilController {
 	@PostMapping("/crediterAccount")
 	public String crediterAccount(@RequestParam int credit, Model model) {
 		model.addAttribute("utilisateurService", utilisateurService);
-		Utilisateur user = utilisateurService.getUserById(getIdUser()).get();
-		user.setCredit(user.getCredit() + credit);
-		utilisateurService.updateUser(user);
+		Utilisateur user;
+		try {
+			user = utilisateurService.getUserById(getIdUser()).get();
+			user.setCredit(user.getCredit() + credit);
+			utilisateurService.updateUser(user);
+		} catch (UserNotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return "redirect:/profil";
 	}
 

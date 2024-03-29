@@ -26,6 +26,7 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.exceptions.UserNotFound;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +76,12 @@ public class EncheresControllerBis {
 		model.addAttribute(article);
 
 		Optional<Utilisateur> user = Optional.empty();
-		user = utilisateurService.getUserById(getIdUser());
+		try {
+			user = utilisateurService.getUserById(getIdUser());
+		} catch (UserNotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		model.addAttribute("user", user.get());
 
@@ -116,7 +122,12 @@ public class EncheresControllerBis {
 		
 		if(article.getFin() == null || (article.getDebut() == null)) {
 			Optional<Utilisateur> user = Optional.empty();
-			user = utilisateurService.getUserById(getIdUser());
+			try {
+				user = utilisateurService.getUserById(getIdUser());
+			} catch (UserNotFound e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			model.addAttribute("user", user.get());
 
@@ -125,7 +136,12 @@ public class EncheresControllerBis {
 		}
 		if(result.hasErrors() || article.getFin().before(article.getDebut())) {
 			Optional<Utilisateur> user = Optional.empty();
-			user = utilisateurService.getUserById(getIdUser());
+			try {
+				user = utilisateurService.getUserById(getIdUser());
+			} catch (UserNotFound e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			model.addAttribute("user", user.get());
 
@@ -188,17 +204,27 @@ public class EncheresControllerBis {
 		
 		if(article.getFin() == null || (article.getDebut() == null)) {
 			Optional<Utilisateur> user = Optional.empty();
-			user = utilisateurService.getUserById(getIdUser());
+			try {
+				user = utilisateurService.getUserById(getIdUser());
+			} catch (UserNotFound e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			model.addAttribute("user", user.get());
 
 			model.addAttribute("categories", categorieService.consulterCategories());
-			return "ajoutVente";
+			return "modifierVente";
 		}
 		
 		if(result.hasErrors() || article.getFin().before(article.getDebut())) {
 			Optional<Utilisateur> user = Optional.empty();
-			user = utilisateurService.getUserById(getIdUser());
+			try {
+				user = utilisateurService.getUserById(getIdUser());
+			} catch (UserNotFound e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			model.addAttribute("user", user.get());
 			model.addAttribute("article", article);
